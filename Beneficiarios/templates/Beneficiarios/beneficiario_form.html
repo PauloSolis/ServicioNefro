@@ -1,0 +1,170 @@
+<!–– NEF-29 ––>
+
+{% extends 'Proyectos/jornadas_detail.html' %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block scripts %}
+<script>
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    var forms = document.getElementsByClassName('needs-validation');
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
+{% endblock scripts %}
+
+{% block jornada_content %}
+<div class="container">
+  <div class="card">
+    <h5 class="card-header text-center">Registrar beneficiario</h5>
+    <div class="card-body">
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="form-group " hidden>
+          <label for="">{{ form.fecha_registro.label }}</label>
+          {{ form.fecha_registro }}
+        </div>
+
+        <div class="form-group " hidden>
+          <input type="number" value="{{ jornada.id }}" id="id_jornada" name="jornada" required>
+        </div>
+
+        <div class="row">
+          <div class="form-group col">
+            <label>{{ form.nombre.label }}</label>
+            {{ form.nombre }}
+            <div class="invalid-feedback">Introduce un nombre válido.</div>
+          </div>
+
+          <div class="form-group col">
+            <label>{{ form.apellido_paterno.label }}</label>
+            {{ form.apellido_paterno }}
+            <div class="invalid-feedback">Introduce un apellido válido.</div>
+          </div>
+
+          <div class="form-group col">
+            <label>{{ form.apellido_materno.label }}</label>
+            {{ form.apellido_materno }}
+          </div>
+        </div>
+
+      <div class="row">
+        <div class="form-group col">
+          <label>{{ form.fecha_nacimiento.label }}</label>
+          {{ form.fecha_nacimiento }}
+          <div class="invalid-feedback">Introduce una fecha de nacimiento válida.</div>
+        </div>
+
+        <div class="form-group col">
+          <label>{{ form.sexo.label }}</label>
+          <br>
+          {% for choice in form.sexo %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="form-group col">
+          <br>
+          <div class="form-check">
+            {{ form.afroamericano }}
+            <label for="{{ form.afroamericano.auto_id }}" class="form-check-label">{{ form.afroamericano.label }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row pb-3">
+        <div class="from-group col">
+          <label>{{ form.diabetico_hipertenso.label }}</label>
+          <div class="form-inline">
+            {% for choice in form.diabetico_hipertenso %}
+            <div class="form-check form-check-inline">
+               {{ choice }}
+            </div>
+            {% endfor %}
+          </div>
+          <div class="invalid-feedback">Campo requerido.</div>
+        </div>
+      </div>
+      <div class="row pb-3">
+        <div class="from-group col">
+          <label>{{ form.nota.label }}</label>
+          {{ form.nota }}
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col">
+          <label>{{ form.telefono.label }}</label>
+          {{ form.telefono }}
+          <div class="invalid-feedback">Introduce solo números.</div>
+        </div>
+
+        <div class="form-group col">
+          <label>{{ form.celular.label }}</label>
+          {{ form.celular }}
+          <div class="invalid-feedback">Introduce solo números.</div>
+        </div>
+      </div>
+
+        <div class="form-group">
+          <label>{{ form.correo.label }}</label>
+          {{ form.correo }}
+          <div class="invalid-feedback">Introduce un correo válido.</div>
+        </div>
+
+      <hr>
+        <div class="row">
+          <div class="form-group col">
+            <label>{{ form.escolaridad.label }}</label>
+            {{ form.escolaridad }}
+          </div>
+          <div class="form-group col">
+            <br><br>
+            <div class="form-check">
+              {{ form.activo_laboralmente }}
+              <label for="{{ form.activo_laboralmente.auto_id }}" class="form-check-label">{{ form.activo_laboralmente.label }}</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label>{{ form.nucleo_familiar.label }}</label>
+          {{ form.nucleo_familiar }}
+          <div class="invalid-feedback">Introduce el núcleo familiar.</div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-check">
+            {{ form.vivienda_propia }}
+            <label for="{{ form.vivienda_propia.auto_id }}" class="form-check-label">{{ form.vivienda_propia.label }}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input class="btn btn-primary pull-right" type="submit" value="Guardar" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock jornada_content %}

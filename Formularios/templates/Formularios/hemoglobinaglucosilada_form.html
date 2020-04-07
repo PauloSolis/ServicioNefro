@@ -1,0 +1,158 @@
+<!--
+  NEF-70, NEF-82
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+    <div>
+        <br>
+        <div class="container">
+            <div class="card">
+                <h5 class="card-header text-center">Hemoglobina Glucosilada</h5>
+                <div class="card-body">
+                    <form action="" method="POST" onsubmit="return validation(this);">
+                        {% csrf_token %}
+                        <div><br>
+                            <input value="{{ beneficiario.id }}" type="hidden" name="beneficiario">
+                            <div class="row">
+                                <div class="col-sm-2 text-center labelsFormulario">
+                                    {{ form.doctor.label }} :
+                                </div>
+                                <div class="col-sm-4 ">
+                                    {{ form.doctor }}
+                                </div>
+                                <div class="col-sm-2 labelsFormulario">
+                                    {{ form.fecha_captura.label }} :
+                                </div>
+                                <div class="col-sm-3">
+                                    {{ form.fecha_captura }}
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-2 text-center labelsFormulario">
+                                        {{ form.metodo.label }}:
+                                    </div>
+                                    <div class="col-sm-4">
+                                        {{ form.metodo }}
+                                    </div>
+                                </div>
+                            </div><br><br>
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-2 text-center labelsFormulario">
+                                    Resultado
+                                </div>
+                            </div>
+
+                            <div class="row pt-3 pl-4">
+                                <div class="col-sm-3 labelsFormulario">
+                                    Hemoglobina Glucosilada:
+                                </div>
+                                <div class="col-sm-2">
+                                    {{ form.hemoglobina_glucosilada }}
+                                </div>
+                                <div class="col-1 porcentajes">
+                                    %
+                                </div>
+                                <div class="col-1">
+                                    <i class="fa fa-comment pointer" style="font-size:24px" data-toggle="collapse" data-target="#collapseExample"></i>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="collapse" id="collapseExample">
+                                <div class="">
+                                    {{ form.comentario }}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <div class="row">
+                                <div class="col-3">
+                                </div>
+                                <div class="col-2 text-center labelsFormulario">
+                                    Mínimo
+                                </div>
+                                <div class="col-1">
+                                </div>
+                                <div class="col-2 text-center labelsFormulario">
+                                    Máximo
+                                </div>
+                            </div>
+
+
+                            <div class="row pt-3 pl-4">
+                                <div class="col-3 labelsFormulario">
+                                    No diabético
+                                </div>
+                                <div class="col-2">
+                                    {{ form.min_no_diabetico }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                                <div class="col-2">
+                                    {{ form.max_no_diabetico }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                            </div>
+
+                            <div class="row pt-3 pl-4">
+                                <div class="col-3 labelsFormulario">
+                                    Diabético Controlado
+                                </div>
+                                <div class="col-2">
+                                    {{ form.min_diabetico_cont }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                                <div class="col-2">
+                                    {{ form.max_diabetico_cont }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                            </div>
+                            <div class="row pt-3 pl-4">
+                                <div class="col-3 labelsFormulario">
+                                    Diabético Descontrolado
+                                </div>
+                                <div class="col-2">
+                                    {{ form.min_diabetico_no_cont }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                                <div class="col-2">
+                                    {{ form.max_diabetico_no_cont }}
+                                </div>
+                                <div class="col-1 text-left porcentajes">
+                                    %
+                                </div>
+                            </div>
+                        </div><br><br>
+                        <div class="clearfix">
+                          <input class="btn float-right btn-save" type="submit" value="Guardar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+  <script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}

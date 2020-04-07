@@ -1,0 +1,204 @@
+<!--
+  NEF-50
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<br>
+<div class="container">
+  <div class="card">
+    <h5 class="card-header text-center">Escala de malnutrición-inflamación (M.I.S)</h5>
+    <div class="card-body">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="ml-4 pt-4 col-sm-5"></div>
+            <div class="pt-2 col-sm-3 labelsFormulario text-center">
+              {{ form.fecha.label }}
+            </div>
+            <div class="pt-2 col-sm-3">
+              {{ form.fecha }}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="pt-2 col-sm-4 viewlabels text-center"><i class="fa fa-id-card"></i>
+              Peso: {{ tamizajenutricional.peso }}
+              <input type = hidden name = "peso" value = "{{ tamizajenutricional.peso }}">
+            </div>
+            <div class="pt-2 col-sm-4 viewlabels text-center"><i class="fa fa-user"></i>
+              Talla: {{ tamizajenutricional.talla }}
+              <input type = hidden name = "talla" value = "{{ tamizajenutricional.talla }}">
+            </div>
+            <div class="pt-2 col-sm-2 viewlabels text-center"><i class=" fa fa-medkit"></i>
+              IMC: {{ tamizajenutricional.imc }}
+              <input type = hidden name = "imc_valor" value = "{{ tamizajenutricional.imc }}">
+              {% if tamizajenutricional.imc < 19 %}
+                <input type = hidden name = "imc_puntos" value = "4">
+              {% elif tamizajenutricional.imc >= 19 and tamizajenutricional.imc <= 22 %}
+                <input type = hidden name = "imc_puntos" value = "3">
+              {% elif tamizajenutricional.imc > 22 and tamizajenutricional.imc < 24.1%}
+                <input type = hidden name = "imc_puntos" value = "2">
+              {% else %}
+                <input type = hidden name = "imc_puntos" value = "1">
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="container-fluid">
+              <hr><br>
+              <div class="row">
+                <div class="col-12 font-weight-bold labelsFormulario">
+                  HISTORIA CLINICA RELACIONADA CON EL PACIENTE
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-4 ml-4 labelsnumeros">
+                  1.- {{ form.porcentaje_perdida_peso.label }}
+                </div>
+                <div class="col-2">
+                  {{ form.perdida_peso }}
+                </div>
+                <div class="col-4">
+                  kg
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.porcentaje_perdida_peso }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5 ml-4 pb-3 labelsnumeros">
+                  2.- {{ form.ingesta_alimentaria.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12  ml-5">
+                  {{ form.ingesta_alimentaria }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 pb-3 labelsnumeros">
+                  3.- {{ form.gastrointestinales.label }}
+                </div>
+                <div class="col-4">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.gastrointestinales }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8 ml-4 pb-3 labelsnumeros">
+                  4.- {{ form.incapacidad.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.incapacidad }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-5 ml-4 pb-3 labelsnumeros">
+                  5.- {{ form.comorbilidad.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.comorbilidad }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-12 font-weight-bold labelsFormulario">
+                  EXAMEN FÍSICO
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="ml-4 col-8 pb-3 labelsnumeros">
+                  1.- {{ form.grasa_subcutanea.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.grasa_subcutanea }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="ml-4 col-4 pb-3 labelsnumeros">
+                  2.- {{ form.perdida_muscular.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.perdida_muscular }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="ml-4 col-4 pb-3 labelsnumeros">
+                  3.- {{ form.edema.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.edema }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="ml-4 col-4 pb-3 labelsnumeros">
+                  4.- {{ form.albumina.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.albumina }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="ml-4 col-6 pb-3 labelsnumeros">
+                  5.- {{ form.fijacion_hierro.label }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 ml-5">
+                  {{ form.fijacion_hierro }}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-1"></div>
+                <div class="col-8">{{ form.comentario }}</div>
+                <div class="col-2"></div>
+              </div>
+              <br><br>
+              <!--Boton de GUARDAR-->
+              <div class="clearfix">
+                <input type="submit" value="Guardar" type="submit"  onclick="validation()" class="btn float-right btn-save">
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+  <script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}

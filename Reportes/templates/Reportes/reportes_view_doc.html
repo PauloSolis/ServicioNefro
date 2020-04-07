@@ -1,0 +1,1113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+
+{% endblock includes %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        $('#evaluaciones').on('change', function(e){
+            window.location.href = '/capacitaciones/evaluacion/'+ $('#evaluaciones').val();
+        });
+    });
+</script>
+{% if evaluacion is not None %}
+<script type="text/javascript">
+    var chart = new Chart(document.getElementById('s_p_2').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 2',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.1}}, {{incorrectas_inicial.1}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_2').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 2',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.1}}, {{incorrectas_final.1}}]
+    }]
+    },
+    options: {}
+    });
+    //p3
+    var chart = new Chart(document.getElementById('s_p_3').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 3',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.2}}, {{incorrectas_inicial.2}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_3').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 3',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.2}}, {{incorrectas_final.2}}]
+    }]
+    },
+    options: {}
+    });
+    //p4
+    var chart = new Chart(document.getElementById('s_p_4').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 4',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.3}}, {{incorrectas_inicial.3}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_4').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 4',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.3}}, {{incorrectas_final.3}}]
+    }]
+    },
+    options: {}
+    });
+    //p5
+    var chart = new Chart(document.getElementById('s_p_5').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 5',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.4}}, {{incorrectas_inicial.4}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_5').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 5',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.4}}, {{incorrectas_final.4}}]
+    }]
+    },
+    options: {}
+    });
+        //p6
+    var chart = new Chart(document.getElementById('s_p_6').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 6',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.5}}, {{incorrectas_inicial.5}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_6').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 6',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.5}}, {{incorrectas_final.5}}]
+    }]
+    },
+    options: {}
+    });
+            //p7
+    var chart = new Chart(document.getElementById('s_p_7').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 7',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.6}}, {{incorrectas_inicial.6}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_7').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 7',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.6}}, {{incorrectas_final.6}}]
+    }]
+    },
+    options: {}
+    });
+            //p8
+    var chart = new Chart(document.getElementById('s_p_8').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 8',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.7}}, {{incorrectas_inicial.7}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_8').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 8',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.7}}, {{incorrectas_final.7}}]
+    }]
+    },
+    options: {}
+    });
+            //p9
+    var chart = new Chart(document.getElementById('s_p_9').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 9',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.8}}, {{incorrectas_inicial.8}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_9').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 9',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.8}}, {{incorrectas_final.8}}]
+    }]
+    },
+    options: {}
+    });
+            //p10
+    var chart = new Chart(document.getElementById('s_p_10').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 10',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.9}}, {{incorrectas_inicial.9}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_10').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 10',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.9}}, {{incorrectas_final.9}}]
+    }]
+    },
+    options: {}
+    });
+            //p11
+    var chart = new Chart(document.getElementById('s_p_11').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 11',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.10}}, {{incorrectas_inicial.10}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_11').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 11',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.10}}, {{incorrectas_final.10}}]
+    }]
+    },
+    options: {}
+    });
+            //p12
+    var chart = new Chart(document.getElementById('s_p_12').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 12',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.11}}, {{incorrectas_inicial.11}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_12').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 12',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.11}}, {{incorrectas_final.11}}]
+    }]
+    },
+    options: {}
+    });
+            //p13
+    var chart = new Chart(document.getElementById('s_p_13').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 13',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.12}}, {{incorrectas_inicial.12}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_13').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 13',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.12}}, {{incorrectas_final.12}}]
+    }]
+    },
+    options: {}
+    });
+            //p14
+    var chart = new Chart(document.getElementById('s_p_14').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 14',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.13}}, {{incorrectas_inicial.13}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_14').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 14',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.13}}, {{incorrectas_final.13}}]
+    }]
+    },
+    options: {}
+    });
+            //p15
+    var chart = new Chart(document.getElementById('s_p_15').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 15',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.14}}, {{incorrectas_inicial.14}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_15').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 15',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.14}}, {{incorrectas_final.14}}]
+    }]
+    },
+    options: {}
+    });
+            //p16
+    var chart = new Chart(document.getElementById('s_p_16').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 16',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.15}}, {{incorrectas_inicial.15}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_16').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 16',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.15}}, {{incorrectas_final.15}}]
+    }]
+    },
+    options: {}
+    });
+            //p17
+    var chart = new Chart(document.getElementById('s_p_17').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 17',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.16}}, {{incorrectas_inicial.16}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_17').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 17',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.16}}, {{incorrectas_final.16}}]
+    }]
+    },
+    options: {}
+    });
+            //p18
+    var chart = new Chart(document.getElementById('s_p_18').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 18',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.17}}, {{incorrectas_inicial.17}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_18').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 18',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.17}}, {{incorrectas_final.17}}]
+    }]
+    },
+    options: {}
+    });
+            //p19
+    var chart = new Chart(document.getElementById('s_p_19').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 19',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.18}}, {{incorrectas_inicial.18}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_19').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 19',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.18}}, {{incorrectas_final.18}}]
+    }]
+    },
+    options: {}
+    });
+            //p20
+    var chart = new Chart(document.getElementById('s_p_20').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 20',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_inicial.19}}, {{incorrectas_inicial.19}}]
+    }]
+    },
+    options: {}
+    });
+    var chart = new Chart(document.getElementById('f_p_20').getContext('2d'), { // NEF-206
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 20',
+                backgroundColor: ['#36A2EB', '#FF6384'],
+                borderColor: ['#36A2EB', '#FF6384'],
+                data: [{{correctas_final.19}}, {{incorrectas_final.19}}]
+    }]
+    },
+    options: {}
+    });
+
+</script>
+
+{% endif %}
+{% endblock scripts %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <h3>Reportes de capacitaciones</h3>
+            <select class="form-control" id="evaluaciones">
+                {% if evaluacion %}
+                {% for j in evaluaciones %}
+                {% if evaluacion.id == j.id %}
+                <option value="{{ j.id }}" selected>{{ j.nombre }}</option>
+                {% else %}
+                <option value="{{ j.id }}">{{ j.nombre }}</option>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <option value="0" disabled selected>Selecciona una evaluacion</option>
+                {% for j in evaluaciones %}
+                <option value="{{ j.id }}">{{ j.nombre }}</option>
+                {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    {% if evaluacion %}
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            {% if perms.Doctores.change_evaluacion %}
+            <a href="{% url 'admin:Doctores_evaluacion_change' evaluacion.id %}"
+                class="btn btn-warning float-right" data-toggle="tooltip" data-placement="bottom" title="Editar">
+                <i class="fa fa-edit"></i>
+            </a>
+            {% endif %}
+            <h4>{{ evaluacion.nombre }}</h4>
+            <h6>{{ evaluacion.fecha }}</h6>
+            <div class="row justify-content-center py-2">
+                <div class="col-12 col-md-auto ml-4 mr-1">Número de evaluaciones inicial <i class="fas fa-hashtag"></i> {{ evaluacion_inicial_count}}</div>
+                <div class="col-12 col-md-auto mr-5">Número de evaluaciones final <i class="fas fa-hashtag"></i> {{ evaluacion_final_count }}</div>                </div>
+            </div>
+            <div class="row justify-content-center py-2">
+                <div class="col-12 col-md-auto mr-auto ml-auto">Pacientes mínimos <i class="fas fa-user-injured"></i></i> {{ p_minimo}}</div>
+                <div class="col-12 col-md-auto mr-auto ml-auto">Pacientes promedio <i class="fas fa-user-injured"></i> {{ p_promedio }}</div>               
+                <div class="col-12 col-md-auto mr-auto ml-auto">Pacientes máximo <i class="fas fa-user-injured"></i> {{ p_maximo }}</div>                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Cuáles son las metas de tratamiento de la nefropatía diabética?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_2"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.1 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.1 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_2"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.1 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.1 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué porcentaje de pacientes con Hipertensión Arterial se estima presenta Nefropatía Hipertensiva como causa de Enfermedad Renal Crónica?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_3"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.2 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.2 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_3"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.2 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.2 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Por lo general, la mortalidad anual ajustada de los pacientes que dependen de hemodiálisis tiende a ser:</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_4"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.3 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.3 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_4"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.3 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.3 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Cuál de las siguientes es la causa principal de muerte en los pacientes que dependen de diálisis?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_5"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.4 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.4 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_5"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.4 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.4 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Cuando se sospecha de un daño del riñón, ¿cuáles estudios debe realizarse el paciente?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_6"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.5 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.5 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_6"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.5 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.5 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Cuales enfermedades conllevan a enfermedad renal crónica de manera más frecuente:</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_7"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.6 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.6 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_7"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.6 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.6 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>En qué momento debe ser derivado un paciente con disminución de la función renal al Nefrólogo: </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_8"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.7 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.7 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_8"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.7 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.7 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Porque es importante ajustar las dosis de medicamentos en la ERC:  </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_9"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.8 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.8 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_9"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.8 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.8 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>En relación al paciente Urémico cual es la opción correcta </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_10"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.9 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.9 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_10"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.9 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.9 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué es un trasplante renal? </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_11"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.10 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.10 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_11"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.10 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.10 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué cantidad de proteína que se recomienda para pacientes sin terapia sustitutiva?  </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_12"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.11 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.11 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_12"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.11 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.11 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué cantidad de proteína que se recomienda para pacientes en diálisis peritoneal? </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_13"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.12 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.12 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_13"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.12 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.12 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué cantidad de proteína que se recomienda para pacientes en diálisis peritoneal?¿Qué cantidad de proteína que se recomienda para pacientes en hemodiálisis? </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_14"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.13 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.13 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_14"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.13 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.13 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Las fuentes de qué elementos se deben cuidar en el paciente con enfermedad renal:</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_15"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.14 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.14 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_15"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.14 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.14 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>La recomendación de la cantidad de líquido que debe tomar un paciente con ERC es: </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_16"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.15 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.15 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_16"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.15 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.15 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Cuáles son las razones psicológicas que hacen que las personas con ERC no se adhieran al tratamiento? </h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_17"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.16 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.16 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_17"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.16 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.16 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Qué entendemos por "dar malas noticias"?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_18"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.17 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.17 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_18"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.17 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.17 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+       <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>¿Cuáles son los dos principios que el equipo médico necesita identificar para proporcionar información?</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_19"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.18 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.18 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                                <h5 class="subt">Final</h5>
+
+                    <canvas id="f_p_19"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.18 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.18 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <h4>Mencione 5 barreras de la comunicación en la relación médico-paciente</h4>
+            <div class="row justify-content-center py-2">
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Inicial</h5>
+                    <canvas id="s_p_20"></canvas>
+                                        <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_inicial.19 evaluacion_inicial_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_inicial.19 evaluacion_inicial_count 100 %} %</h4>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                <h5 class="subt">Final</h5>
+                    <canvas id="f_p_20"></canvas>
+                    <div class="px-5 clearfix">
+                        <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas_final.19 evaluacion_final_count 100 %}%</h4>
+                        <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas_final.19 evaluacion_final_count 100 %} %</h4>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style media="screen">
+        .subt{
+                font-weight: bold;
+    text-decoration: underline;
+        }
+        .c-male{
+            color: #36A2EB;
+        }
+        .c-female{
+            color: #FF6384;
+        }
+        .c-n{
+            color: #697077;
+        }
+        .c-d{
+            color: #42D4BF;
+        }
+        .c-h{
+            color: #F95D5E;
+        }
+        .c-dh{
+            color: #3A68CB;
+        }
+        .c-g1{
+            color: #035F1D;
+        }
+        .c-g2{
+            color: #FFC72C;
+        }
+        .c-g3a{
+            color: #D45D00;
+        }
+        .c-g3b{
+            color: #923C00;
+        }
+        .c-g4{
+            color: #D6001C;
+        }
+        .c-g5{
+            color: #702721;
+        }
+        .c-male-bg{
+            background-color: rgba(166,206,227,0.4);
+        }
+        .c-female-bg{
+            background-color: rgba(251,154,153,0.4);
+        }
+    </style>
+    {% endif %}
+</div>
+{% endblock content %}

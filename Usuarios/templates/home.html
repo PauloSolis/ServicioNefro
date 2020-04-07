@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block includes %}
+<style media="screen">
+.fondoPantalla img{
+  width: 10%;
+  height: auto;
+  opacity: 0.5;
+  vertical-align: bottom;
+}
+</style>
+{% endblock includes %}
+
+{% block scripts %}
+<script type="text/javascript">
+  $('#aviso').modal('show');
+</script>
+{% endblock scripts %}
+
+{% block content %}
+
+<!-- Modal -->
+<div class="modal fade" id="aviso" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Aviso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Este sistema es una herramienta de soporte y no sustituye bajo ninguna circunstancia el diagnóstico de un médico certificado.
+      </div>
+      <div class="modal-footer">
+        <small>Percept-ABC v3.0.0</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block footer %}
+  {% if user.is_authenticated %}
+  <div class="content mt-5 text-center">
+      <h5 class="text-muted">Hola  
+          {% if request.user.get_full_name %}
+              {{ request.user.get_full_name }}
+          {% else %}
+              {{ request.user.username }}
+          {% endif %}
+      </h5>
+
+      <h5 class="text-muted">Bienvenido al sistema Percept ABC</h5>
+  </div>
+
+  {% else %}
+    <p>No has iniciado sesión</p>
+    <a href="{% url 'login' %}">Iniciar sesión</a>
+  {% endif %}
+  <div class="fondoPantalla text-center">
+    <img class="logo_Login" src="{% static 'img/percept.png' %}">
+  </div>
+    <footer class="text-center mt-5 text-muted">© 2019 Percept Todos los derechos reservados.</footer>
+
+{% endblock footer %}

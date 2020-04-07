@@ -1,0 +1,326 @@
+<!--
+  NEF-67
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+    <div class="card">
+        <h5 class="card-header text-center">Adherencia al Tratamiento</h5>
+        <div class="card-body">
+            <div class="clearfix px-5">
+                <div class="float-right">
+                    <div class="form-inline pl-5 ">
+                        <div class="labelsFormulario pr-3">
+                            {{ adherenciatratamiento.labels.fecha }}
+                        </div>
+                        {{ adherenciatratamiento.fecha  }}
+                    </div>
+                </div>
+            </div><hr>
+            <div class="container px-5">
+                <!-- p1 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">1.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p1 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p1 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p2 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">2.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p2 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p2 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p3 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">3.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p3 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p3 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p4 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">4.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p4 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p4 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p5 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">5.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p5 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p5 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p6 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">6.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p6 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p6 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p7 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">7.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p7 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p7 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p8 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">8.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p8 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p8 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p9 -->
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP">9.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p9 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p9 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p10 -->
+                <div class="row pb-4">
+                    <div class="col-1 text-right answerP">10.</div>
+                    <div class="col">
+                        {% for k,v in adherenciatratamiento.choices_1.items %}
+                        {% if k ==  adherenciatratamiento.p10 %}
+                        <u><b>{{ v }}</b></u>{{ adherenciatratamiento.labels.p10 }}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p11 -->
+                <div class="">{{ adherenciatratamiento.labels.p11 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        <b>{{ adherenciatratamiento.p11 }}</b>
+                    </div>
+                </div>
+                <!-- p12 -->
+                <div class="">{{ adherenciatratamiento.labels.p12 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        <b>{{ adherenciatratamiento.p12 }}</b>
+                    </div>
+                </div>
+                <!-- p13 -->
+                <div class="">{{ adherenciatratamiento.labels.p13 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        <b>{{ adherenciatratamiento.p13 }}</b>
+                    </div>
+                </div>
+                <!-- p14 -->
+                <div class="">{{ adherenciatratamiento.labels.p14 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        {{ adherenciatratamiento.p14.choice_label }}
+                        {% for k,v in adherenciatratamiento.choices_2.items %}
+                        {% if k ==  adherenciatratamiento.p14 %}
+                        {% if adherenciatratamiento.p14_comentario %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;{{ adherenciatratamiento.p14_comentario }}</b></div>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}</b></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p15 -->
+                <div class="">{{ adherenciatratamiento.labels.p15 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        {{ adherenciatratamiento.p15.choice_label }}
+                        {% for k,v in adherenciatratamiento.choices_3.items %}
+                        {% if k ==  adherenciatratamiento.p15 %}
+                        {% if adherenciatratamiento.p15_comentario %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;{{ adherenciatratamiento.p15_comentario }}</b></div>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}</b></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p16 -->
+                <div class="">{{ adherenciatratamiento.labels.p16 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        {{ adherenciatratamiento.p16.choice_label }}
+                        {% for k,v in adherenciatratamiento.choices_3.items %}
+                        {% if k ==  adherenciatratamiento.p16 %}
+                        {% if adherenciatratamiento.p16_comentario %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;{{ adherenciatratamiento.p16_comentario }}</b></div>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}</b></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- p17 -->
+                <div class="">{{ adherenciatratamiento.labels.p17 }}</div>
+                <div class="row pb-2">
+                    <div class="col-1 text-right answerP"><i class='far fa-circle'></i></div>
+                    <div class="col">
+                        {{ adherenciatratamiento.p17.choice_label }}
+                        {% for k,v in adherenciatratamiento.choices_3.items %}
+                        {% if k ==  adherenciatratamiento.p17 %}
+                        {% if adherenciatratamiento.p17_comentario %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;{{ adherenciatratamiento.p17_comentario }}</b></div>
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <div class="col "><b>{{ v }}</b></div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- observaciones -->
+                {% if adherenciatratamiento.observaciones %}
+                <div class="">{{ adherenciatratamiento.labels.observaciones }}</div>
+                <div class="row pb-4">
+                    <div class="col"><textarea class="form-control cursorna"  rows="2" disabled>{{ adherenciatratamiento.observaciones }}</textarea></div>
+                </div>
+                {% endif %}
+
+                <!--Resultados-->
+                <div class="container text-center px-5">
+                    <div class="row">
+                        <text class="col labelsFormulario">Resultado:</text>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col">
+                            <span class="rounded-circle circles m-4 px-3">{{adherenciatratamiento.resultado}}</span>
+                            <text class="resultado-estudio">{{adherenciatratamiento.interpretacion}}</text>
+                        </div>
+                    </div>
+                    <!--Tabla de resultados-->
+                    <div class="row justify-content-center pt-5 pb-2">
+                        <table class="col-4 table">
+                            <tr>
+                                <th colspan="3">Interpretación</th>
+                            </tr>
+                            <tr>
+                                <td> 0 - 10 </td>
+                                <td>Rechazo</td>
+                            </tr>
+                            <tr>
+                                <td> 11 - 19</td>
+                                <td>Negación</td>
+                            </tr>
+                            <tr>
+                                <td> 21 - 30 </td>
+                                <td>Modificación</td>
+                            </tr>
+                            <tr>
+                                <td> 31 - 40 </td>
+                                <td>Aceptación</td>
+                            </tr>
+                            <tr>
+                                <td> 41 - 50 </td>
+                                <td>Adherencia</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!--Botones-->
+                {% if perms.Formularios.change_adherenciatratamiento or perms.Formularios.delete_adherenciatratamiento %}
+                <div class="row justify-content-center pb-3">
+                  <div class="col-12">
+                    <div class="clearfix">
+                      <div class="float-right wrap">
+                        <div class=" pr-2">
+                          {% if perms.Formularios.delete_adherenciatratamiento %}
+                          <form method="POST" action="{% url 'Formularios:delete_adherenciatratamiento' adherenciatratamiento.id %}" id="delete_form">
+                            {% csrf_token %}
+                            <button type="button" class="button btn btn-form">Borrar</button>
+                          </form>
+                          {% endif %}
+                        </div>
+                        {% if perms.Formularios.change_adherenciatratamiento %}
+                        <a href="{% url 'admin:Formularios_adherenciatratamiento_change' adherenciatratamiento.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

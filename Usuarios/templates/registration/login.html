@@ -1,0 +1,36 @@
+<!-- NEF-1, NEF-5 -->
+{% extends "Usuarios/base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+  Usuario y/o contraseña incorrectos
+</div>
+{% endif %}
+<div class="jumbotron text-center" id="cuadro">
+    <img class="logo_Login" src="{% static 'img/logo_NefroVida.png' %}">
+    <br>
+    <form action="" method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="control-label"> {{ field.label }} </label>
+            <div>{{ field }}</div>
+            <br>
+        {% endfor %}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Iniciar sesión</button>
+        </div>
+        <br/>
+        <div class="text-right mt-1">
+            <a class="text-gray text-sm font-weight-300" href="/password_reset">
+                ¿Olvidaste tu contraseña?
+        </a>
+        </div>
+    </form>
+</div>
+
+{% endblock content %}

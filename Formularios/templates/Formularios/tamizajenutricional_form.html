@@ -1,0 +1,91 @@
+<!--
+  NEF-62
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div>
+    <br>
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header text-center">Tamizaje Nutricional</h5>
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="container-fluid">
+                        <input value="{{ beneficiario.id }}" type="hidden" name="beneficiario">
+                        <div class="row">
+                            <div class="col-6"></div>
+                            <div class="col-sm-2 text-right labelsFormulario ">
+                                {{ form.fecha.label }}
+                            </div>
+                            <div class="col-sm-3">
+                                {{ form.fecha }}
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row pb-3">
+                            <div class="col-2 text-right labelsFormulario">
+                                Presión arterial:
+                            </div>
+                            <div class="input-group mr-sm-2 col-3">
+                                {{ form.presion_sistolica }}
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text form-control"><b>/</b></div>
+                                </div>
+                                {{ form.presion_diastolica }}
+                            </div>
+                            <div class="col-2">mm Hg</div>
+                        </div>
+                        <br>
+                        <div class="row pb-3">
+                            <div class="col-2 text-right labelsFormulario">{{ form.peso.label }}</div>
+                            <div class="col-2">{{ form.peso }}</div>
+                            <div class="col-2">Kg</div>
+                            <div class="col-2 text-right labelsFormulario">{{ form.talla.label }}</div>
+                            <div class="col-2">{{ form.talla }}</div>
+                            <div class="col-1">m</div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-2 text-right labelsFormulario">{{ form.circunferencia_brazo.label }}</div>
+                            <div class="col-2">{{ form.circunferencia_brazo }}</div>
+                            <div class="col-1">cm</div>
+                            <div class="col-3 text-right labelsFormulario">{{ form.pliegue_bicipital.label }}</div>
+                            <div class="col-2">{{ form.pliegue_bicipital }}</div>
+                            <div class="col-1">cm</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5"></div>
+                            <div class="col-3 text-right labelsFormulario">{{ form.pliegue_tricipital.label }}</div>
+                            <div class="col-2">{{ form.pliegue_tricipital }}</div>
+                            <div class="col-1">cm</div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label>{{ form.comentario.label }}</label>
+                                <br>
+                                {{ form.comentario }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br><br>
+                    <div class="clearfix">
+                        <input class="btn float-right btn-save" type="submit" value="Guardar" onclick="validation()">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}

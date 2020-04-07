@@ -1,0 +1,245 @@
+<!--
+  NEF-54
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+    <br>
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header text-center">Escala de depresión de Hamilton</h5>
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+                    <div class="container-fluid">
+                        <div class="row pb-5">
+                            <div class="col-6">
+                            </div>
+                            <div class="col-2 text-right labelsFormulario">
+                                {{ form.fecha.label }}
+                            </div>
+                            <div class="col-3">
+                                {{ form.fecha }}
+                            </div>
+                        </div>
+
+                        <!-- P1  -->
+                        <div class="form-group col">
+                            <label>{{ form.p1.label }}</label>
+                            <br>
+                            {% for choice in form.p1 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P2  -->
+                        <div class="form-group col">
+                            <label>{{ form.p2.label }}</label>
+                            <br>
+                            {% for choice in form.p2 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P3  -->
+                        <div class="form-group col">
+                            <label>{{ form.p3.label }}</label>
+                            <br>
+                            {% for choice in form.p3 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P4  -->
+                        <div class="form-group col">
+                            <label>{{ form.p4.label }}</label>
+                            <br>
+                            {% for choice in form.p4 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P5  -->
+                        <div class="form-group col">
+                            <label>{{ form.p5.label }}</label>
+                            <br>
+                            {% for choice in form.p5 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P6  -->
+                        <div class="form-group col">
+                            <label>{{ form.p6.label }}</label>
+                            <br>
+                            {% for choice in form.p6 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P7  -->
+                        <div class="form-group col">
+                            <label>{{ form.p7.label }}</label>
+                            <br>
+                            {% for choice in form.p7 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P8  -->
+                        <div class="form-group col">
+                            <label>{{ form.p8.label }}</label>
+                            <br>
+                            {% for choice in form.p8 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P9  -->
+                        <div class="form-group col">
+                            <label>{{ form.p9.label }}</label>
+                            <br>
+                            {% for choice in form.p9 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P10  -->
+                        <div class="form-group col">
+                            <label>{{ form.p10.label }}</label>
+                            <br>
+                            {% for choice in form.p10 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P11  -->
+                        <div class="form-group col">
+                            <label>{{ form.p11.label }}</label>
+                            <br>
+                            {% for choice in form.p11 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P12  -->
+                        <div class="form-group col">
+                            <label>{{ form.p12.label }}</label>
+                            <br>
+                            {% for choice in form.p12 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P13  -->
+                        <div class="form-group col">
+                            <label>{{ form.p13.label }}</label>
+                            <br>
+                            {% for choice in form.p13 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P14  -->
+                        <div class="form-group col">
+                            <label>{{ form.p14.label }}</label>
+                            <br>
+                            {% for choice in form.p14 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P15  -->
+                        <div class="form-group col">
+                            <label>{{ form.p15.label }}</label>
+                            <br>
+                            {% for choice in form.p15 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P16  -->
+                        <div class="form-group col">
+                            <label>{{ form.p16.label }}</label>
+                            <br>
+                            {% for choice in form.p16 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P17  -->
+                        <div class="form-group col">
+                            <label>{{ form.p17.label }}</label>
+                            <br>
+                            {% for choice in form.p17 %}
+                                <div class="form-check form-check">
+                                    {{ choice }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+<!--                        <div class="row pb-4">-->
+<!--                            <div class="col-2 text-right">{{ form.resultado.label }}</div>-->
+<!--                            <div class="col-1 text-left" onkeyup="depre()" onchange="depre()" id="">{{ form.resultado }}</div>-->
+<!--                            <div class="col" id="diagRep"></div>-->
+<!--                        </div>-->
+                        <div class="row pb-4">
+                            <div class="col-2 text-right">{{ form.observaciones.label }}</div>
+                            <div class="col text-left">{{ form.observaciones }}</div>
+                        </div>
+
+                        <div class="clearfix">
+                            <input class="btn float-right btn-save" type="submit" value="Guardar">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock beneficiario-content %}
+
+
+{% block scripts %}
+    <script src="{% static 'js/formularios.js' %}" ></script>
+    <script src="{% static 'js/adherencia.js' %}" ></script>
+{% endblock scripts %}

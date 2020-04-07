@@ -1,0 +1,137 @@
+<!--
+  NEF-67
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+    <div class="card">
+        <h5 class="card-header text-center">Hoja de registro mensual</h5>
+        <div class="card-body">
+            <div class="clearfix px-5">
+                <div class="float-right">
+                    <div class="form-inline pl-5 ">
+                        <div class="labelsFormulario pr-3">
+                            {{ registromensual.labels.fecha }}
+                        </div>
+                        {{ registromensual.fecha  }}
+                    </div>
+                </div>
+            </div><hr>
+            <div class="container px-5">
+                <!-- p1 -->
+                <div class="row pb-2">
+                    {% for k,v in registromensual.choices_1.items %}
+                    {% if k ==  registromensual.p1 %}
+                    <div class="col-3">
+                        {{ registromensual.labels.p1 }}
+                    </div>
+                    <div class="col">
+                        <u><b>{{ v }}</b></u>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- p2 -->
+                <div class="row pb-2">
+                    {% for k,v in registromensual.choices_1.items %}
+                    {% if k ==  registromensual.p2 %}
+                    <div class="col-3">
+                        {{ registromensual.labels.p2 }}
+                    </div>
+                    <div class="col">
+                        <u><b>{{ v }}</b></u>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- p3 -->
+                <div class="row pb-2">
+                    {% for k,v in registromensual.choices_1.items %}
+                    {% if k ==  registromensual.p3 %}
+                    <div class="col-3">
+                        {{ registromensual.labels.p3 }}
+                    </div>
+                    <div class="col">
+                        <u><b>{{ v }}</b></u>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- observaciones -->
+                {% if registromensual.observaciones %}
+                <div class="">{{ registromensual.labels.observaciones }}</div>
+                <div class="row pb-4">
+                    <div class="col"><textarea class="form-control cursorna"  rows="2" disabled>{{ registromensual.observaciones }}</textarea></div>
+                </div>
+                {% endif %}
+                <!--Resultados-->
+                <div class="container text-center px-5">
+                    <div class="row">
+                        <text class="col labelsFormulario">Resultado:</text>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col">
+                            <span class="rounded-circle circles m-4 px-3">{{registromensual.resultado}}</span>
+                            <text class="resultado-estudio">{{registromensual.interpretacion}}</text>
+                        </div>
+                    </div>
+                    <!--Tabla de resultados-->
+                    <div class="row justify-content-center pt-5 pb-2">
+                        <table class="col-4 table">
+                            <tr>
+                                <th colspan="3">Interpretación</th>
+                            </tr>
+                            <tr>
+                                <td> 0 - 2 </td>
+                                <td>Mala</td>
+                            </tr>
+                            <tr>
+                                <td> 2 - 4</td>
+                                <td>Regular</td>
+                            </tr>
+                            <tr>
+                                <td> 4 - 6 </td>
+                                <td>Buena</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!--Botones-->
+                {% if perms.Formularios.change_registromensual or perms.Formularios.delete_registromensual %}
+                <div class="row justify-content-center pb-3">
+                  <div class="col-12">
+                    <div class="clearfix">
+                      <div class="float-right wrap">
+                        <div class=" pr-2">
+                          {% if perms.Formularios.delete_registromensual %}
+                          <form method="POST" action="{% url 'Formularios:delete_registromensual' registromensual.id %}" id="delete_form">
+                            {% csrf_token %}
+                            <button type="button" class="button btn btn-form">Borrar</button>
+                          </form>
+                          {% endif %}
+                        </div>
+                        {% if perms.Formularios.change_registromensual %}
+                        <a href="{% url 'admin:Formularios_registromensual_change' registromensual.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

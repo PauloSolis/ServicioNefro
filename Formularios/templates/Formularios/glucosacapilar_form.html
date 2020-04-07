@@ -1,0 +1,117 @@
+<!--
+  NEF-80
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<br>
+<div class="container">
+  <div class="card">
+    <h5 class="card-header text-center">Glucosa Capilar</h5>
+    <div class="card-body">
+      <form class="sweet-form" action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+        <div class="container-fluid"><br>
+          <div class="row">
+            <div class="col-sm-2 text-center labelsFormulario">
+              {{ form.doctor.label }}
+            </div>
+            <div class="col-sm-4">
+              {{ form.doctor }}
+            </div>
+            <div class="col-sm-3 text-center labelsFormulario">
+              {{ form.fecha.label }}
+            </div>
+            <div class="col-sm-3">
+              {{ form.fecha }}
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-sm-2 text-center labelsFormulario">
+              {{ form.metodo.label }}
+            </div>
+            <div class="col-sm-4">
+              {{ form.metodo }}
+            </div>
+            <div class="col-sm-6">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="container-fluid">
+              <br>
+              <!--HEADER DE RESULTADOS-->
+              <div class="row">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-2 text-center labelsFormulario">
+                  Resultados
+                </div>
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-2 text-center labelsFormulario">
+                  Mínimo
+                </div>
+                <div class="col-sm-2 text-center labelsFormulario">
+                  Máximo
+                </div>
+                <div class="col-sm-1">
+                </div>
+              </div>
+              <br>
+              <!--ROW de GLUCOSA-->
+              <div class="row">
+                <div class="col-sm-2 labelsFormulario">
+                  {{ form.glucosa.label }}
+                </div>
+                <div class="col-sm-2">
+                  {{ form.glucosa }}
+                </div>
+                <div class="col-sm-2 small">
+                  mg/dL
+                </div>
+                <div class="col-sm-2">
+                  {{ form.min }}
+                </div>
+                <div class="col-2">
+                  {{ form.max }}
+                </div>
+                <div class="col-sm-1 small">
+                  mg/dL
+                </div>
+                <div class="col-sm-1">
+                  <span class="fa fa-comment" data-toggle="collapse" data-target="#collapseGlucosa" aria-expanded="false" aria-controls="collapseGlucosa"></span>
+                </div>
+              </div>
+              <div class="row pt-1 collapse" id="collapseGlucosa" aria-labelledby="headingGlucosa">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-7">{{ form.comentario }}</div>
+                <div class="col-sm-3"></div>
+              </div>
+              <br><br>
+              <!--Boton de GUARDAR-->
+              <div class="clearfix">
+                <input type="submit" value="Guardar" class="btn float-right btn-save">
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+  <script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}

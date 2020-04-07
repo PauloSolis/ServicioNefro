@@ -1,0 +1,69 @@
+<!--
+  NEF-47, NEF-48, NEF-49
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-4">
+  <div class="card">
+    <h5 class="card-header text-center">Nota del Nefrólogo</h5>
+    <div class="card-body">
+      <div class="container-fluid">
+        <div class="row justify-content-end py-2">
+          <div class="col-sm-3 text-right labelsFormulario">
+            Fecha de nota:
+          </div>
+          <div class="col-sm-2 text-left">
+            {{ nota.fecha_creacion }}
+          </div>
+        </div>
+        <hr>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <text class="labelsFormulario">Observaciones:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="10" disabled> {{ nota.nota }} </textarea>
+          </div>
+        </div>
+        <br><br>
+        <!--Botones-->
+        {% if perms.Formularios.change_notas or perms.Formularios.delete_notas %}
+        <div class="row justify-content-center pb-3">
+          <div class="col-12">
+            <div class="clearfix">
+              <div class="float-right wrap">
+                <div class=" pr-2">
+                  {% if perms.Formularios.delete_notas %}
+                  <form method="POST" action="{% url 'Formularios:delete_notas' nota.id %}" id="delete_form">
+                    {% csrf_token %}
+                    <button type="button" class="button btn btn-form">Borrar</button>
+                  </form>
+                  {% endif %}
+                </div>
+                {% if perms.Formularios.change_notas %}
+                <a href="{% url 'admin:Formularios_notas_change' nota.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,1093 @@
+<!-- NEF-35, NEF-98, NEF-81, NEF-80, NEF-77, NEF-74, NEF-71,
+NEF-70, NEF-67, NEF-66, NEF-62, NEF-58, NEF-50, NEF-46, NEF-31 -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load boolean_icon %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <div class="card">
+        <div class="card-body card-info">
+            <div class="row">
+                <div class="col-md-1 text-center viewname">
+                    <h1 id="beneficiario_id"> {{ beneficiario.id }}</h1>
+                    {% if perms.Beneficiarios.change_beneficiario%}
+                    <a href="{% url 'admin:Beneficiarios_beneficiario_change' beneficiario.id %}"
+                        class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Editar"><i
+                            class="fa fa-edit"></i></a>
+                    {% endif %}
+                </div>
+                <div class="col-md-7">
+                    <div class="row pb-3">
+                        <div class="col-12 col-md-auto viewname">
+                            <a href="{% url 'Beneficiarios:beneficiario' pk=beneficiario.id %}">
+                                <b>{{ beneficiario.nombre }} {{ beneficiario.apellido_paterno }}
+                                    {{ beneficiario.apellido_materno }}</b>
+                            </a>
+                        </div>
+                        {% if beneficiario.jornada %}
+                        <div class="col-12 col-md-auto viewparameters ml-3">
+                            <a href="{% url 'Proyectos:jornadas_detail' pk=beneficiario.jornada.id %}">
+                                <i class="material-icons pr-2">access_time</i>
+                                <b>{{ beneficiario.jornada.nombre }}</b>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if beneficiario.de_seguimiento %}
+                        
+                        <div class="col-12 col-md-auto viewparameters ml-3">
+                            <b>Paciente de seguimiento</b>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-12 col-md-auto viewparameters">
+                            {% if beneficiario.sexo %}
+                            &nbsp;&nbsp;<i class="fa fa-male pr-1 fa-lg"></i> Hombre
+                            {% else %}
+                            <i class="fa fa-female"></i> Mujer
+                            {% endif %}
+                        </div>
+                        <div class="col-12 col-md-auto viewparameters">{{ beneficiario.edad }} años</div>
+                        <div class="col-12 col-md-auto viewparameters">{{ beneficiario.enfermedad }}</div>
+                    </div>
+                    <div class="row pb-3">
+                        <div class="col-12 col-md-auto viewparameters"><i class="material-icons">phone</i> {{ beneficiario.telefono }}</div>
+                        {% if beneficiario.celular %}
+                        <div class="col-12 col-md-auto viewparameters"><i class="material-icons">phone_iphone</i>
+                            {{ beneficiario.celular }}</div>
+                        {% endif %}
+                        {% if beneficiario.correo %}
+                        <div class="col-12 col-md-auto viewparameters"><i class="material-icons">mail_outline</i>
+                            {{ beneficiario.correo }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row pb-2">
+
+                        <div class="col-12 col-md-auto viewparameters"><i class="material-icons">school</i>
+                            {{ beneficiario.escuela }}</div>
+                        <div class="col-12 col-md-auto viewparameters">
+                            <i class="material-icons">work</i>
+                            {% if beneficiario.activo_laboralmente %}
+                            Empleado
+                            {% else %}
+                            Desempleado
+                            {% endif %}
+                        </div>
+                        {% if beneficiario.celular %}
+                        <div class="col-12 col-md-auto viewparameters"><i class="material-icons">supervisor_account</i>
+                            {{ beneficiario.nucleo_familiar }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="row pb-2">
+
+                        <div class="col-12 col-md-auto viewparameters">
+                            <i class="material-icons">home</i>
+                            {% if beneficiario.vivienda_propia %}
+                            Vivienda propia
+                            {% else %}
+                            Vivienda no propia
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    {% if clasificacion %}
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <i class="fa fa-warning" style="font-size:24px; color:#e12211" data-toggle="tooltip"
+                                data-placement="right"
+                                title="Este sistema es una herramienta de soporte y no sustituye bajo ninguna circunstancia el diagnóstico de un médico certificado."></i>
+                        </div>
+                        <div class="col-8 d-flex text-left">
+                            <h5 class="align-self-center mr-2" style="display: inline-block">Clasificación</h5>
+                            <div class="circle {{ clasificacion.color }}-bg"></div>
+                        </div>
+                    </div>
+                    {% if perms.Formularios.add_clasificacion and clasificacion.discrepancia %}
+                    <form id="clasificacion_form" method="post"
+                        action="{% url 'Formularios:clasificacion_register' beneficiario.id %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="clasificacion_id" value="{{ clasificacion.id }}" />
+                        {% endif %}
+                        <div class="row text-center">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        CKD-EPI {{ clasificacion.gfr }}
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="diagnosis-val {{ clasificacion.color }}">
+                                            {% if perms.Formularios.add_clasificacion and clasificacion.discrepancia %}
+                                            <input type="submit"
+                                                class="btn-submit btn btn-lg btn-outline-{{ clasificacion.color_gfr }}"
+                                                name="clasificacion" value={{ clasificacion.categoria_gfr }} />
+                                            {% else %}
+                                            <span data-toggle="tooltip" data-placement="left"
+                                                title="CKD-EPI">{{ clasificacion.categoria_gfr }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="diagnosis-val {{ clasificacion.color }}">
+                                            {{ clasificacion.categoria_alb }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        MDRD {{ clasificacion.gfr_estimada }}
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="diagnosis-val {{ clasificacion.color }}">
+                                            {% if perms.Formularios.add_clasificacion and clasificacion.discrepancia %}
+                                            <input type="submit"
+                                                class="btn-submit btn btn-lg btn-outline-{{ clasificacion.color_gfr_estimada }}"
+                                                name="clasificacion" value={{ clasificacion.categoria_gfr_estimada }} />
+                                            {% else %}
+                                            <span data-toggle="tooltip" data-placement="left"
+                                                title="MDRD">{{ clasificacion.categoria_gfr_estimada }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if perms.Formularios.add_clasificacion and clasificacion.discrepancia %}
+                    </form>
+                    {% endif %}
+                    {% else %}
+                    <div class="row text-center">
+                        <div class="col d-flex justify-content-center">
+                            <h5 class="align-self-center" style="display: inline-block">Sin datos para clasificar</h5>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="btn-group pull-right" role="group" aria-label="Basic example">
+                        {% block ir_evidencias %}
+                        <a href="{% url 'Formularios:view_evidencias' beneficiario.id %}"
+                            class="btn btn-outline-primary btn-sm">
+                            Ir a evidencias
+                        </a>
+                        {% endblock ir_evidencias %}
+                        {% block ir_a %}
+                        {% if clasificacion or quimica_sanguinea or microalbuminuria or hemoglobina_glucosilada or glucosa_capilar or tamizaje_nutricional or adherencia_Tratamiento or malnutricion_inflamacion or factor_de_riesgo or escala_hamilton or consulta_medica %}
+                        <a href="{% url 'Beneficiarios:beneficiario_record' beneficiario.id %}"
+                            class="btn btn-outline-primary btn-sm">
+                            Ir a expediente
+                        </a>
+                        {% else %}
+                        <button type="button" class="btn btn-outline-primary btn-sm" disabled>
+                            No existe expediente
+                        </button>
+                        {% endif %}
+                        {% endblock ir_a %}
+                        {% if beneficiario.antecedentes %}
+                        <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse"
+                            data-target="#antecedentes" aria-expanded="false" aria-controls="antecedentes">
+                            Antecedentes <i class="fas fa-caret-down"></i>
+                        </button>
+                        {% else %}
+                        {% if perms.Beneficiarios.add_antecedentes %}
+                        <a href="{% url 'Beneficiarios:antecedentes_create' beneficiario.id %}"
+                            class="btn btn-outline-secondary btn-sm">
+                            Registrar antecedentes
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if beneficiario.antecedentes %}
+            <div class="collapse {% block antecedentes %}  {% endblock antecedentes %} pt-3" id="antecedentes">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="antecedentes_table">
+                        <thead>
+                            <th>Antecedente</th>
+                            <th class="text-center">Abuelos</th>
+                            <th class="text-center">Padre</th>
+                            <th class="text-center">Madre</th>
+                            <th class="text-center">Hermanos</th>
+                        </thead>
+                        <tr>
+                            <td> Enfermedad cardiovascular </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cardio_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cardio_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cardio_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cardio_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> HTA </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.hta_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.hta_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.hta_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.hta_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Diabetes </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.diabetes_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.diabetes_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.diabetes_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.diabetes_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Dislipidemias </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.dislipidemias_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.dislipidemias_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.dislipidemias_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.dislipidemias_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Obesidad </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.obesidad_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.obesidad_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.obesidad_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.obesidad_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Enfermedad cerebrovascular </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cerebro_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cerebro_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cerebro_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_cerebro_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Enfermedad renal </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_renal_abuelo %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_renal_padre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_renal_madre %}
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="form-check">
+                                    {% boolean_icon beneficiario.antecedentes.enfermedad_renal_hermanos %}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <br>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="antecedentes_personal_table">
+                        <thead>
+                            <th colspan="4">Antecedentes Personales</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Drogadicción</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.drogadiccion %}
+                                    </div>
+                                </td>
+                                <td>Intervención Quirúrgica</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.intervencion_quirurgica %}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Internamiento Hospitalario</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.intervencion_hospitalaria %}
+                                    </div>
+                                </td>
+                                <td>Enfermedad Cardiovascular</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.enfermedad_cardiovascular %}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tabaquismo</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.tabaquismo %}
+                                    </div>
+                                </td>
+                                <td>Infección de vías urinarias</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.infeccion_urinaria %}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sedentarismo</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.sedentarismo %}
+                                    </div>
+                                </td>
+                                <td>Alcoholismo</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.alcoholismo %}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Actividad física</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        {% boolean_icon beneficiario.antecedentes.actividiad_fisica %}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% if perms.Beneficiarios.change_antecedentes %}
+                <a  class="float-right" href="{% url 'admin:Beneficiarios_antecedentes_change' beneficiario.id %}">
+                    <button type="button" class="button btn btn-edit">Editar</button>
+                </a>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% block beneficiario-content %}
+    <div class="card mt-4 text-center">
+        <div class="card-body">
+            <div class="row">
+                {% if perms.Formularios.view_tamizajenutricional or perms.Formularios.add_tamizajenutricional or perms.Formularios.view_factorderiesgo or perms.Formularios.add_factorderiesgo %}
+                <div class="col-1 d-flex"><i class="fas fa-file-alt fa-2x align-self-center"></i></div>
+                {% endif %}
+                <div class="col">
+                    <div class="row">
+                        {% if perms.Formularios.view_tamizajenutricional or perms.Formularios.add_tamizajenutricional %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-ruler-vertical fa-1x pr-3"></i>Tamizaje</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_tamizajenutricional and tamizaje_nutricional %}
+                            <div class="row pt-2">
+                                <div class="col">{{ tamizaje_nutricional.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_tamizajenutricional and tamizaje_nutricional %}
+                                {% if perms.Formularios.add_tamizajenutricional %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_tamizajenutricional' tamizaje_nutricional.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_tamizajenutricional' tamizaje_nutricional.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_tamizajenutricional %}
+                                {% if perms.Formularios.view_tamizajenutricional and tamizaje_nutricional %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_tamizajenutricional' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_tamizajenutricional' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if perms.Formularios.view_factorderiesgo or perms.Formularios.add_factorderiesgo %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-exclamation fa-1x pr-3"></i>Factor de riesgo</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_factorderiesgo and factor_de_riesgo %}
+                            <div class="row pt-2">
+                                <div class="col">{{ factor_de_riesgo.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_factorderiesgo and factor_de_riesgo %}
+                                <div class="col">
+                                    <a href="{% url 'Formularios:view_factorderiesgo' factor_de_riesgo.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% if perms.Formularios.add_factorderiesgo and not factor_de_riesgo %}
+                                <div class="col">
+                                    <a href="{% url 'Formularios:register_factorderiesgo' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if perms.Formularios.view_tamizajenutricional or perms.Formularios.add_tamizajenutricional or perms.Formularios.view_factorderiesgo or perms.Formularios.add_factorderiesgo %}
+            {% if perms.Formularios.view_consultamedica or perms.Formularios.add_consultamedica or perms.Formularios.view_quimicasanguinea or perms.Formularios.add_quimicasanguinea or perms.Formularios.view_microalbuminuria or perms.Formularios.add_microalbuminuria or perms.Formularios.view_hemoglobinaglucosilada or perms.Formularios.add_hemoglobinaglucosildada or perms.Formularios.view_glucosacapilar or perms.Formularios.add_glucosacapilar or perms.Formularios.view_adherenciatratamiento or perms.Formularios.add_adherenciatratamiento or perms.Formularios.view_escalahamilton or perms.Formularios.add_escalahamilton or perms.Formularios.view_malnutricioninflamacion or perms.Formularios.add_malnutricioninflamacion %}
+            <hr>
+            {% endif %}
+            {% endif %}
+
+            <div class="row">
+                {% if perms.Formularios.view_consultamedica or perms.Formularios.add_consultamedica or perms.Formularios.view_notas or perms.Formularios.add_notas %}
+                <div class="col-1 d-flex"><i class="fas fa-user-md fa-2x align-self-center"></i></div>
+                {% endif %}
+                <div class="col">
+                    <div class="row">
+                        {% if perms.Formularios.view_notas or perms.Formularios.add_notas %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-ruler-vertical fa-1x pr-3"></i>Nota del Nefrólogo</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_notas and nota %}
+                            <div class="row pt-2">
+                                <div class="col">{{ nota.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_notas and nota %}
+                                {% if perms.Formularios.add_notas %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_notas' nota.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_notas' nota.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_notas %}
+                                {% if perms.Formularios.view_notas and nota %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_notas' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_notas' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if perms.Formularios.view_consultamedica or perms.Formularios.add_consultamedica %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-stethoscope fa-1x pr-3"></i>Consulta Médica</h6>
+                                </div>
+                            </div>
+
+                            {% if perms.Formularios.view_consultamedica and consulta_medica %}
+                            <div class="row pt-2">
+                                <div class="col">{{ consulta_medica.fecha_creacion }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_consultamedica and consulta_medica %}
+                                {% if perms.Formularios.add_consultamedica %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_consultamedica' consulta_medica.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_consultamedica' consulta_medica.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_consultamedica %}
+                                {% if perms.Formularios.view_consultamedica and consulta_medica %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_consultamedica' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_consultamedica' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% if perms.Formularios.view_quimicasanguinea or perms.Formularios.add_quimicasanguinea or perms.Formularios.view_microalbuminuria or perms.Formularios.add_microalbuminuria or perms.Formularios.view_hemoglobinaglucosilada or perms.Formularios.add_hemoglobinaglucosildada or perms.Formularios.view_glucosacapilar or perms.Formularios.add_glucosacapilar %}
+                <div class="col-1 d-flex"><i class="fas fa-envelope fa-2x align-self-center"></i></div>
+                {% endif %}
+                <div class="col">
+                    <div class="row">
+                        {% if perms.Formularios.view_quimicasanguinea or perms.Formularios.add_quimicasanguinea %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-tint fa-1x pr-2"></i>Química sanguínea</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_quimicasanguinea and quimica_sanguinea %}
+                            <div class="row pt-2">
+                                <div class="col">{{ quimica_sanguinea.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_quimicasanguinea and quimica_sanguinea %}
+                                {% if perms.Formularios.add_quimicasanguinea %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:vqs' quimica_sanguinea.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:vqs' quimica_sanguinea.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_quimicasanguinea %}
+                                {% if perms.Formularios.view_quimicasanguinea and quimica_sanguinea %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:cqs' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:cqs' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if perms.Formularios.view_microalbuminuria or perms.Formularios.add_microalbuminuria %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-vials fa-1x pr-2"></i>Microalbuminuria</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_microalbuminuria and microalbuminuria %}
+                            <div class="row pt-2">
+                                <div class="col">{{ microalbuminuria.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_microalbuminuria and microalbuminuria %}
+                                {% if perms.Formularios.add_microalbuminuria %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_microalbuminuria' microalbuminuria.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_microalbuminuria' microalbuminuria.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_microalbuminuria %}
+                                {% if perms.Formularios.view_microalbuminuria and microalbuminuria %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_microalbuminuria' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_microalbuminuria' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if perms.Formularios.view_hemoglobinaglucosilada or perms.Formularios.add_hemoglobinaglucosilada %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-vial fa-1x pr-2"></i>Hemoglobina glucosilada</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_hemoglobinaglucosilada and hemoglobina_glucosilada %}
+                            <div class="row pt-2">
+                                <div class="col">{{ hemoglobina_glucosilada.fecha_captura }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_hemoglobinaglucosilada and hemoglobina_glucosilada %}
+                                {% if perms.Formularios.add_hemoglobinaglucosilada %}
+                                <div class="col text-right">
+                                    <a
+                                        href="{% url 'Formularios:view_hemoglobinaglucosilada' hemoglobina_glucosilada.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a
+                                        href="{% url 'Formularios:view_hemoglobinaglucosilada' hemoglobina_glucosilada.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_hemoglobinaglucosilada %}
+                                {% if perms.Formularios.view_hemoglobinaglucosilada and hemoglobina_glucosilada %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_hemoglobinaglucosilada' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_hemoglobinaglucosilada' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if perms.Formularios.view_glucosacapilar or perms.Formularios.add_glucosacapilar %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-syringe fa-1x pr-2"></i>Glucosa capilar</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_glucosacapilar and glucosa_capilar %}
+                            <div class="row pt-2">
+                                <div class="col">{{ glucosa_capilar.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_glucosacapilar and glucosa_capilar %}
+                                {% if perms.Formularios.add_glucosacapilar %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_glucosacapilar' glucosa_capilar.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_glucosacapilar' glucosa_capilar.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_glucosacapilar %}
+                                {% if perms.Formularios.view_glucosacapilar and glucosa_capilar %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_glucosacapilar' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_glucosacapilar' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if perms.Formularios.view_consultamedica or perms.Formularios.add_consultamedica or perms.Formularios.view_quimicasanguinea or perms.Formularios.add_quimicasanguinea or perms.Formularios.view_microalbuminuria or perms.Formularios.add_microalbuminuria or perms.Formularios.view_hemoglobinaglucosilada or perms.Formularios.add_hemoglobinaglucosildada or perms.Formularios.view_glucosacapilar or perms.Formularios.add_glucosacapilar %}
+            {% if perms.Formularios.view_adherenciatratamiento or perms.Formularios.add_adherenciatratamiento or perms.Formularios.view_escalahamilton or perms.Formularios.add_escalahamilton or perms.Formularios.view_malnutricioninflamacion or perms.Formularios.add_malnutricioninflamacion %}
+            <hr>
+            {% endif %}
+            {% endif %}
+
+
+            <div class="row">
+                {% if perms.Formularios.view_adherenciatratamiento or perms.Formularios.add_adherenciatratamiento or perms.Formularios.view_escalahamilton or perms.Formularios.add_escalahamilton %}
+                <div class="col-1 d-flex"><i class="fas fa-brain fa-2x align-self-center"></i></div>
+                {% endif %}
+                <div class="col">
+                    <div class="row">
+                        {% if  perms.Formularios.view_adherenciatratamiento or perms.Formularios.add_adherenciatratamiento %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-tablets fa-1x pr-3"></i>Escala de adherencia al tratamiento
+                                    </h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_adherenciatratamiento and adherencia_Tratamiento %}
+                            <div class="row pt-2">
+                                <div class="col">{{ adherencia_Tratamiento.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_adherenciatratamiento and adherencia_Tratamiento %}
+                                {% if perms.Formularios.add_adherenciatratamiento %}
+                                <div class="col text-right">
+                                    <a
+                                        href="{% url 'Formularios:view_adherenciatratamiento' adherencia_Tratamiento.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a
+                                        href="{% url 'Formularios:view_adherenciatratamiento' adherencia_Tratamiento.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_adherenciatratamiento %}
+                                {% if perms.Formularios.view_adherenciatratamiento and adherencia_Tratamiento %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_adherenciatratamiento' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_adherenciatratamiento' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if  perms.Formularios.view_registromensual or perms.Formularios.add_registromensual %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-file-alt fa-1x pr-3"></i>Hoja de registro mensual
+                                    </h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_registromensual and registro_mensual %}
+                            <div class="row pt-2">
+                                <div class="col">{{ registro_mensual.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_registromensual and registro_mensual %}
+                                {% if perms.Formularios.add_registromensual %}
+                                <div class="col text-right">
+                                    <a
+                                        href="{% url 'Formularios:view_registromensual' registro_mensual.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a
+                                        href="{% url 'Formularios:view_registromensual' registro_mensual.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_registromensual %}
+                                {% if perms.Formularios.view_registromensual and registro_mensual %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_registromensual' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_registromensual' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if perms.Formularios.view_escalahamilton or perms.Formularios.add_escalahamilton %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-frown fa-1x pr-3"></i>Escala de depresión de Hamilton</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_escalahamilton and escala_hamilton %}
+                            <div class="row pt-2">
+                                <div class="col">{{ escala_hamilton.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_escalahamilton and escala_hamilton %}
+                                {% if perms.Formularios.add_escalahamilton %}
+                                <div class="col text-right">
+                                    <a href="{% url 'Formularios:view_escalahamilton' escala_hamilton.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:view_escalahamilton' escala_hamilton.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_escalahamilton %}
+                                {% if perms.Formularios.view_escalahamilton and escala_hamilton %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_escalahamilton' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_escalahamilton' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if perms.Formularios.view_adherenciatratamiento or perms.Formularios.add_adherenciatratamiento or perms.Formularios.view_escalahamilton or perms.Formularios.add_escalahamilton %}
+            {% if perms.Formularios.view_malnutricioninflamacion or perms.Formularios.add_malnutricioninflamacion %}
+            <hr>
+            {% endif %}
+            {% endif %}
+
+            <div class="row">
+                {% if perms.Formularios.view_malnutricioninflamacion or perms.Formularios.add_malnutricioninflamacion %}
+                <div class="col-1 d-flex"><i class="fas fa-utensils fa-2x align-self-center"></i></div>
+                {% endif %}
+                <div class="col">
+                    <div class="row">
+                        {% if perms.Formularios.view_malnutricioninflamacion or perms.Formularios.add_malnutricioninflamacion %}
+                        <div class="col m-4">
+                            <div class="row">
+                                <div class="col">
+                                    <h6><i class="fas fa-weight fa-1x pr-2"></i>Escala de malnutrición-inflamación</h6>
+                                </div>
+                            </div>
+                            {% if perms.Formularios.view_malnutricioninflamacion and malnutricion_inflamacion %}
+                            <div class="row pt-2">
+                                <div class="col">{{ malnutricion_inflamacion.fecha }}</div>
+                            </div>
+                            {% endif %}
+                            <div class="row pt-3">
+                                {% if perms.Formularios.view_malnutricioninflamacion and malnutricion_inflamacion %}
+                                {% if perms.Formularios.add_malnutricioninflamacion %}
+                                <div class="col text-right">
+                                    <a
+                                        href="{% url 'Formularios:view_malnutricioninflamacion' malnutricion_inflamacion.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a
+                                        href="{% url 'Formularios:view_malnutricioninflamacion' malnutricion_inflamacion.id %}"><i
+                                            class="far fa-file-alt fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                {% if perms.Formularios.add_malnutricioninflamacion %}
+                                {% if tamizaje_nutricional %}
+                                {% if perms.Formularios.view_malnutricioninflamacion and malnutricion_inflamacion %}
+                                <div class="col text-left">
+                                    <a href="{% url 'Formularios:register_malnutricioninflamacion' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% else %}
+                                <div class="col text-center">
+                                    <a href="{% url 'Formularios:register_malnutricioninflamacion' beneficiario.id %}"><i
+                                            class="fas fa-plus icon-add fa-2x"></i></a>
+                                </div>
+                                {% endif %}
+                                {% else %}
+                                <div class="col text-center">
+                                    No existe registro de Tamizaje
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!--hr>
+            <div class="row">
+              <div class="col-1 d-flex"><i class="fas fa-ellipsis-h fa-2x align-self-center"></i></div>
+              <div class="col">
+                <div class="row" >
+                  <div class="col m-4">
+                    <h6>Receta</h6>
+                    <a href="#"><i class="fas fa-plus icon-add fa-2x"></i></a>
+                  </div>
+                  <div class="col m-4">
+                    <h6>Otras evidencias</h6>
+                    <a href="#"><i class="fas fa-plus icon-add fa-2x"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div-->
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body card-info">
+            <div class="row justify-content-center pb-3">
+                <div class="col-8">
+                    <text class="labelsFormulario">Razón de Inactividad:</text>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-8">
+                    <textarea class="form-control cursorna" rows="10" disabled> {{ beneficiario.causa_baja }} </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock beneficiario-content %}
+</div>
+
+
+{% endblock content %}

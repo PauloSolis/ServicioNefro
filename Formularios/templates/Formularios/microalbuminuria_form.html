@@ -1,0 +1,249 @@
+<!--
+  NEF-74
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div>
+  <br>
+  <div class="container">
+    <div class="card">
+      <h5 class="card-header text-center">Microalbuminuria</h5>
+      <div class="card-body">
+        <form action="" method="POST" onsubmit="return validation(this);">
+          {% csrf_token %}
+          <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}"> <br>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-1">
+              </div>
+              <div class="col-sm-2 labelsFormulario">
+                {{ form.doctor.label }} :
+              </div>
+              <div class="col-sm-4">
+                {{ form.doctor }}
+              </div>
+              <div class="col-sm-2 labelsFormulario">
+                {{ form.fecha.label }} :
+              </div>
+              <div class="col-sm-3">
+                {{ form.fecha }}
+              </div>
+            </div>
+          <br>
+            <div class="row">
+              <div class="col-1">
+              </div>
+              <div class="col-2 labelsFormulario">
+                {{ form.metodo.label }} :
+              </div>
+              <div class="col-4">
+                {{ form.metodo }}
+              </div>
+              <div class="col-6">
+              </div>
+            </div>
+
+          <br><br><br>
+          <div class="row">
+            <div class="container">
+              <div class="row">
+                  <div class="container">
+                    <div class="row">
+                      <div class = "col-3">
+                      </div>
+                      <div class = "col-2 labelsFormulario">
+                        Resultados
+                      </div>
+                      <div class="col-1">
+                      </div>
+                      <div class = "col-2 labelsFormulario">
+                        Mínimo
+                      </div>
+                      <div class = "col-2 labelsFormulario">
+                        Máximo
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class = "col-1">
+                      </div>
+                      <div class="col-2 labelsFormulario">
+                        {{ form.micro_albumina.label }}:
+                      </div>
+                      <div class="col-2">
+                        {{ form.micro_albumina }}
+                      </div>
+                      <div class="col-1 small">
+                        mg/L
+                      </div>
+                      <div class="col-3 input-group">
+                        {{ form.micro_albumina_min }}
+                        {{ form.micro_albumina_max }}
+                      </div>
+                      <div class="col-1 small">
+                        mg/L
+                      </div>
+                      <div class="col-1">
+                        <span class="fa fa-comment" data-toggle="collapse" data-target="#collapseMicroAlbumina" aria-expanded="false" aria-controls="collapseMicroAlbumina"></span>
+                      </div>
+                    </div>
+                    <div class="row pt-1 collapse" id="collapseMicroAlbumina">
+                      <div class="col-3"></div>
+                      <div class="col-6">{{ form.micro_albumina_comentario }}</div>
+                      <div class="col-3"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class = "col-1">
+                      </div>
+                      <div class="col-2 labelsFormulario">
+                        {{ form.creatinina.label }}:
+                      </div>
+                      <div class="col-2">
+                        {{ form.creatinina }}
+                      </div>
+                      <div class="col-1 small">
+                        mg/dL
+                      </div>
+                      <div class="col-3 input-group">
+                        {{ form.creatinina_min }}
+                        {{ form.creatinina_max }}
+                      </div>
+                      <div class="col-1 small">
+                        mg/dL
+                      </div>
+                      <div class="col-1">
+                        <span class="fa fa-comment" data-toggle="collapse" data-target="#collapseCreatinina" aria-expanded="false" aria-controls="collapseCreatinina"></span>
+                      </div>
+                    </div>
+                    <div class="row pt-1 collapse" id="collapseCreatinina">
+                      <div class="col-3"></div>
+                      <div class="col-6">{{ form.creatinina_comentario }}</div>
+                      <div class="col-3"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                      <div class = "col-1">
+                      </div>
+                      <div class="col-2 labelsFormulario">
+                        {{ form.relacion.label }}:
+                      </div>
+                      <div class="col-2">
+                        {{ form.relacion }}
+                      </div>
+                      <div class="col-1 small">
+                        mg/g
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-1">
+            </div>
+            <div class="col-6">
+
+            </div>
+          </div>
+          <hr><br>
+
+          <div class = "container">
+            <div class="row">
+              <div class = "col-3">
+              </div>
+              <div class = "col-6">
+                <div class = "container">
+                  <div class = "row">
+                    <div class = "col-3">
+                    </div>
+                    <div class = "col-6 labelsFormulario">
+                      <span class="pull-right">Valores de referencia:</span>
+                    </div>
+                  </div>
+                  <br>
+                  <div class = "row">
+                    <div class = "col-3">
+                    </div>
+                    <div class = "col-3 labelsFormulario">
+                      Mínimo
+                    </div>
+                    <div class = "col-3">
+                      <span class="pull-right labelsFormulario">Máximo</span>
+                    </div>
+                  </div>
+                  <br>
+
+                  <div class = "row">
+                    <div class = "col-3 labelsFormulario">
+                      Normal
+                    </div>
+                    <div class = "col-6 input-group">
+                      {{ form.relacion_normal_min }}
+                      {{ form.relacion_normal_max }}
+                    </div>
+                    <div class = "col-3 small">
+                      mg/g
+                    </div>
+                  </div>
+                  <br>
+                  <div class = "row">
+                    <div class = "col-3 labelsFormulario">
+                      Anormal
+                    </div>
+                    <div class = "col-6 input-group">
+                      {{ form.relacion_anormal_min }}
+                      {{ form.relacion_anormal_max }}
+                    </div>
+                    <div class = "col-3 small">
+                      mg/g
+                    </div>
+                  </div>
+                  <br>
+                  <div class = "row">
+                    <div class = "col-3 labelsFormulario">
+                      Anormal Alto
+                    </div>
+                    <div class = "col-6 input-group">
+                      {{ form.relacion_anormal_alta_min }}
+                      {{ form.relacion_anormal_alta_max }}
+                    </div>
+                    <div class = "col-3 small">
+                      mg/g
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+
+          <div class="clearfix">
+            <input type="submit" value="Guardar" class="btn pull-right btn-save">
+          </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+  <script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}
+

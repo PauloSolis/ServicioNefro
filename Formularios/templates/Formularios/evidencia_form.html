@@ -1,0 +1,80 @@
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block beneficiario-content %}
+
+<div class="container">
+    <div class="card mt-5">
+        <h5 class="card-header text-center">Evidencias</h5>
+        <div class="card-body">
+            <form id="no_ia">
+                {% csrf_token %}
+                <input type="hidden" name="tipo" id="tipo">
+                <input type="hidden" name="size" id="size">
+                <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}" id="beneficiario">
+                <div class="container-fluid">
+                    <div class="row pb-4">
+                        <div class="col-3 text-right labelsFormulario">
+                            {{ form.nombre.label }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.nombre }}
+                            <div class="invalid-feedback">Debe ingresar un nombre.</div>
+                        </div>
+                    </div>
+                    <div class="row pb-4">
+                        <div class="col-3 text-right labelsFormulario">
+                            {{ form.descripcion.label }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.descripcion }}
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="container-fluid">
+                <div class="row pb-4">
+                    <div class="col-3 text-right labelsFormulario">
+                        Archivo:
+                    </div>
+                    <div class="col-6">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="evidencia" id="evidencia">
+                        <label class="custom-file-label" for="custoevidenciamFile" id="evidencia_label">Selecciona archivo.</label>
+                        <div id="archivo" class="invalid-feedback">Debe seleccionar un archivo.</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <div class="progress">
+                            <div id="progress" class="progress-bar" role="progressbar" aria-valuenow="0"
+                            aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                                0%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-4">
+                    <div class="col-9">
+                        <button id="save" class="btn float-right btn-save">Guardar</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock beneficiario-content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}" ></script>
+<script src="{% static 'js/evidencias.js' %}" ></script>
+{% endblock scripts %}

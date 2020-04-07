@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="jumbotron text-center">
+    <div class="container">
+        <div class="text-center">
+            <img class="logo_Login" src="{% static 'img/logo_NefroVida.png' %}">
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Oh Oh!!! No tienes permiso para acceder</h4>
+                <p>Comunicate a nuestras oficinas para mayor información</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

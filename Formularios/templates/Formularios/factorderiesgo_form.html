@@ -1,0 +1,258 @@
+<!--
+  NEF-30
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<br>
+<div class="container-fluid">
+  <div class="card">
+    <h5 class="card-header text-center">Factor de riesgo</h5>
+    <div class="card-body">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+
+        <div class="row">
+          <div class="col-6"></div>
+          <div class="col-sm-2 text-right labelsFormulario">
+            {{ form.fecha.label }}
+          </div>
+          <div class="col-sm-3">
+            {{ form.fecha }}
+          </div>
+        </div>
+         <br>
+        <hr>
+
+        <div class="form-group col">
+          <label>{{ form.p_1.label }}</label>
+          <br>
+            {% for choice in form.p_1 %}
+            <div class="form-check form-check-inline">
+              {{ choice }}
+            </div>
+            {% endfor %}
+          <ul id="p_1_2" hidden>
+            <div class="form-inline">
+              <label class="font-weight-light">{{ form.p_1_cual.label }}</label>
+              {{ form.p_1_cual }}
+            </div>
+          </ul>
+        </div>
+
+        <div class="form-group col">
+          <label>{{ form.p_2.label }}</label>
+          <br>
+          {% for choice in form.p_2 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <ul id="p_2_2" hidden>
+          <div class="form-group col">
+            <label class="font-weight-light">{{ form.p_2_2.label }}</label>
+            {% for choice in form.p_2_2 %}
+            <div class="form-check form-check-inline selection">
+              {{ choice }}
+            </div>
+            {% endfor %}
+          </div>
+        </ul>
+
+        <div class="form-group col">
+          <label>{{ form.p_3.label }}</label>
+          <br>
+          {% for choice in form.p_3 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <ul id="p_3_2" hidden>
+          <div class="form-group col">
+            <label class="font-weight-light">{{ form.p_3_2.label }}</label>
+            {% for choice in form.p_3_2 %}
+            <div class="form-check form-check-inline selection">
+              {{ choice }}
+            </div>
+            {% endfor %}
+          </div>
+        </ul>
+
+        <div class="form-group col">
+          <label>{{ form.p_4.label }}</label>
+          <br>
+          {% for choice in form.p_4 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_5.label }}</label>
+          <br>
+          {% for choice in form.p_5 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_6.label }}</label>
+          <br>
+          {% for choice in form.p_6 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_7.label }}</label>
+          <br>
+          {% for choice in form.p_7 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_8.label }}</label>
+          <br>
+          {% for choice in form.p_8 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+
+        <ul id="p_8_2" hidden>
+          <div class="form-group col">
+            <label>{{ form.p_8_2.label }}</label>
+            <br>
+            {% for choice in form.p_8_2 %}
+            <div class="form-check form-check-inline">
+              {{ choice }}
+            </div>
+            {% endfor %}
+          </div>
+        </ul>
+
+
+        <div class="form-group col">
+          <label>{{ form.p_9.label }}</label>
+          <br>
+          {% for choice in form.p_9 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_10.label }}</label>
+          <br>
+          {% for choice in form.p_10 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_11.label }}</label>
+          <br>
+          {% for choice in form.p_11 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.p_12.label }}</label>
+          <br>
+          {% for choice in form.p_12 %}
+          <div class="form-check form-check-inline">
+            {{ choice }}
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group col">
+          <label>{{ form.comentario.label }}</label>
+          <br>
+          {{ form.comentario }}
+        </div>
+
+
+        <input type="submit" value="Guardar" type="submit"  onclick="validation()" class="btn float-right btn-save">
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+  <script src="{% static 'js/formularios.js' %}" ></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#id_p_2_0').change(function() {
+        $('#p_2_2').removeAttr('hidden');
+      });
+      $('#id_p_2_1').change(function() {
+        $('#p_2_2').attr('hidden',true);
+        $('#id_p_2_2_0').prop('checked',false);
+        $('#id_p_2_2_1').prop('checked',false);
+        $('#id_p_2_2_2').prop('checked',false);
+      });
+      $('#id_p_2_2').change(function() {
+        $('#p_2_2').attr('hidden',true);
+        $('#id_p_2_2_0').prop('checked',false);
+        $('#id_p_2_2_1').prop('checked',false);
+        $('#id_p_2_2_2').prop('checked',false);
+      });
+      $('#id_p_3_0').change(function() {
+        $('#p_3_2').removeAttr('hidden');
+      });
+      $('#id_p_3_1').change(function() {
+        $('#p_3_2').attr('hidden',true);
+        $('#id_p_3_2_0').prop('checked',false);
+        $('#id_p_3_2_1').prop('checked',false);
+        $('#id_p_3_2_2').prop('checked',false);
+      });
+      $('#id_p_3_2').change(function() {
+        $('#p_3_2').attr('hidden',true);
+        $('#id_p_3_2_0').prop('checked',false);
+        $('#id_p_3_2_1').prop('checked',false);
+        $('#id_p_3_2_2').prop('checked',false);
+      });
+      $('#id_p_8_0').change(function() {
+        $('#p_8_2').removeAttr('hidden');
+      });
+      $('#id_p_8_1').change(function() {
+        $('#p_8_2').attr('hidden',true);
+        $('#id_p_8_2_0').prop('checked',false);
+        $('#id_p_8_2_1').prop('checked',false);
+        $('#id_p_8_2_2').prop('checked',false);
+      });
+      $('#id_p_1_0').change(function() {
+        $('#p_1_2').removeAttr('hidden');
+      });
+      $('#id_p_1_1').change(function() {
+        $('#p_1_2').attr('hidden',true);
+        $('#id_p_1_cual').val("");
+      });
+      $('#id_p_1_2').change(function() {
+        $('#p_1_2').attr('hidden',true);
+        $('#id_p_1_cual').val("");
+      });
+    });
+  </script>
+{% endblock scripts %}

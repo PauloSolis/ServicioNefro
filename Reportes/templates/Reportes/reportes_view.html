@@ -1,0 +1,2358 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+
+{% endblock includes %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    {% if de_seguimiento is not None %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#jornadas').on('change', function (e) {
+                window.location.href = '/seguimiento/jornada/' + $('#jornadas').val();
+            });
+        });
+    </script>
+    {% else %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#jornadas').on('change', function (e) {
+                window.location.href = '/reportes/jornada/' + $('#jornadas').val();
+            });
+        });
+    </script>
+    {% endif %}
+    {% if jornada is not None %}
+        <script type="text/javascript">
+            //Reporte sociodemográfico
+            var chart = new Chart(document.getElementById('socioHM').getContext('2d'), { // NEF-206
+                type: 'pie',
+                data: {
+                    labels: ['Hombres: '+{{total_hombres.count}}, 
+                    'Mujeres: '+{{total_mujeres.count}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#5b941e', '#ffc72c'],
+                        borderColor: ['#ffffff', '#ffffff'],
+                        data: [{{total_hombres.count}}, {{total_mujeres.count}}]
+                    }]
+                },
+                options: {}
+            });
+            var chart = new Chart(document.getElementById('socioE').getContext('2d'), { // NEF-206
+                responsive: true,
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% if h_40 or m_40 %}'40 años o menos',{% endif %}
+                        {% if h_41 or m_41 %}'41-45 años',{% endif %}
+                        {% if h_46 or m_46 %}'46-50 años',{% endif %}
+                        {% if h_51 or m_51 %}'51-55 años',{% endif %}
+                        {% if h_56 or m_56 %}'56-60 años',{% endif %}
+                        {% if h_61 or m_61 %}'61-65 años',{% endif %}
+                        {% if h_66 or m_66 %}'66-70 años',{% endif %}
+                        {% if h_71 or m_71 %}'71-75 años',{% endif %}
+                        {% if h_76 or m_76 %}'76-80 años',{% endif %}
+                        {% if h_81 or m_81 %}'81 años o más',{% endif %}
+                    ],
+                    datasets: [{
+                        label: 'Hombres',
+                        backgroundColor: '#5b941e',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_40 or m_40 %}{{h_40}}, {% endif %}
+                            {% if h_41 or m_41 %}{{h_41}}, {% endif %}
+                            {% if h_46 or m_46 %}{{h_46}}, {% endif %}
+                            {% if h_51 or m_51 %}{{h_51}}, {% endif %}
+                            {% if h_56 or m_56 %}{{h_56}}, {% endif %}
+                            {% if h_61 or m_61 %}{{h_61}}, {% endif %}
+                            {% if h_66 or m_66 %}{{h_66}}, {% endif %}
+                            {% if h_71 or m_71 %}{{h_71}}, {% endif %}
+                            {% if h_76 or m_76 %}{{h_76}}, {% endif %}
+                            {% if h_81 or m_81 %}{{h_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Mujeres',
+                        backgroundColor: '#ffc72c',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_40 or m_40 %}{{m_40}}, {% endif %}
+                            {% if h_41 or m_41 %}{{m_41}}, {% endif %}
+                            {% if h_46 or m_46 %}{{m_46}}, {% endif %}
+                            {% if h_51 or m_51 %}{{m_51}}, {% endif %}
+                            {% if h_56 or m_56 %}{{m_56}}, {% endif %}
+                            {% if h_61 or m_61 %}{{m_61}}, {% endif %}
+                            {% if h_66 or m_66 %}{{m_66}}, {% endif %}
+                            {% if h_71 or m_71 %}{{m_71}}, {% endif %}
+                            {% if h_76 or m_76 %}{{m_76}}, {% endif %}
+                            {% if h_81 or m_81 %}{{m_81}}, {% endif %}
+                        ]
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            //Reporte diabetes / hipertensión
+            var chart = new Chart(document.getElementById('dia_hip_hom_gene').getContext('2d'), { // NEF-207
+                type: 'pie',
+                data: {
+                    labels: ['Ninguna: '+{{t_h_n.count}}, 
+                    'Diabetes: '+{{t_h_d.count}}, 
+                    'Hipertensión: '+{{t_h_h.count}}, 
+                    'Diabetes e hipertensión: '+{{t_h_dh.count}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#697077', '#aec3f3', '#6793e6', '#3A68CB'],
+                        borderColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                        data: [{{t_h_n.count}}, {{t_h_d.count}}, {{t_h_h.count}}, {{t_h_dh.count}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'right',
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('dia_hip_muj_gene').getContext('2d'), { // NEF-207
+                type: 'pie',
+                data: {
+                    labels: ['Ninguna: '+{{t_m_n.count}}, 
+                    'Diabetes: '+{{t_m_d.count}}, 
+                    'Hipertensión: '+{{t_m_h.count}}, 
+                    'Diabetes e hipertensión: '+{{t_m_dh.count}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#697077', '#aec3f3', '#6793e6', '#3A68CB'],
+                        borderColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                        data: [{{t_m_n.count}}, {{t_m_d.count}}, {{t_m_h.count}}, {{t_m_dh.count}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'right',
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('dia_hip_hom_edad').getContext('2d'), { // NEF-207
+                responsive: true,
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% if h_n_40 or h_d_40 or h_h_40 or h_dh_40 %}'40 años o menos',{% endif %}
+                        {% if h_n_41 or h_d_41 or h_h_41 or h_dh_41 %}'41-45 años',{% endif %}
+                        {% if h_n_46 or h_d_46 or h_h_46 or h_dh_46 %}'46-50 años',{% endif %}
+                        {% if h_n_51 or h_d_51 or h_h_51 or h_dh_51 %}'51-55 años',{% endif %}
+                        {% if h_n_56 or h_d_56 or h_h_56 or h_dh_56 %}'56-60 años',{% endif %}
+                        {% if h_n_61 or h_d_61 or h_h_61 or h_dh_61 %}'61-65 años',{% endif %}
+                        {% if h_n_66 or h_d_66 or h_h_66 or h_dh_66 %}'66-70 años',{% endif %}
+                        {% if h_n_71 or h_d_71 or h_h_71 or h_dh_71 %}'71-75 años',{% endif %}
+                        {% if h_n_76 or h_d_76 or h_h_76 or h_dh_76 %}'76-80 años',{% endif %}
+                        {% if h_n_81 or h_d_81 or h_h_81 or h_dh_81 %}'81 años o más',{% endif %}
+                    ],
+                    datasets: [{
+                        label: 'Nada',
+                        backgroundColor: '#697077',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_n_40 or h_d_40 or h_h_40 or h_dh_40 %}{{h_n_40}}, {% endif %}
+                            {% if h_n_41 or h_d_41 or h_h_41 or h_dh_41 %}{{h_n_41}}, {% endif %}
+                            {% if h_n_46 or h_d_46 or h_h_46 or h_dh_46 %}{{h_n_46}}, {% endif %}
+                            {% if h_n_51 or h_d_51 or h_h_51 or h_dh_51 %}{{h_n_51}}, {% endif %}
+                            {% if h_n_56 or h_d_56 or h_h_56 or h_dh_56 %}{{h_n_56}}, {% endif %}
+                            {% if h_n_61 or h_d_61 or h_h_61 or h_dh_61 %}{{h_n_61}}, {% endif %}
+                            {% if h_n_66 or h_d_66 or h_h_66 or h_dh_66 %}{{h_n_66}}, {% endif %}
+                            {% if h_n_71 or h_d_71 or h_h_71 or h_dh_71 %}{{h_n_71}}, {% endif %}
+                            {% if h_n_76 or h_d_76 or h_h_76 or h_dh_76 %}{{h_n_76}}, {% endif %}
+                            {% if h_n_81 or h_d_81 or h_h_81 or h_dh_81 %}{{h_n_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Diabetes',
+                        backgroundColor: '#aec3f3',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_n_40 or h_d_40 or h_h_40 or h_dh_40 %}{{h_d_40}}, {% endif %}
+                            {% if h_n_41 or h_d_41 or h_h_41 or h_dh_41 %}{{h_d_41}}, {% endif %}
+                            {% if h_n_46 or h_d_46 or h_h_46 or h_dh_46 %}{{h_d_46}}, {% endif %}
+                            {% if h_n_51 or h_d_51 or h_h_51 or h_dh_51 %}{{h_d_51}}, {% endif %}
+                            {% if h_n_56 or h_d_56 or h_h_56 or h_dh_56 %}{{h_d_56}}, {% endif %}
+                            {% if h_n_61 or h_d_61 or h_h_61 or h_dh_61 %}{{h_d_61}}, {% endif %}
+                            {% if h_n_66 or h_d_66 or h_h_66 or h_dh_66 %}{{h_d_66}}, {% endif %}
+                            {% if h_n_71 or h_d_71 or h_h_71 or h_dh_71 %}{{h_d_71}}, {% endif %}
+                            {% if h_n_76 or h_d_76 or h_h_76 or h_dh_76 %}{{h_d_76}}, {% endif %}
+                            {% if h_n_81 or h_d_81 or h_h_81 or h_dh_81 %}{{h_d_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Hipertensión',
+                        backgroundColor: '#6793e6',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_n_40 or h_d_40 or h_h_40 or h_dh_40 %}{{h_h_40}}, {% endif %}
+                            {% if h_n_41 or h_d_41 or h_h_41 or h_dh_41 %}{{h_h_41}}, {% endif %}
+                            {% if h_n_46 or h_d_46 or h_h_46 or h_dh_46 %}{{h_h_46}}, {% endif %}
+                            {% if h_n_51 or h_d_51 or h_h_51 or h_dh_51 %}{{h_h_51}}, {% endif %}
+                            {% if h_n_56 or h_d_56 or h_h_56 or h_dh_56 %}{{h_h_56}}, {% endif %}
+                            {% if h_n_61 or h_d_61 or h_h_61 or h_dh_61 %}{{h_h_61}}, {% endif %}
+                            {% if h_n_66 or h_d_66 or h_h_66 or h_dh_66 %}{{h_h_66}}, {% endif %}
+                            {% if h_n_71 or h_d_71 or h_h_71 or h_dh_71 %}{{h_h_71}}, {% endif %}
+                            {% if h_n_76 or h_d_76 or h_h_76 or h_dh_76 %}{{h_h_76}}, {% endif %}
+                            {% if h_n_81 or h_d_81 or h_h_81 or h_dh_81 %}{{h_h_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Diabetes e hipertensión',
+                        backgroundColor: '#3A68CB',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_n_40 or h_d_40 or h_h_40 or h_dh_40 %}{{h_dh_40}}, {% endif %}
+                            {% if h_n_41 or h_d_41 or h_h_41 or h_dh_41 %}{{h_dh_41}}, {% endif %}
+                            {% if h_n_46 or h_d_46 or h_h_46 or h_dh_46 %}{{h_dh_46}}, {% endif %}
+                            {% if h_n_51 or h_d_51 or h_h_51 or h_dh_51 %}{{h_dh_51}}, {% endif %}
+                            {% if h_n_56 or h_d_56 or h_h_56 or h_dh_56 %}{{h_dh_56}}, {% endif %}
+                            {% if h_n_61 or h_d_61 or h_h_61 or h_dh_61 %}{{h_dh_61}}, {% endif %}
+                            {% if h_n_66 or h_d_66 or h_h_66 or h_dh_66 %}{{h_dh_66}}, {% endif %}
+                            {% if h_n_71 or h_d_71 or h_h_71 or h_dh_71 %}{{h_dh_71}}, {% endif %}
+                            {% if h_n_76 or h_d_76 or h_h_76 or h_dh_76 %}{{h_dh_76}}, {% endif %}
+                            {% if h_n_81 or h_d_81 or h_h_81 or h_dh_81 %}{{h_dh_81}}, {% endif %}
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            var chart = new Chart(document.getElementById('dia_hip_muj_edad').getContext('2d'), { // NEF-207
+                responsive: true,
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% if m_n_40 or m_d_40 or m_h_40 or m_dh_40 %}'40 años o menos',{% endif %}
+                        {% if m_n_41 or m_d_41 or m_h_41 or m_dh_41 %}'41-45 años',{% endif %}
+                        {% if m_n_46 or m_d_46 or m_h_46 or m_dh_46 %}'46-50 años',{% endif %}
+                        {% if m_n_51 or m_d_51 or m_h_51 or m_dh_51 %}'51-55 años',{% endif %}
+                        {% if m_n_56 or m_d_56 or m_h_56 or m_dh_56 %}'56-60 años',{% endif %}
+                        {% if m_n_61 or m_d_61 or m_h_61 or m_dh_61 %}'61-65 años',{% endif %}
+                        {% if m_n_66 or m_d_66 or m_h_66 or m_dh_66 %}'66-70 años',{% endif %}
+                        {% if m_n_71 or m_d_71 or m_h_71 or m_dh_71 %}'71-75 años',{% endif %}
+                        {% if m_n_76 or m_d_76 or m_h_76 or m_dh_76 %}'76-80 años',{% endif %}
+                        {% if m_n_81 or m_d_81 or m_h_81 or m_dh_81 %}'81 años o más',{% endif %}
+                    ],
+                    datasets: [{
+                        label: 'Nada',
+                        backgroundColor: '#697077',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_n_40 or m_d_40 or m_h_40 or m_dh_40 %}{{m_n_40}}, {% endif %}
+                            {% if m_n_41 or m_d_41 or m_h_41 or m_dh_41 %}{{m_n_41}}, {% endif %}
+                            {% if m_n_46 or m_d_46 or m_h_46 or m_dh_46 %}{{m_n_46}}, {% endif %}
+                            {% if m_n_51 or m_d_51 or m_h_51 or m_dh_51 %}{{m_n_51}}, {% endif %}
+                            {% if m_n_56 or m_d_56 or m_h_56 or m_dh_56 %}{{m_n_56}}, {% endif %}
+                            {% if m_n_61 or m_d_61 or m_h_61 or m_dh_61 %}{{m_n_61}}, {% endif %}
+                            {% if m_n_66 or m_d_66 or m_h_66 or m_dh_66 %}{{m_n_66}}, {% endif %}
+                            {% if m_n_71 or m_d_71 or m_h_71 or m_dh_71 %}{{m_n_71}}, {% endif %}
+                            {% if m_n_76 or m_d_76 or m_h_76 or m_dh_76 %}{{m_n_76}}, {% endif %}
+                            {% if m_n_81 or m_d_81 or m_h_81 or m_dh_81 %}{{m_n_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Diabetes',
+                        backgroundColor: '#aec3f3',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_n_40 or m_d_40 or m_h_40 or m_dh_40 %}{{m_d_40}}, {% endif %}
+                            {% if m_n_41 or m_d_41 or m_h_41 or m_dh_41 %}{{m_d_41}}, {% endif %}
+                            {% if m_n_46 or m_d_46 or m_h_46 or m_dh_46 %}{{m_d_46}}, {% endif %}
+                            {% if m_n_51 or m_d_51 or m_h_51 or m_dh_51 %}{{m_d_51}}, {% endif %}
+                            {% if m_n_56 or m_d_56 or m_h_56 or m_dh_56 %}{{m_d_56}}, {% endif %}
+                            {% if m_n_61 or m_d_61 or m_h_61 or m_dh_61 %}{{m_d_61}}, {% endif %}
+                            {% if m_n_66 or m_d_66 or m_h_66 or m_dh_66 %}{{m_d_66}}, {% endif %}
+                            {% if m_n_71 or m_d_71 or m_h_71 or m_dh_71 %}{{m_d_71}}, {% endif %}
+                            {% if m_n_76 or m_d_76 or m_h_76 or m_dh_76 %}{{m_d_76}}, {% endif %}
+                            {% if m_n_81 or m_d_81 or m_h_81 or m_dh_81 %}{{m_d_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Hipertensión',
+                        backgroundColor: '#6793e6',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_n_40 or m_d_40 or m_h_40 or m_dh_40 %}{{m_h_40}}, {% endif %}
+                            {% if m_n_41 or m_d_41 or m_h_41 or m_dh_41 %}{{m_h_41}}, {% endif %}
+                            {% if m_n_46 or m_d_46 or m_h_46 or m_dh_46 %}{{m_h_46}}, {% endif %}
+                            {% if m_n_51 or m_d_51 or m_h_51 or m_dh_51 %}{{m_h_51}}, {% endif %}
+                            {% if m_n_56 or m_d_56 or m_h_56 or m_dh_56 %}{{m_h_56}}, {% endif %}
+                            {% if m_n_61 or m_d_61 or m_h_61 or m_dh_61 %}{{m_h_61}}, {% endif %}
+                            {% if m_n_66 or m_d_66 or m_h_66 or m_dh_66 %}{{m_h_66}}, {% endif %}
+                            {% if m_n_71 or m_d_71 or m_h_71 or m_dh_71 %}{{m_h_71}}, {% endif %}
+                            {% if m_n_76 or m_d_76 or m_h_76 or m_dh_76 %}{{m_h_76}}, {% endif %}
+                            {% if m_n_81 or m_d_81 or m_h_81 or m_dh_81 %}{{m_h_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Diabetes e hipertensión',
+                        backgroundColor: '#3A68CB',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_n_40 or m_d_40 or m_h_40 or m_dh_40 %}{{m_dh_40}}, {% endif %}
+                            {% if m_n_41 or m_d_41 or m_h_41 or m_dh_41 %}{{m_dh_41}}, {% endif %}
+                            {% if m_n_46 or m_d_46 or m_h_46 or m_dh_46 %}{{m_dh_46}}, {% endif %}
+                            {% if m_n_51 or m_d_51 or m_h_51 or m_dh_51 %}{{m_dh_51}}, {% endif %}
+                            {% if m_n_56 or m_d_56 or m_h_56 or m_dh_56 %}{{m_dh_56}}, {% endif %}
+                            {% if m_n_61 or m_d_61 or m_h_61 or m_dh_61 %}{{m_dh_61}}, {% endif %}
+                            {% if m_n_66 or m_d_66 or m_h_66 or m_dh_66 %}{{m_dh_66}}, {% endif %}
+                            {% if m_n_71 or m_d_71 or m_h_71 or m_dh_71 %}{{m_dh_71}}, {% endif %}
+                            {% if m_n_76 or m_d_76 or m_h_76 or m_dh_76 %}{{m_dh_76}}, {% endif %}
+                            {% if m_n_81 or m_d_81 or m_h_81 or m_dh_81 %}{{m_dh_81}}, {% endif %}
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            var total = new Chart(document.getElementById('total_total').getContext('2d'), { // NEF-207
+                type: 'horizontalBar',
+                data: {
+                    labels: ['Nada', 'Diabetes', 'Hipertensión', 'Diabetes e hipertensión'],
+                    datasets: [{
+                        label: 'Hombres',
+                        backgroundColor: '#0146ab',
+                        borderColor: '#ffffff',
+                        data: [{{t_h_n.count}}, {{t_h_d.count}}, {{t_h_h.count}}, {{t_h_dh.count}}]
+                    },
+                        {
+                            label: 'Mujeres',
+                            backgroundColor: '#aec3f3',
+                            borderColor: '#ffffff',
+                            data: [{{t_m_n.count}}, {{t_m_d.count}}, {{t_m_h.count}}, {{t_m_dh.count}}]
+                        }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                userCallback: function (label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+                                },
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            beginAtZero: true,
+                            min: 0
+                        }]
+                    }
+                }
+            });
+            var total_edades = new Chart(document.getElementById('total_edades').getContext('2d'), { // NEF-207
+                type: 'horizontalBar',
+                data: {
+                    labels: [
+                        '40 años o menos', '41-45 años', '46-50 años', '51-55 años',
+                        '56-60 años', '61-65 años', '66-70 años', '71-75 años',
+                        '76-80 años', '81 años o más'],
+                    datasets: [{
+                        label: 'Nada',
+                        backgroundColor: '#697077',
+                        borderColor: '#ffffff',
+                        data: [
+                            {{h_n_40}}+{{m_n_40}},
+                            {{h_n_41}}+{{m_n_41}},
+                            {{h_n_46}}+{{m_n_46}},
+                            {{h_n_51}}+{{m_n_51}},
+                            {{h_n_56}}+{{m_n_56}},
+                            {{h_n_61}}+{{m_n_61}},
+                            {{h_n_66}}+{{m_n_66}},
+                            {{h_n_71}}+{{m_n_71}},
+                            {{h_n_76}}+{{m_n_76}},
+                            {{h_n_81}}+{{m_n_81}},
+                        ]
+                    },
+                        {
+                            label: 'Diabetes',
+                            backgroundColor: '#aec3f3',
+                            borderColor: '#ffffff',
+                            data: [
+                                {{h_d_40}}+{{m_d_40}},
+                                {{h_d_41}}+{{m_d_41}},
+                                {{h_d_46}}+{{m_d_46}},
+                                {{h_d_51}}+{{m_d_51}},
+                                {{h_d_56}}+{{m_d_56}},
+                                {{h_d_61}}+{{m_d_61}},
+                                {{h_d_66}}+{{m_d_66}},
+                                {{h_d_71}}+{{m_d_71}},
+                                {{h_d_76}}+{{m_d_76}},
+                                {{h_d_81}}+{{m_d_81}},
+                            ]
+                        },
+                        {
+                            label: 'Hipertensión',
+                            backgroundColor: '#6793e6',
+                            borderColor: '#ffffff',
+                            data: [
+                                {{h_h_40}}+{{m_h_40}},
+                                {{h_h_41}}+{{m_h_41}},
+                                {{h_h_46}}+{{m_h_46}},
+                                {{h_h_51}}+{{m_h_51}},
+                                {{h_h_56}}+{{m_h_56}},
+                                {{h_h_61}}+{{m_h_61}},
+                                {{h_h_66}}+{{m_h_66}},
+                                {{h_h_71}}+{{m_h_71}},
+                                {{h_h_76}}+{{m_h_76}},
+                                {{h_h_81}}+{{m_h_81}},
+                            ]
+                        },
+                        {
+                            label: 'Diabetes e hipertensión',
+                            backgroundColor: '#3A68CB',
+                            borderColor: '#ffffff',
+                            data: [
+                                {{h_dh_40}}+{{m_dh_40}},
+                                {{h_dh_41}}+{{m_dh_41}},
+                                {{h_dh_46}}+{{m_dh_46}},
+                                {{h_dh_51}}+{{m_dh_51}},
+                                {{h_dh_56}}+{{m_dh_56}},
+                                {{h_dh_61}}+{{m_dh_61}},
+                                {{h_dh_66}}+{{m_dh_66}},
+                                {{h_dh_71}}+{{m_dh_71}},
+                                {{h_dh_76}}+{{m_dh_76}},
+                                {{h_dh_81}}+{{m_dh_81}},
+                            ]
+                        }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                userCallback: function (label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+                                },
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            beginAtZero: true,
+                            min: 0
+                        }]
+                    }
+                }
+            });
+            var h_factor_riesgo = new Chart(document.getElementById('h_factor_riesgo').getContext('2d'), { // NEF-208
+                type: 'pie',
+                data: {
+                    labels: ['Bajo Riesgo: '+{{h_br}}, 
+                    'Moderado Riesgo: '+{{h_mr}}, 
+                    'Alto Riesgo: '+{{h_ar}}, 
+                    'Sin Datos: '+{{h_sd}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#aec3f3', '#6793e6', '#0146ab', '#697077'],
+                        borderColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                        data: [{{h_br}}, {{h_mr}}, {{h_ar}}, {{h_sd}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'right',
+                    },
+                }
+            });
+            var m_factor_riesgo = new Chart(document.getElementById('m_factor_riesgo').getContext('2d'), { // NEF-208
+                type: 'pie',
+                data: {
+                    labels: ['Bajo Riesgo: '+{{m_br}}, 
+                    'Moderado Riesgo: '+{{m_mr}}, 
+                    'Alto Riesgo: '+{{m_ar}}, 
+                    'Sin Datos: '+{{m_sd}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#aec3f3', '#6793e6', '#0146ab', '#697077'],
+                        borderColor: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
+                        data: [{{m_br}}, {{m_mr}}, {{m_ar}}, {{m_sd}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'right',
+                    },
+                }
+            });
+            var h_factor_riesgo_edad = new Chart(document.getElementById('h_factor_riesgo_edad').getContext('2d'), { // NEF-208
+                responsive: true,
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% if h_br_40 or h_mr_40 or h_ar_40 %}'40 años o menos',{% endif %}
+                        {% if h_br_41 or h_mr_41 or h_ar_41 %}'41-45 años',{% endif %}
+                        {% if h_br_46 or h_mr_46 or h_ar_46 %}'46-50 años',{% endif %}
+                        {% if h_br_51 or h_mr_51 or h_ar_51 %}'51-55 años',{% endif %}
+                        {% if h_br_56 or h_mr_56 or h_ar_56 %}'56-60 años',{% endif %}
+                        {% if h_br_61 or h_mr_61 or h_ar_61 %}'61-65 años',{% endif %}
+                        {% if h_br_66 or h_mr_66 or h_ar_66 %}'66-70 años',{% endif %}
+                        {% if h_br_71 or h_mr_71 or h_ar_71 %}'71-75 años',{% endif %}
+                        {% if h_br_76 or h_mr_76 or h_ar_76 %}'76-80 años',{% endif %}
+                        {% if h_br_81 or h_mr_81 or h_ar_81  %}'81 años o más',{% endif %}
+                    ],
+                    datasets: [{
+                        label: 'Bajo Riesgo',
+                        backgroundColor: '#aec3f3',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_br_40 or h_mr_40 or h_ar_40  %}{{h_br_40}}, {% endif %}
+                            {% if h_br_41 or h_mr_41 or h_ar_41  %}{{h_br_41}}, {% endif %}
+                            {% if h_br_46 or h_mr_46 or h_ar_46  %}{{h_br_46}}, {% endif %}
+                            {% if h_br_51 or h_mr_51 or h_ar_51  %}{{h_br_51}}, {% endif %}
+                            {% if h_br_56 or h_mr_56 or h_ar_56  %}{{h_br_56}}, {% endif %}
+                            {% if h_br_61 or h_mr_61 or h_ar_61  %}{{h_br_61}}, {% endif %}
+                            {% if h_br_66 or h_mr_66 or h_ar_66  %}{{h_br_66}}, {% endif %}
+                            {% if h_br_71 or h_mr_71 or h_ar_71  %}{{h_br_71}}, {% endif %}
+                            {% if h_br_76 or h_mr_76 or h_ar_76  %}{{h_br_76}}, {% endif %}
+                            {% if h_br_81 or h_mr_81 or h_ar_81  %}{{h_br_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Moderado Riesgo',
+                        backgroundColor: '#6793e6',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_br_40 or h_mr_40 or h_ar_40  %}{{h_mr_40}}, {% endif %}
+                            {% if h_br_41 or h_mr_41 or h_ar_41  %}{{h_mr_41}}, {% endif %}
+                            {% if h_br_46 or h_mr_46 or h_ar_46  %}{{h_mr_46}}, {% endif %}
+                            {% if h_br_51 or h_mr_51 or h_ar_51  %}{{h_mr_51}}, {% endif %}
+                            {% if h_br_56 or h_mr_56 or h_ar_56  %}{{h_mr_56}}, {% endif %}
+                            {% if h_br_61 or h_mr_61 or h_ar_61  %}{{h_mr_61}}, {% endif %}
+                            {% if h_br_66 or h_mr_66 or h_ar_66  %}{{h_mr_66}}, {% endif %}
+                            {% if h_br_71 or h_mr_71 or h_ar_71  %}{{h_mr_71}}, {% endif %}
+                            {% if h_br_76 or h_mr_76 or h_ar_76  %}{{h_mr_76}}, {% endif %}
+                            {% if h_br_81 or h_mr_81 or h_ar_81  %}{{h_mr_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Alto Riesgo',
+                        backgroundColor: '#0146ab',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if h_br_40 or h_mr_40 or h_ar_40  %}{{h_ar_40}}, {% endif %}
+                            {% if h_br_41 or h_mr_41 or h_ar_41  %}{{h_ar_41}}, {% endif %}
+                            {% if h_br_46 or h_mr_46 or h_ar_46  %}{{h_ar_46}}, {% endif %}
+                            {% if h_br_51 or h_mr_51 or h_ar_51  %}{{h_ar_51}}, {% endif %}
+                            {% if h_br_56 or h_mr_56 or h_ar_56  %}{{h_ar_56}}, {% endif %}
+                            {% if h_br_61 or h_mr_61 or h_ar_61  %}{{h_ar_61}}, {% endif %}
+                            {% if h_br_66 or h_mr_66 or h_ar_66  %}{{h_ar_66}}, {% endif %}
+                            {% if h_br_71 or h_mr_71 or h_ar_71  %}{{h_ar_71}}, {% endif %}
+                            {% if h_br_76 or h_mr_76 or h_ar_76  %}{{h_ar_76}}, {% endif %}
+                            {% if h_br_81 or h_mr_81 or h_ar_81  %}{{h_ar_81}}, {% endif %}
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            var m_factor_riesgo_edad = new Chart(document.getElementById('m_factor_riesgo_edad').getContext('2d'), { // NEF-208
+                responsive: true,
+                type: 'bar',
+                data: {
+                    labels: [
+                        {% if m_br_40 or m_mr_40 or m_ar_40  %}'40 años o menos',{% endif %}
+                        {% if m_br_41 or m_mr_41 or m_ar_41  %}'41-45 años',{% endif %}
+                        {% if m_br_46 or m_mr_46 or m_ar_46  %}'46-50 años',{% endif %}
+                        {% if m_br_51 or m_mr_51 or m_ar_51  %}'51-55 años',{% endif %}
+                        {% if m_br_56 or m_mr_56 or m_ar_56  %}'56-60 años',{% endif %}
+                        {% if m_br_61 or m_mr_61 or m_ar_61  %}'61-65 años',{% endif %}
+                        {% if m_br_66 or m_mr_66 or m_ar_66  %}'66-70 años',{% endif %}
+                        {% if m_br_71 or m_mr_71 or m_ar_71  %}'71-75 años',{% endif %}
+                        {% if m_br_76 or m_mr_76 or m_ar_76  %}'76-80 años',{% endif %}
+                        {% if m_br_81 or m_mr_81 or m_ar_81  %}'81 años o más',{% endif %}
+                    ],
+                    datasets: [{
+                        label: 'Bajo Riesgo',
+                        backgroundColor: '#aec3f3',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_br_40 or m_mr_40 or m_ar_40  %}{{m_br_40}}, {% endif %}
+                            {% if m_br_41 or m_mr_41 or m_ar_41  %}{{m_br_41}}, {% endif %}
+                            {% if m_br_46 or m_mr_46 or m_ar_46  %}{{m_br_46}}, {% endif %}
+                            {% if m_br_51 or m_mr_51 or m_ar_51  %}{{m_br_51}}, {% endif %}
+                            {% if m_br_56 or m_mr_56 or m_ar_56  %}{{m_br_56}}, {% endif %}
+                            {% if m_br_61 or m_mr_61 or m_ar_61  %}{{m_br_61}}, {% endif %}
+                            {% if m_br_66 or m_mr_66 or m_ar_66  %}{{m_br_66}}, {% endif %}
+                            {% if m_br_71 or m_mr_71 or m_ar_71  %}{{m_br_71}}, {% endif %}
+                            {% if m_br_76 or m_mr_76 or m_ar_76  %}{{m_br_76}}, {% endif %}
+                            {% if m_br_81 or m_mr_81 or m_ar_81  %}{{m_br_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Moderado Riesgo',
+                        backgroundColor: '#6793e6',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_br_40 or m_mr_40 or m_ar_40  %}{{m_mr_40}}, {% endif %}
+                            {% if m_br_41 or m_mr_41 or m_ar_41  %}{{m_mr_41}}, {% endif %}
+                            {% if m_br_46 or m_mr_46 or m_ar_46  %}{{m_mr_46}}, {% endif %}
+                            {% if m_br_51 or m_mr_51 or m_ar_51  %}{{m_mr_51}}, {% endif %}
+                            {% if m_br_56 or m_mr_56 or m_ar_56  %}{{m_mr_56}}, {% endif %}
+                            {% if m_br_61 or m_mr_61 or m_ar_61  %}{{m_mr_61}}, {% endif %}
+                            {% if m_br_66 or m_mr_66 or m_ar_66  %}{{m_mr_66}}, {% endif %}
+                            {% if m_br_71 or m_mr_71 or m_ar_71  %}{{m_mr_71}}, {% endif %}
+                            {% if m_br_76 or m_mr_76 or m_ar_76  %}{{m_mr_76}}, {% endif %}
+                            {% if m_br_81 or m_mr_81 or m_ar_81  %}{{m_mr_81}}, {% endif %}
+                        ]
+                    }, {
+                        label: 'Alto Riesgo',
+                        backgroundColor: '#0146ab',
+                        borderColor: '#ffffff',
+                        data: [
+                            {% if m_br_40 or m_mr_40 or m_ar_40  %}{{m_ar_40}}, {% endif %}
+                            {% if m_br_41 or m_mr_41 or m_ar_41  %}{{m_ar_41}}, {% endif %}
+                            {% if m_br_46 or m_mr_46 or m_ar_46  %}{{m_ar_46}}, {% endif %}
+                            {% if m_br_51 or m_mr_51 or m_ar_51  %}{{m_ar_51}}, {% endif %}
+                            {% if m_br_56 or m_mr_56 or m_ar_56  %}{{m_ar_56}}, {% endif %}
+                            {% if m_br_61 or m_mr_61 or m_ar_61  %}{{m_ar_61}}, {% endif %}
+                            {% if m_br_66 or m_mr_66 or m_ar_66  %}{{m_ar_66}}, {% endif %}
+                            {% if m_br_71 or m_mr_71 or m_ar_71  %}{{m_ar_71}}, {% endif %}
+                            {% if m_br_76 or m_mr_76 or m_ar_76  %}{{m_ar_76}}, {% endif %}
+                            {% if m_br_81 or m_mr_81 or m_ar_81  %}{{m_ar_81}}, {% endif %}
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                stepSize: 1,
+                                beginAtZero: true,
+                                min: 0
+                            }
+                        }]
+                    }
+                }
+            });
+            var total_factor_riesgo = new Chart(document.getElementById('total_factor_riesgo').getContext('2d'), { // NEF-208
+                type: 'horizontalBar',
+                data: {
+                    labels: ['Bajo Riesgo', 'Riesgo Moderado', 'Alto Riesgo', 'Sin Datos'],
+                    datasets: [{
+                        label: 'Hombres',
+                        backgroundColor: '#0146ab',
+                        borderColor: '#ffffff',
+                        data: [{{h_br}}, {{h_mr}}, {{h_ar}}, {{h_sd}}]
+                    },
+                        {
+                            label: 'Mujeres',
+                            backgroundColor: '#aec3f3',
+                            borderColor: '#ffffff',
+                            data: [{{m_br}}, {{m_mr}}, {{m_ar}}, {{m_sd}}]
+                        }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                userCallback: function (label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+                                },
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            beginAtZero: true,
+                            min: 0
+                        }]
+                    }
+                }
+            });
+            var total_factor_riesgo_edades = new Chart(document.getElementById('total_factor_riesgo_edades').getContext('2d'), { // NEF-208
+                type: 'horizontalBar',
+                data: {
+                    labels: [
+                        '40 años o menos', '41-45 años', '46-50 años', '51-55 años',
+                        '56-60 años', '61-65 años', '66-70 años', '71-75 años',
+                        '76-80 años', '81 años o más'],
+                    datasets: [{
+                        label: 'Bajo Riesgo',
+                        backgroundColor: '#aec3f3',
+                        borderColor: '#ffffff',
+                        data: [
+                            {{h_br_40}}+{{m_br_40}},
+                            {{h_br_41}}+{{m_br_41}},
+                            {{h_br_46}}+{{m_br_46}},
+                            {{h_br_51}}+{{m_br_51}},
+                            {{h_br_56}}+{{m_br_56}},
+                            {{h_br_61}}+{{m_br_61}},
+                            {{h_br_66}}+{{m_br_66}},
+                            {{h_br_71}}+{{m_br_71}},
+                            {{h_br_76}}+{{m_br_76}},
+                            {{h_br_81}}+{{m_br_81}},
+                        ]
+                    },
+                        {
+                            label: 'Riesgo Moderado',
+                            backgroundColor: '#6793e6',
+                            borderColor: '#ffffff',
+                            data: [
+                                {{h_mr_40}}+{{m_mr_40}},
+                                {{h_mr_41}}+{{m_mr_41}},
+                                {{h_mr_46}}+{{m_mr_46}},
+                                {{h_mr_51}}+{{m_mr_51}},
+                                {{h_mr_56}}+{{m_mr_56}},
+                                {{h_mr_61}}+{{m_mr_61}},
+                                {{h_mr_66}}+{{m_mr_66}},
+                                {{h_mr_71}}+{{m_mr_71}},
+                                {{h_mr_76}}+{{m_mr_76}},
+                                {{h_mr_81}}+{{m_mr_81}},
+                            ]
+                        },
+                        {
+                            label: 'Alto Riesgo',
+                            backgroundColor: '#0146ab',
+                            borderColor: '#ffffff',
+                            data: [
+                                {{h_ar_40}}+{{m_ar_40}},
+                                {{h_ar_41}}+{{m_ar_41}},
+                                {{h_ar_46}}+{{m_ar_46}},
+                                {{h_ar_51}}+{{m_ar_51}},
+                                {{h_ar_56}}+{{m_ar_56}},
+                                {{h_ar_61}}+{{m_ar_61}},
+                                {{h_ar_66}}+{{m_ar_66}},
+                                {{h_ar_71}}+{{m_ar_71}},
+                                {{h_ar_76}}+{{m_ar_76}},
+                                {{h_ar_81}}+{{m_ar_81}},
+                            ]
+                        }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            ticks: {
+                                userCallback: function (label, index, labels) {
+                                    // when the floored value is the same as the value we have a whole number
+                                    if (Math.floor(label) === label) {
+                                        return label;
+                                    }
+                                },
+                            }
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            beginAtZero: true,
+                            min: 0
+                        }]
+                    }
+                }
+            });
+
+            //Clsificacion
+
+            var categoria_edad = new Chart(document.getElementById('esta_edad_cat').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['< 40', '41 - 45', '46 - 50', '51 - 55', '56 - 60', '61 - 65', '66 - 70', '71 - 75', '76 - 80', '81 >'],
+                    datasets: [{
+                        label: 'G1',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#035f1d',
+                        data: [
+                            {{ h_G1_40 }} + {{ m_G1_40 }},
+                            {{ h_G1_41 }} + {{ m_G1_41 }},
+                            {{ h_G1_46 }} + {{ m_G1_46 }},
+                            {{ h_G1_51 }} + {{ m_G1_51 }},
+                            {{ h_G1_56 }} + {{ m_G1_56 }},
+                            {{ h_G1_61 }} + {{ m_G1_61 }},
+                            {{ h_G1_66 }} + {{ m_G1_66 }},
+                            {{ h_G1_71 }} + {{ m_G1_71 }},
+                            {{ h_G1_76 }} + {{ m_G1_76 }},
+                            {{ h_G1_81 }} + {{ m_G1_81 }},
+                        ]
+                    }, {
+                        label: 'G2',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#ffc72c',
+                        data: [
+                            {{ h_G2_40 }} + {{ m_G2_40 }},
+                            {{ h_G2_41 }} + {{ m_G2_41 }},
+                            {{ h_G2_46 }} + {{ m_G2_46 }},
+                            {{ h_G2_51 }} + {{ m_G2_51 }},
+                            {{ h_G2_56 }} + {{ m_G2_56 }},
+                            {{ h_G2_61 }} + {{ m_G2_61 }},
+                            {{ h_G2_66 }} + {{ m_G2_66 }},
+                            {{ h_G2_71 }} + {{ m_G2_71 }},
+                            {{ h_G2_76 }} + {{ m_G2_76 }},
+                            {{ h_G2_81 }} + {{ m_G2_81 }},
+                        ]
+                    }, {
+                        label: 'G3a',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#d45d00',
+                        data: [
+                            {{ h_G3a_40 }} + {{ m_G3a_40 }},
+                            {{ h_G3a_41 }} + {{ m_G3a_41 }},
+                            {{ h_G3a_46 }} + {{ m_G3a_46 }},
+                            {{ h_G3a_51 }} + {{ m_G3a_51 }},
+                            {{ h_G3a_56 }} + {{ m_G3a_56 }},
+                            {{ h_G3a_61 }} + {{ m_G3a_61 }},
+                            {{ h_G3a_66 }} + {{ m_G3a_66 }},
+                            {{ h_G3a_71 }} + {{ m_G3a_71 }},
+                            {{ h_G3a_76 }} + {{ m_G3a_76 }},
+                            {{ h_G3a_81 }} + {{ m_G3a_81 }},
+                        ]
+                    }, {
+                        label: 'G3b',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#923c00',
+                        data: [
+                            {{ h_G3b_40 }} + {{ m_G3b_40 }},
+                            {{ h_G3b_41 }} + {{ m_G3b_41 }},
+                            {{ h_G3b_46 }} + {{ m_G3b_46 }},
+                            {{ h_G3b_51 }} + {{ m_G3b_51 }},
+                            {{ h_G3b_56 }} + {{ m_G3b_56 }},
+                            {{ h_G3b_61 }} + {{ m_G3b_61 }},
+                            {{ h_G3b_66 }} + {{ m_G3b_66 }},
+                            {{ h_G3b_71 }} + {{ m_G3b_71 }},
+                            {{ h_G3b_76 }} + {{ m_G3b_76 }},
+                            {{ h_G3b_81 }} + {{ m_G3b_81 }},
+                        ]
+                    }, {
+                        label: 'G4',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#d6001c',
+                        data: [
+                            {{ h_G4_40 }} + {{ m_G4_40 }},
+                            {{ h_G4_41 }} + {{ m_G4_41 }},
+                            {{ h_G4_46 }} + {{ m_G4_46 }},
+                            {{ h_G4_51 }} + {{ m_G4_51 }},
+                            {{ h_G4_56 }} + {{ m_G4_56 }},
+                            {{ h_G4_61 }} + {{ m_G4_61 }},
+                            {{ h_G4_66 }} + {{ m_G4_66 }},
+                            {{ h_G4_71 }} + {{ m_G4_71 }},
+                            {{ h_G4_76 }} + {{ m_G4_76 }},
+                            {{ h_G4_81 }} + {{ m_G4_81 }},
+                        ]
+                    }, {
+                        label: 'G5',
+                        borderColor: '#ffffff',
+                        backgroundColor: '#702721',
+                        data: [
+                            {{ h_G5_40 }} + {{ m_G5_40 }},
+                            {{ h_G5_41 }} + {{ m_G5_41 }},
+                            {{ h_G5_46 }} + {{ m_G5_46 }},
+                            {{ h_G5_51 }} + {{ m_G5_51 }},
+                            {{ h_G5_56 }} + {{ m_G5_56 }},
+                            {{ h_G5_61 }} + {{ m_G5_61 }},
+                            {{ h_G5_66 }} + {{ m_G5_66 }},
+                            {{ h_G5_71 }} + {{ m_G5_71 }},
+                            {{ h_G5_76 }} + {{ m_G5_76 }},
+                            {{ h_G5_81 }} + {{ m_G5_81 }},
+                        ]
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Gráfica de estadificaciones por edad'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+
+            var barChartData = {
+                labels: ['G1', 'G2', 'G3a', 'G3b', 'G4', 'G5'],
+                datasets: [
+                    {
+                        label: 'Hombres < 40',
+                        backgroundColor: ' #d6eaf8',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_40}}, {{h_G2_40}}, {{h_G3a_40}}, {{h_G3b_40}}, {{h_G4_40}}, {{h_G5_40}}
+                        ]
+                    }, {
+                        label: 'Hombres 41 a 45 años',
+                        backgroundColor: ' #aed6f1 ',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_41}}, {{h_G2_41}}, {{h_G3a_41}}, {{h_G3b_41}}, {{h_G4_41}}, {{h_G5_41}}
+                        ]
+                    }, {
+                        label: 'Hombres 46 a 50 años',
+                        backgroundColor: ' #85c1e9 ',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_46}}, {{h_G2_46}}, {{h_G3a_46}}, {{h_G3b_46}}, {{h_G4_46}}, {{h_G5_46}}
+                        ]
+                    }, {
+                        label: 'Hombres 50 a 55 años',
+                        backgroundColor: '#5dade2',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_51}}, {{h_G2_51}}, {{h_G3a_51}}, {{h_G3b_51}}, {{h_G4_51}}, {{h_G5_51}}
+                        ]
+                    }, {
+                        label: 'Hombres 56 a 60 años',
+                        backgroundColor: '#3498db',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_56}}, {{h_G2_56}}, {{h_G3a_56}}, {{h_G3b_56}}, {{h_G4_56}}, {{h_G5_56}}
+                        ]
+                    }, {
+                        label: 'Hombres 61 a 65 años',
+                        backgroundColor: '#2e86c1',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_61}}, {{h_G2_61}}, {{h_G3a_61}}, {{h_G3b_61}}, {{h_G4_61}}, {{h_G5_61}}
+                        ]
+                    }, {
+                        label: 'Hombres 66 a 70 años',
+                        backgroundColor: '#2874a6',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_66}}, {{h_G2_66}}, {{h_G3a_66}}, {{h_G3b_66}}, {{h_G4_66}}, {{h_G5_66}}
+                        ]
+                    }, {
+                        label: 'Hombres 71 a 75 años',
+                        backgroundColor: '#21618c',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_71}}, {{h_G2_71}}, {{h_G3a_71}}, {{h_G3b_71}}, {{h_G4_71}}, {{h_G5_71}}
+                        ]
+                    }, {
+                        label: 'Hombres 76 a 80 años',
+                        backgroundColor: '#1b4f72',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_76}}, {{h_G2_76}}, {{h_G3a_76}}, {{h_G3b_76}}, {{h_G4_76}}, {{h_G5_76}}
+                        ]
+                    }, {
+                        label: 'Hombres 81 años o más',
+                        backgroundColor: '#072D90',
+                        stack: 'Stack 0',
+                        data: [
+                            {{h_G1_81}}, {{h_G2_81}}, {{h_G3a_81}}, {{h_G3b_81}}, {{h_G4_81}}, {{h_G5_81}}
+                        ]
+                    }, {
+                        label: 'Mujeres < 40',
+                        backgroundColor: '#fadbd8',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_40}}, {{m_G2_40}}, {{m_G3a_40}}, {{m_G3b_40}}, {{m_G4_40}}, {{m_G5_40}}
+                        ]
+                    }, {
+                        label: 'Mujeres 41 a 45 años',
+                        backgroundColor: ' #F5B7B1 ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_41}}, {{m_G2_41}}, {{m_G3a_41}}, {{m_G3b_41}}, {{m_G4_41}}, {{m_G5_41}}
+                        ]
+                    }, {
+                        label: 'Mujeres 46 a 50 años',
+                        backgroundColor: ' #f1948a ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_46}}, {{m_G2_46}}, {{m_G3a_46}}, {{m_G3b_46}}, {{m_G4_46}}, {{m_G5_46}}
+                        ]
+                    }, {
+                        label: 'Mujeres 50 a 55 años',
+                        backgroundColor: ' #ec7063 ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_51}}, {{m_G2_51}}, {{m_G3a_51}}, {{m_G3b_51}}, {{m_G4_51}}, {{m_G5_51}}
+                        ]
+                    }, {
+                        label: 'Mujeres 56 a 60 años',
+                        backgroundColor: ' #e74c3c ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_56}}, {{m_G2_56}}, {{m_G3a_56}}, {{m_G3b_56}}, {{m_G4_56}}, {{m_G5_56}}
+                        ]
+                    }, {
+                        label: 'Mujeres 61 a 65 años',
+                        backgroundColor: ' #cb4335 ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_61}}, {{m_G2_61}}, {{m_G3a_61}}, {{m_G3b_61}}, {{m_G4_61}}, {{m_G5_61}}
+                        ]
+                    }, {
+                        label: 'Mujeres 66 a 70 años',
+                        backgroundColor: ' #b03a2e ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_66}}, {{m_G2_66}}, {{m_G3a_66}}, {{m_G3b_66}}, {{m_G4_66}}, {{m_G5_66}}
+                        ]
+                    }, {
+                        label: 'Mujeres 71 a 75 años',
+                        backgroundColor: ' #943126 ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_71}}, {{m_G2_71}}, {{m_G3a_71}}, {{m_G3b_71}}, {{m_G4_71}}, {{m_G5_71}}
+                        ]
+                    }, {
+                        label: 'Mujeres 76 a 80 años',
+                        backgroundColor: ' #78281f ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_76}}, {{m_G2_76}}, {{m_G3a_76}}, {{m_G3b_76}}, {{m_G4_76}}, {{m_G5_76}}
+                        ]
+                    }, {
+                        label: 'Mujeres 81 años o más',
+                        backgroundColor: ' #641e16 ',
+                        stack: 'Stack 1',
+                        data: [
+                            {{m_G1_81}}, {{m_G2_81}}, {{m_G3a_81}}, {{m_G3b_81}}, {{m_G4_81}}, {{m_G5_81}}
+                        ]
+                    }
+                ]
+            };
+            var categoria_edad_sexo = new Chart(document.getElementById('esta_edad_sexo_cat').getContext('2d'), {
+                type: 'horizontalBar',
+                data: barChartData,
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gráfica de estadificaciones por edad y sexo'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+
+            var data_esta_mujer_cat = {
+                type: 'pie',
+                datasets: [{
+                    data: [{{m_G1.count}}, {{m_G2.count}}, {{m_G3a.count}}, {{m_G3b.count}}, {{m_G4.count}}, {{m_G5.count}}],
+                    backgroundColor: ["#035f1d", "#ffc72c", "#d45d00", "#923c00", "#d6001c", "#702721"],
+                }],
+                labels: [
+                    'G1', 'G2', 'G3a', 'G3b', 'G4', 'G5'
+                ],
+            };
+
+            var data_esta_hombre_cat = {
+                type: 'pie',
+                datasets: [{
+                    data: [{{h_G1.count}}, {{h_G2.count}}, {{h_G3a.count}}, {{h_G3b.count}}, {{h_G4.count}}, {{h_G5.count}}],
+                    backgroundColor: ["#035f1d", "#ffc72c", "#d45d00", "#923c00", "#d6001c", "#702721"],
+                }],
+                labels: [
+                    'G1', 'G2', 'G3a', 'G3b', 'G4', 'G5'
+                ],
+            };
+            var data_esta_total_cat = {
+                type: 'pie',
+                datasets: [{
+                    data: [
+                        {{h_G1.count}} + {{m_G1.count}},
+                        {{h_G2.count}} + {{m_G2.count}},
+                        {{h_G3a.count}} + {{m_G3a.count}},
+                        {{h_G3b.count}} + {{m_G3b.count}},
+                        {{h_G4.count}} + {{m_G4.count}},
+                        {{h_G5.count}} + {{m_G5.count}}
+                    ],
+                    backgroundColor: ["#035f1d", "#ffc72c", "#d45d00", "#923c00", "#d6001c", "#702721"],
+                }],
+                labels: [
+                    'G1', 'G2', 'G3a', 'G3b', 'G4', 'G5'
+                ],
+            };
+            var categoria_sexo_m = new Chart(document.getElementById('esta_mujer_sexo_cat').getContext('2d'), {
+                type: 'pie',
+                data: data_esta_mujer_cat,
+            });
+            var categoria_sexo_h = new Chart(document.getElementById('esta_hombre_sexo_cat').getContext('2d'), {
+                type: 'pie',
+                data: data_esta_hombre_cat,
+            });
+            var categoria_sexo_t = new Chart(document.getElementById('esta_total_sexo_cat').getContext('2d'), {
+                type: 'pie',
+                data: data_esta_total_cat,
+            });
+            //Reporte controlado, descontrolado
+            {% if res_hipertension %}
+            var controlado_descontrolado = new Chart(document.getElementById('controlado_descontrolado').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Hipertensos controlados', 'Hipertensos descontrolados', 'Sin datos'],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#5b941e', '#91b400', "#697077"],
+                        borderColor: ['#ffffff', '#ffffff', "#ffffff"],
+                        data: [
+                            {{c_tension_hipertension}},
+                            {{nc_tension_hipertension}},
+                            {{sd_tension}}
+                        ]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'right',
+                    },
+                }
+            });
+            {% endif %}
+            //Nutrición
+            {% if nutricion_por %}
+            var chart = new Chart(document.getElementById('grafica_nutricion').getContext('2d'), { // SS
+                type: 'pie',
+                data: {
+                    labels: ['Estado Nutricional (A)', 'Desnutrición Leve (B)', 'Desnutrición Moderada (C)', 'Desnutrición Grave (D)', 'Desnutrición Gravísima (E)'],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#035f1d", "#ffc72c", "#d45d00", "#923c00", "#d6001c"],
+                        data: [{{est_nut_a}}, {{des_nut_leve_b}}, {{des_nut_mod_c}}, {{des_nut_grave_d}}, {{des_nut_grav_e}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                    },
+                }
+            });
+            {% endif %}
+            {% if adherencia %}
+            var chart = new Chart(document.getElementById('adherencia').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Rechazo: '+{{a_t_re}}, 
+                    'Negación: '+{{a_t_ne}}, 
+                    'Modificación: '+{{a_t_mo}}, 
+                    'Aceptación: '+{{a_t_ac}}, 
+                    'Adherencia: '+{{a_t_ad}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{a_t_re}}, {{a_t_ne}}, {{a_t_mo}}, {{a_t_ac}}, {{a_t_ad}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('adherencia_hombres').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Rechazo: '+{{a_h_re}}, 
+                    'Negación: '+{{a_h_ne}}, 
+                    'Modificación: '+{{a_h_mo}}, 
+                    'Aceptación: '+{{a_h_ac}}, 
+                    'Adherencia: '+{{a_h_ad}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{a_h_re}}, {{a_h_ne}}, {{a_h_mo}}, {{a_h_ac}}, {{a_h_ad}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('adherencia_mujeres').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Rechazo: '+{{a_m_re}}, 
+                    'Negación: '+{{a_m_ne}}, 
+                    'Modificación: '+{{a_m_mo}}, 
+                    'Aceptación: '+{{a_m_ac}}, 
+                    'Adherencia: '+{{a_m_ad}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{a_m_re}}, {{a_m_ne}}, {{a_m_mo}}, {{a_m_ac}}, {{a_m_ad}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            {% endif %}
+            {% if hamilton %}
+            var chart = new Chart(document.getElementById('hamilton').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Depresión muy severa: '+{{h_t_md}}, 
+                    'Depresión severa: '+{{h_t_ds}}, 
+                    'Depresión moderada: '+{{h_t_dm}}, 
+                    'Depresión ligera/menor: '+{{h_t_dl}}, 
+                    'No deprimido: '+{{h_t_sd}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{h_t_md}}, {{h_t_ds}}, {{h_t_dm}}, {{h_t_dl}}, {{h_t_sd}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('hamilton_hombres').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Depresión muy severa: '+{{h_h_md}}, 
+                    'Depresión severa: '+{{h_h_ds}}, 
+                    'Depresión moderada: '+{{h_h_dm}}, 
+                    'Depresión ligera/menor: '+{{h_h_dl}}, 
+                    'No deprimido: '+{{h_h_sd}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{h_h_md}}, {{h_h_ds}}, {{h_h_dm}}, {{h_h_dl}}, {{h_h_sd}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            var chart = new Chart(document.getElementById('hamilton_mujeres').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Depresión muy severa: '+{{h_m_md}}, 
+                    'Depresión severa: '+{{h_m_ds}}, 
+                    'Depresión moderada: '+{{h_m_dm}}, 
+                    'Depresión ligera/menor: '+{{h_m_dl}}, 
+                    'No deprimido: '+{{h_m_sd}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ["#697077", "#F06E2E", "#F0B12E", "#6793e6", "#0146ab"],
+                        data: [{{h_m_md}}, {{h_m_ds}}, {{h_m_dm}}, {{h_m_dl}}, {{h_m_sd}}]
+                    }]
+                },
+                options: {
+                    legend: {
+                        position: 'left',
+                        display: false
+                    },
+                }
+            });
+            {% endif %}
+          //Reporte controlado, descontrolado
+            var controlado_descontrolado = new Chart(document.getElementById('controlado_descontrolado').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Hipertensos controlados: '+{{c_tension_hipertension}},
+                    'Hipertensos descontrolados: '+{{nc_tension_hipertension}}, 
+                    'Sin datos: '+{{sd_tension_hipertension}}],
+                    datasets: [{
+                        label: '',
+                        backgroundColor: ['#5b941e','#F0B12E', "#697077"],
+                        borderColor: ['#ffffff','#ffffff', "#ffffff"],
+                        data: [
+                            {{c_tension_hipertension}},
+                            {{nc_tension_hipertension}},
+                            {{sd_tension_hipertension}},
+                        ]
+                    }]
+                },
+                options: {
+                    legend:{
+                        position:'right',
+                    },
+                }
+            });
+    {% if diab_cont > 0 or diab_ncont > 0 or sd_diabetico > 0 %} {
+    var controlado_descontrolado_d = new Chart(document.getElementById('controlado_descontrolado_d').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['Diabéticos controlados: '+{{diab_cont}},
+                    'Diabéticos descontrolados: '+{{diab_ncont}}, 
+                    'Sin datos: '+{{sd_diabetico}}],
+            datasets: [{
+                label: '',
+                backgroundColor: ["#5b941e", "#F0B12E", "#697077"],
+                borderColor: ["#ffffff", "#ffffff", "#ffffff"],
+                data: [
+                    {{diab_cont}},
+                    {{diab_ncont}},
+                    {{sd_diabetico}}
+                ]
+    }]
+    },
+    options: {
+        legend:{
+            position:'right',
+        },
+    }
+    });
+}
+{% endif %}
+{% if dia_hip_cont > 0 or dia_hip_no_cont > 0 or sd_diabetico_hipertenso > 0 %} {
+    var controlado_descontrolado_dh = new Chart(document.getElementById('controlado_descontrolado_dh').getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: ['Diabéticos-hipertensos controlados: '+{{dia_hip_cont}},
+                    'Diabéticos-hipertensos descontrolados: '+{{dia_hip_no_cont}}, 
+                    'Sin datos: '+{{sd_diabetico_hipertenso}}],
+            datasets: [{
+                label: '',
+                backgroundColor: ["#5b941e", "#F0B12E", "#697077"],
+                borderColor: ["#ffffff", "#ffffff", "#ffffff"],
+                data: [
+                    {{dia_hip_cont}},
+                    {{dia_hip_no_cont}},
+                    {{sd_diabetico_hipertenso}}
+                ]
+    }]
+    },
+    options: {
+        legend:{
+            position:'right',
+        },
+    }
+    });
+}
+{% endif %}
+var evaluacion_p1 = new Chart(document.getElementById('e_p_1').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 1',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor: ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[0],{{incorrectas}}[0]]
+    }]
+    }
+    });
+    var evaluacion_p2 = new Chart(document.getElementById('e_p_2').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 2',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[1],{{incorrectas}}[1]]
+    }]
+    }
+    });
+    var evaluacion_p3 = new Chart(document.getElementById('e_p_3').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 3',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[2],{{incorrectas}}[2]]
+    }]
+    }
+    });
+    var evaluacion_p4 = new Chart(document.getElementById('e_p_4').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 4',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor: ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[3],{{incorrectas}}[3]]
+    }]
+    }
+    });
+    var evaluacion_p5 = new Chart(document.getElementById('e_p_5').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 5',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[4],{{incorrectas}}[4]]
+    }]
+    }
+    });
+    var evaluacion_p6 = new Chart(document.getElementById('e_p_6').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 6',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[5],{{incorrectas}}[5]]
+    }]
+    }
+    });
+    var evaluacion_p7 = new Chart(document.getElementById('e_p_7').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 7',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[6],{{incorrectas}}[6]]
+    }]
+    }
+    });
+    var evaluacion_p8 = new Chart(document.getElementById('e_p_8').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 8',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor: ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[7],{{incorrectas}}[7]]
+    }]
+    }
+    });
+    var evaluacion_p9 = new Chart(document.getElementById('e_p_9').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 9',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor: ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[8],{{incorrectas}}[8]]
+    }]
+    }
+    });
+    var evaluacion_p10 = new Chart(document.getElementById('e_p_10').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 10',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[9],{{incorrectas}}[9]]
+    }]
+    }
+    });
+    var evaluacion_p11 = new Chart(document.getElementById('e_p_11').getContext('2d'),{
+        type: 'pie',
+        data: {
+            labels: ['Correctos', 'Incorrectos'],
+            datasets: [{
+                label: 'Pregunta 11',
+                backgroundColor: ['#91b400', '#697077'],
+                borderColor:  ["#ffffff", "#ffffff"],
+                data: [{{correctas}}[10],{{incorrectas}}[10]]
+    }]
+    }
+    });
+
+        </script>
+    {% endif %}
+{% endblock scripts %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-end">
+        <div class="col-10">
+            <h3>Reportes {% if de_seguimiento %}de seguimiento{% endif %}</h3>
+            <select class="form-control" id="jornadas">
+                {% if jornada %}
+                    {% for j in jornadas %}
+                        {% if jornada.id == j.id %}
+                            <option value="{{ j.id }}" selected>{{ j.nombre }}</option>
+                        {% else %}
+                            <option value="{{ j.id }}">{{ j.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <option value="0" disabled selected>Selecciona una jornada</option>
+                    {% for j in jornadas %}
+                        <option value="{{ j.id }}">{{ j.nombre }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    {% if jornada %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>{{ jornada.nombre }}</h4>
+                <div class="row justify-content-center py-2">
+                    <div class="col-12 col-md-1 ml-4 mr-1"><i class="fas fa-hashtag"></i> {{ jornada.id }}</div>
+                    <div class="col-12 col-md-auto mr-5"><i class="fas fa-calendar-alt"></i> {{ jornada.fecha }}</div>
+                    <div class="col-12 col-md-auto mr-5"><i
+                            class="fas fa-map-marker"></i> {{ jornada.localidad }}, {{ jornada.municipio }}, {{ jornada.estado }}
+                    </div>
+                    <div class="col-md-2 viewparameters text-right">
+                        <a href="{% url 'Proyectos:jornadas_detail' pk=jornada.id %}"><i class="material-icons">access_time</i>
+                            Ir a jornada </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if beneficiarios.count == 0 %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    No existen beneficiarios en la jornada
+                </div>
+            </div>
+        {% else %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte sociodemográfico</h4>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <canvas id="socioE"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-6">
+                            <canvas id="socioHM"></canvas>
+                            <div class="px-5 clearfix">
+                                <h4 class="float-left"><i class="fas fa-male c-male-g pr-1"></i> {{ p_h }}%</h4>
+                                <h4 class="float-right"><i class="fas fa-female c-female-g pr-1"></i> {{ p_m }}%</h4>
+                            </div>
+                            <div class="px-5 clearfix">
+                                <p class="float-left">Hombres</p>
+                                <p class="float-right">Mujeres</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte diabetes e hipertensión</h4>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-male-bg rounded">
+                            <h5><i class="fas fa-male fa-2x c-male-g"></i></h5>
+                            <canvas id="dia_hip_hom_gene"></canvas>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{ p_h_n }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-d">{{ p_h_d }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-h">{{ p_h_h }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-dh">{{ p_h_dh }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Ninguna</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabetes</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Hipertensión</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabetes e hipertension</p>
+                                </div>
+                            </div>
+                            <canvas class="mt-4" id="dia_hip_hom_edad"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-female-bg rounded">
+                            <h5><i class="fas fa-female fa-2x c-female-g"></i></h5>
+                            <canvas id="dia_hip_muj_gene"></canvas>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{ p_m_n }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-d">{{ p_m_d }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-h">{{ p_m_h }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-dh">{{ p_m_dh }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Ninguna</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabetes</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Hipertensión</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabetes e hipertension</p>
+                                </div>
+                            </div>
+                            <canvas class="mt-4" id="dia_hip_muj_edad"></canvas>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <h1>Total</h1>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="total_total"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="total_edades"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte de Factor de Riesgo</h4>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-male-bg rounded">
+                            <h5><i class="fas fa-male fa-2x c-male-g"></i></h5>
+                            <canvas id="h_factor_riesgo"></canvas>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-d">{{ h_br_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-h">{{ h_mr_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-dh">{{ h_ar_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{ h_sd_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Bajo riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Moderado riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Alto riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Sin datos</p>
+                                </div>
+                            </div>
+                            <canvas class="mt-4" id="h_factor_riesgo_edad"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-female-bg rounded">
+                            <h5><i class="fas fa-female fa-2x c-female-g"></i></h5>
+                            <canvas id="m_factor_riesgo"></canvas>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-d">{{ m_br_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-h">{{ m_mr_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-dh">{{ m_ar_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{ m_sd_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5 no-gutters">
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Bajo riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Moderado riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Alto riesgo</p>
+                                </div>
+                                <div class="col-sm-6 col-md-3 col-lg-3">
+                                    <p class="x-small">Sin datos</p>
+                                </div>
+                            </div>
+                            <canvas class="mt-4" id="m_factor_riesgo_edad"></canvas>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <h1>Total</h1>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="total_factor_riesgo"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="total_factor_riesgo_edades"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte estadificación</h4>
+                    <div class="row justify-content-center py-2">
+                        <h1>Edades</h1>
+                        <canvas id="esta_edad_cat"></canvas>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <h1>Sexo</h1>
+                        <canvas id="esta_edad_sexo_cat"></canvas>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-male-bg rounded">
+                            <h5><i class="fas fa-male fa-2x c-male-g"></i></h5>
+                            <canvas class="mt-4" id="esta_hombre_sexo_cat"></canvas>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g1">{{ h_G1_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g2">{{ h_G2_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3a">{{ h_G3a_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G1</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G2</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G3a</p>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3b">{{ h_G3b_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g4">{{ h_G4_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g5">{{ h_G5_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G3b</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G4</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G5</p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-female-bg rounded">
+                            <h5><i class="fas fa-female fa-2x c-female-g"></i></h5>
+                            <canvas class="mt-4" id="esta_mujer_sexo_cat"></canvas>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g1">{{ m_G1_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g2">{{ m_G2_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3a">{{ m_G3a_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G1</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G2</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G3a</p>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3b">{{ m_G3b_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g4">{{ m_G4_p }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g5">{{ m_G5_p }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G3b</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G4</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">G5</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <h1>Total</h1>
+                        <canvas id="esta_total_sexo_cat"></canvas>
+                        <div class="row px-5">
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g1">{{ G1_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g2">{{ G2_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g3a">{{ G3a_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G1</p>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G2</p>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G3a</p>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g3b">{{ G3b_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g4">{{ G4_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <h5 class="c-g5">{{ G5_p }}%</h5>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G3b</p>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G4</p>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-4">
+                                <p class="x-small">G5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Reporte Adherencia-->
+            {% if adherencia %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte de escala de Adherencia al tratamiento</h4>
+                    <div class="row justify-content-center py-2 pt-5">
+                        <h2>Total</h2>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="adherencia"></canvas>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-male-bg rounded">
+                            <h5><i class="fas fa-male fa-2x c-male-g"></i></h5>
+                            <canvas id="adherencia_hombres"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-female-bg rounded">
+                            <h5><i class="fas fa-female fa-2x c-female-g"></i></h5>
+                            <canvas id="adherencia_mujeres"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!--Reporte Hamilton-->
+            {% if hamilton %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte de escala de Hamilton</h4>
+                    <div class="row justify-content-center py-2 pt-5">
+                        <h2>Total</h2>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 rounded">
+                            <canvas id="hamilton"></canvas>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-male-bg rounded">
+                            <h5><i class="fas fa-male fa-2x c-male-g"></i></h5>
+                            <canvas id="hamilton_hombres"></canvas>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-5 mx-1 mb-3 p-3 c-female-bg rounded">
+                            <h5><i class="fas fa-female fa-2x c-female-g"></i></h5>
+                            <canvas id="hamilton_mujeres"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!--Reporte controlado/descontrolado-->
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte controlado- descontrolado</h4>
+                    <div class="row justify-content-center py-2 pt-5">
+                        <h1>Hipertensos</h1>
+                    </div>
+                    {% if res_hipertension == 0 %}
+                    <br>  No existen datos de los estudios
+                    {% else %}
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-11 col-md-12 col-lg-7 mx-1 mb-3 p-3 rounded">
+                            <canvas id="controlado_descontrolado"></canvas>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr1">{{t_hipertension|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr2">{{t_nhipertension|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{sd_hipertension|floatformat:"0" }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Hipertensos controlados</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Hipertensos descontrolados</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Sin datos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row justify-content-center py-2 pt-5">
+                        <h1>Diabéticos</h1>
+                    </div>
+                    {% if diab_cont == 0 and diab_ncont == 0 and sd_diabetico == 0 %}
+                    <br>  No existen datos de los estudios
+                    {% else %}
+                    <div class="row justify-content-center py-3">
+                        <div class="col-sm-11 col-md-12 col-lg-7 mx-1 mb-3 p-3 rounded">
+                            <canvas id="controlado_descontrolado_d"></canvas>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr1">{{diab_cont_p|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr2">{{diab_ncont_p|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{sd_d|floatformat:"0" }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabético controlado</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabético no controlado</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Sin datos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row justify-content-center py-2 pt-5">
+                        <h1>Diabéticos - hipertensos</h1>
+                    </div>
+                    {% if dia_hip_cont == 0 and dia_hip_no_cont == 0 and sd_diabetico_hipertenso == 0 %}
+                    <br>  No existen datos de los estudios
+                    {% else %}
+                    <div class="row justify-content-center py-2">
+                        <div class="col-sm-12 col-md-12 col-lg-7 mx-1 mb-3 p-3 rounded">
+                            <canvas id="controlado_descontrolado_dh"></canvas>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr1">{{dia_hip_cont_p|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-gr2">{{dia_hip_no_cont_p|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <h5 class="c-n">{{sd_dh|floatformat:"0" }}%</h5>
+                                </div>
+                            </div>
+                            <div class="row px-5">
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabético - hipertenso controlado</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Diabético - hipertenso no controlado</p>
+                                </div>
+                                <div class="col-sm-5 col-md-3 col-lg-3">
+                                    <p class="x-small">Sin datos</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Reporte de malnutrición inflamación -->
+            {% if nutricion_por == 0 %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                <h4>Reporte de malnutrición inflamación</h4>
+                    <br/>
+                    No existen datos de los estudios
+                </div>
+            </div>
+            {% else %}
+            <div class="card mt-4 text-center">
+                <div class="card-body">
+                    <h4>Reporte de malnutrición inflamación</h4>
+                    <div class="row justify-content-center py-2">
+                        <div class="row justify-content-center py-2">
+                            <div class="col-sm-6 col-md-10 col-lg-10">
+                                <canvas id="grafica_nutricion"></canvas>
+                            </div>
+                            <div class="row py-5">
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g1">{{p_est_nut_a|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g2">{{p_des_nut_leve_b|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3a">{{p_des_nut_mod_c|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">Estado Nutricional (A)</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">Desnutrición Leve (B)</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">Desnutrición Moderada (C)</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g3b">{{p_des_nut_grave_d|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g4">{{p_des_nut_grav_e|floatformat:"0" }}%</h5>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <h5 class="c-g4"></h5>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">Desnutrición Grave (D)</p>
+                                </div>
+                                <div class="col-sm-6 col-md-4 col-lg-4">
+                                    <p class="x-small">Desnutrición Gravísima (E)</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if evaluacion_count == 0 %}
+              <div class="card mt-4 text-center">
+                  <div class="card-body">
+                      <h2>EVALUACIÓN DE LAS PLÁTICAS</h2><br><br>
+                      <br/>
+                      No existen datos.
+                  </div>
+              </div>
+              {% else %}
+              <div class="card mt-4 text-center">
+                  <div class="card-body">
+                      <h2>EVALUACIÓN DE LAS PLÁTICAS</h2><br><br>
+                      <h3>MÉDICA: ERC ¿EN QUÉ ESTADO ME ENCUENTRO?</h3>
+                      <h4>1. El único trabajo de los riñones es eliminar los desechos y el líquido adicional del cuerpo.</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_1"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.0 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.0 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>2. Las personas con diabetes o presión arterial alta, tienen mayor riesgo de contraer enfermedad renal crónica.</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_2"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.1 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.1 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>3. La detección temprana y tratamiento de la enfermedad renal crónica, con frecuencia puede evitar su empeoramiento.</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_3"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.2 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.2 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>4. La enfermedad renal crónica se puede detectar mediante análisis simples de sangre y orina.</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_4"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.3 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.3 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>5. La mejor manera para saber la capacidad y la fase de funcionamiento de los riñones es conocer el índice de filtración glomerular (IFG).</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_5"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.4 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.4 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div><br>
+                      <h3>NUTRICIÓN: ¿SABES CÓMO ALIMENTARTE SI PADECES DIABETES O HIPERTENSIÓN, PARA EVITAR LA ERC?</h3>
+                      <h4>1. ¿Disminuir el consumo de sal, es bueno para el cuidado de los riñones?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_6"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.5 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.5 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>2. ¿El aumento de consumo de frutas y verduras, ayudan a prevenir la Enfermedad Renal Crónica?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_7"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.6 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.6 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>3. ¿Se recomienda beber de dos a dos y medio litros de agua natural al día?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_8"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.7 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.7 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div><br>
+                      <h3>ADHERENCIA: OPTIMIZANDO NUESTRO ESTILO DE VIDA.</h3>
+                      <h4>1. ¿Que necesito para entender el diagnóstico?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_9"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.8 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.8 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>2. ¿Que es el duelo?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_10"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.9 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.9 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                      <h4>3. ¿Que son las redes de apoyo?</h4>
+                      <div class="row justify-content-center py-2">
+                          <div class="col-sm-12 col-md-12 col-lg-6">
+                              <canvas id="e_p_11"></canvas>
+                              <div class="px-5 clearfix">
+                                  <h4 class="float-left"><i class="far fa-check-circle"></i>{% widthratio correctas.10 evaluacion_count 100 %}%</h4>
+                                  <h4 class="float-right"><i class="far fa-times-circle"></i></i>{% widthratio incorrectas.10 evaluacion_count 100 %} %</h4>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  {% endif%}
+</div>
+            <style media="screen">
+                .x-small{
+                    font-size:12px;
+                }
+
+                .c-gr1{
+                    color:#5b941e;
+                }
+
+                .c-gr2{
+                    color:#ffc72c;
+                }
+
+                .c-male {
+                    color: #5b941e;
+                }
+
+                .c-female {
+                    color: #bfc338;
+                }
+
+                .c-male-g {
+                    color: #a9a9a9;
+                }
+
+                .c-female-g {
+                    color: #a9a9a9;
+                }
+
+                .c-n {
+                    color: #697077;
+                }
+
+                .c-d {
+                    color: #aec3f3;
+                }
+
+                .c-h {
+                    color: #6793e6;
+                }
+
+                .c-dh {
+                    color: #3A68CB;
+                }
+
+                .c-g1 {
+                    color: #035F1D;
+                }
+
+                .c-g2 {
+                    color: #FFC72C;
+                }
+
+                .c-g3a {
+                    color: #D45D00;
+                }
+
+                .c-g3b {
+                    color: #923C00;
+                }
+
+                .c-g4 {
+                    color: #D6001C;
+                }
+
+                .c-g5 {
+                    color: #702721;
+                }
+
+                .c-male-bg {
+                    background-color: #ececec;
+                }
+
+                .c-female-bg {
+                    background-color: #ececec;
+                }
+            </style>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock content %}

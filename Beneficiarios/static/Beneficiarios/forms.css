@@ -1,0 +1,15 @@
+
+input[type="checkbox"]{
+  width: 1.8em;
+  height: 1.8em;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#antecedentes_table td{
+  vertical-align: middle;
+}
+
+#antecedentes_personal_table td{
+  vertical-align: middle;
+}

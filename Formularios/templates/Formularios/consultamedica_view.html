@@ -1,0 +1,182 @@
+<!--
+  NEF-47, NEF-48, NEF-49
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-4">
+  <div class="card">
+    <h5 class="card-header text-center">Consulta Médica </h5>
+    <div class="card-body">
+      <div class="container-fluid">
+        <div class="row justify-content-end py-2">
+          <div class="col-sm-3 text-right labelsFormulario">
+            Fecha de consulta:
+          </div>
+          <div class="col-sm-2 text-left">
+            {{ consultamedica.fecha_creacion }}
+          </div>
+        </div>
+        <hr>
+        <!--Resultados -->
+        <div class="row justify-content-center pb-3 pt-2">
+          <div class="col-8">
+            <text class="labelsFormulario">Especificaciones:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="2" disabled> {{ consultamedica.especificaciones }} </textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-4">
+            <ul>
+              <li>
+                <text class="labelsFormulario"><i class="fas fa-weight"></i> Peso: </text>
+                <text class="">{{ consultamedica.peso }} kg </text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fa fa-user"></i> Talla: </text>
+                <text class="">{{ consultamedica.talla }} m</text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fa fa-medkit"></i> IMC: </text>
+                <text class="">{{ consultamedica.imc }} kg/m2</text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fa fa-thermometer-three-quarters"></i> Temperatura: </text>
+                <text class="">{{ consultamedica.temperatura }} °C</text>
+              </li>
+            </ul>
+          </div>
+          <div class="col-4">
+            <ul>
+              <li>
+                <text class="labelsFormulario"><i class="fa fa-heartbeat"></i> Frecuencia cardiaca: </text>
+                <text class="">{{ consultamedica.frecuencia_cardiaca }} lpm </text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fas fa-wind"></i> Frecuencia respiratoria: </text>
+                <text class="">{{ consultamedica.frecuencia_respiratoria }} rpm</text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fas fa-notes-medical"></i> Presión sistólica: </text>
+                <text class="">{{ consultamedica.presion_sistolica }} mm Hg</text>
+              </li>
+              <li>
+                <text class="labelsFormulario"><i class="fas fa-notes-medical"></i> Presión diastólica: </text>
+                <text class="">{{ consultamedica.presion_diastolica }} mm Hg</text>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <text class="labelsFormulario">Análisis de la enfermedad:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="2" disabled> {{ consultamedica.analisis_enfermedad }} </textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <text class="labelsFormulario">Plan:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="2" disabled> {{ consultamedica.plan }} </textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <text class="labelsFormulario">Tratamiento:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="2" disabled> {{ consultamedica.tratamiento }} </textarea>
+          </div>
+        </div>
+        <div class="row justify-content-center pb-3">
+          <div class="col-8">
+            <text class="labelsFormulario">Observaciones:</text>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-8">
+            <textarea class="form-control cursorna" rows="2" disabled> {{ consultamedica.observaciones }} </textarea>
+          </div>
+        </div>
+        <br><br>
+        <!--Botones-->
+        {% if perms.Formularios.change_consultamedica or perms.Formularios.delete_consultamedica %}
+        <div class="row justify-content-center pb-3">
+          <div class="col-12">
+            <div class="clearfix">
+              <div class="float-right wrap">
+                <div class=" pr-2">
+                  {% if perms.Formularios.delete_consultamedica %}
+                  <form method="POST" action="{% url 'Formularios:delete_consultamedica' consultamedica.id %}" id="delete_form">
+                    {% csrf_token %}
+                    <button type="button" class="button btn btn-form">Borrar</button>
+                  </form>
+                  {% endif %}
+                </div>
+                {% if perms.Formularios.change_consultamedica %}
+                <a href="{% url 'admin:Formularios_consultamedica_change' consultamedica.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $('#id_talla').change(function() {
+      var talla = $(this).val();
+      var peso = $('#id_peso').val();
+      $('#id_imc').val((peso / (talla * talla)).toFixed(2));
+      $('#id_imc_view').html((peso / (talla * talla)).toFixed(2));
+    });
+    $('#id_peso').change(function() {
+      var talla = $('#id_talla').val();
+      var peso = $(this).val();
+      $('#id_imc').val((peso / (talla * talla)).toFixed(2));
+      $('#id_imc_view').html((peso / (talla * talla)).toFixed(2));
+    });
+    textareaAutogrow();
+  });
+
+  function textareaAutogrow() {
+    var textareas = document.getElementsByClassName("cursorna");
+    for (var i = 0; i < textareas.length; i++) {
+      var textarea = textareas[i];
+      textarea.style.height = "5px";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
+  }
+
+
+</script>
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

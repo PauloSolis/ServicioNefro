@@ -1,0 +1,261 @@
+<!--
+  NEF-66
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+    <br>
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header text-center">Química Sanguínea</h5>
+            <div class="card-body">
+                <form class="sweet-form" action="" method="POST" onsubmit="return validation(this);">
+                    {% csrf_token %}
+                    <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-sm-2 labelsFormulario">
+                                {{ form.doctor.label }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form.doctor }}
+                            </div>
+                            <div class="col-sm-3 labelsFormulario">
+                                {{ form.fecha.label }}
+                            </div>
+                            <div class="col-sm-3">
+                                {{ form.fecha }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-2 labelsFormulario">
+                                {{ form.metodo.label }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form.metodo }}
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="container-fluid">
+                                <div class="row pb-2 text-center">
+                                    <div class="col-sm-3">
+                                    </div>
+                                    <div class="col-sm-9 labelsFormulario">
+                                        Valores de referencia:
+                                    </div>
+                                </div>
+                                <!--HEADER DE RESULTADOS-->
+                                <div class="row">
+                                    <div class="col-sm-1">
+                                    </div>
+                                    <div class="col-sm-5 labelsFormulario">
+                                        Resultados:
+                                    </div>
+                                    <div class="col-sm-2 labelsFormulario">
+                                        Mínimo:
+                                    </div>
+                                    <div class="col-sm-2 labelsFormulario">
+                                        Máximo:
+                                    </div>
+                                    <div class="col-sm-3">
+                                    </div>
+                                </div>
+                                <br>
+                                <!--ROW de GLUCOSA-->
+                                <div class="row">
+                                    <div class="col-sm-2 labelsFormulario">
+                                        {{ form.glucosa.label }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ form.glucosa }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_glucosa }}
+                                        {{ form.max_glucosa }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span class="fa fa-comment" data-toggle="collapse"
+                                              data-target="#collapseGlucosa" aria-expanded="false"
+                                              aria-controls="collapseGlucosa"></span>
+                                    </div>
+                                </div>
+                                <div class="row pt-1 collapse" id="collapseGlucosa" aria-labelledby="headingGlucosa">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-7">{{ form.comentario_glucosa }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <br>
+                                <!--ROW de UREA-->
+                                <div class="row">
+                                    <div class="col-sm-2 labelsFormulario">
+                                        {{ form.urea.label }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ form.urea }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_urea }}
+                                        {{ form.max_urea }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span class="fa fa-comment" data-toggle="collapse" data-target="#collapseUrea"
+                                              aria-expanded="false" aria-controls="collapseUrea"></span>
+                                    </div>
+                                </div>
+                                <div class="row pt-1 collapse" id="collapseUrea">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-7">{{ form.comentario_urea }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <br>
+                                <!--ROW de BUN-->
+                                <div class="row">
+                                    <div class="col-sm-2 labelsFormulario">
+                                        {{ form.bun.label }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ form.bun }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_bun }}
+                                        {{ form.max_bun }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span class="fa fa-comment" data-toggle="collapse" data-target="#collapseBun"
+                                              aria-expanded="false" aria-controls="collapseBun"></span>
+                                    </div>
+                                </div>
+                                <div class="row pt-1 collapse" id="collapseBun">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-7">{{ form.comentario_bun }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <br>
+                                <!--ROW de CREATININA-->
+                                <div class="row">
+                                    <div class="col-sm-2 labelsFormulario">
+                                        {{ form.creatinina.label }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ form.creatinina }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_creatinina_h }}
+                                        {{ form.max_creatinina_h }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL hombres
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span class="fa fa-comment" data-toggle="collapse"
+                                              data-target="#collapseCreatinina" aria-expanded="false"
+                                              aria-controls="collapseCreatinina"></span>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_creatinina_m }}
+                                        {{ form.max_creatinina_m }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL mujeres
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+                                <div class="row pt-1 collapse" id="collapseCreatinina">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-7">{{ form.comentario_creatinina }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <br>
+                                <!--ROW de Ácido Úrico-->
+                                <div class="row">
+                                    <div class="col-sm-2 labelsFormulario">
+                                        {{ form.acido_urico.label }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        {{ form.acido_urico }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL
+                                    </div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_acido_urico_h }}
+                                        {{ form.max_acido_urico_h }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL hombres
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <span class="fa fa-comment" data-toggle="collapse"
+                                              data-target="#collapseCreatinina" aria-expanded="false"
+                                              aria-controls="collapseCreatinina"></span>
+                                    </div>
+                                </div>
+                                <div class="row pt-1">
+                                    <div class="col-sm-6"></div>
+                                    <div class="col-sm-3 input-group">
+                                        {{ form.min_acido_urico_m }}
+                                        {{ form.max_acido_urico_m }}
+                                    </div>
+                                    <div class="col-sm-2">
+                                        mg/dL mujeres
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
+                                <div class="row pt-1 collapse" id="collapseCreatinina">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-7">{{ form.comentario_acido_urico }}</div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                                <br>
+                                <!--Boton de GUARDAR-->
+                                <div class="clearfix">
+                                    <input value="Guardar" type="submit" class="btn float-right btn-save">
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+    <script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head lang="es">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Percept">
+
+    <title>{% block title %}Nefrovida{% endblock title %}</title>
+    <link rel="icon" type="image/png" href="#">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/side_nav_bars.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/back_button.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/favicon_io/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon_io/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon_io/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'img/favicon_io/site.webmanifest' %}">
+    {% block includes %}
+    {% endblock includes %}
+</head>
+
+<body>
+<nav class="navbar nefro_navbar d-lg-flex flex-row bd-highlight">
+    <img src="{% static 'img/logo_NefroVida.png' %}" class="nefro_logo p-1 bd-highlight">
+
+    <div class="p-2 flex-grow-1 bd-highlight d-none d-lg-block"></div>
+    <div class="p-2 bd-highlight d-none d-lg-block josefino"><i class="material-icons">face</i>
+        {% if request.user.get_full_name %}
+            {{ request.user.get_full_name }}
+        {% else %}
+            {{ request.user.username }}
+        {% endif %}
+    </div>
+    <div class="p-2 bd-highlight">
+        <button type="button" class="btn btn-outline-danger btn-sm" onclick="location.href='{% url 'logout' %}'">Cerrar
+            sesión
+        </button>
+    </div>
+</nav>
+
+<div id="sidebar_div">
+    {% block sidebar %}
+        <div id="mySidenav" class="sidenav">
+            <a href="#" id="sideopener"><i class='fas fa-angle-double-right icon-size'></i></a href="#">
+            <div class="text">
+                {% if perms.Beneficiarios.view_beneficiario %}
+                    <a href="{% url 'Beneficiarios:beneficiarios' %}"
+                       {% if request.path|slice:":14" == '/beneficiarios' %}class="sidebar-list active"
+                       {% else %}class="sidebar-list" {% endif %}><i class="material-icons">folder_shared</i> <span
+                            class="sidebar-hide hidden">Beneficiarios</span></a>
+                {% endif %}
+
+                {% if perms.Proyectos.view_jornada %}
+                    <a href="{% url 'Proyectos:jornadas' %}"
+                       {% if request.path|slice:":9" == '/jornadas' %}class="sidebar-list active"
+                       {% else %}class="sidebar-list" {% endif %}><i class="material-icons">access_time</i> <span
+                            class="sidebar-hide hidden">Jornadas</span></a>
+                {% endif %}
+
+                {% if perms.Doctores.view_evaluacion %}
+                    <a href="{% url 'Doctores:evaluaciones' %}"
+                       {% if request.path|slice:":13" == '/evaluaciones' %}class="sidebar-list active"
+                       {% else %}class="sidebar-list" {% endif %}><i class="ml-1 mr-2 far fa-sticky-note"></i><span
+                            class="sidebar-hide hidden">Evaluaciones</span></a>
+                {% endif %}
+
+                {% if perms.Reportes.view_reportes %}
+                    <a href="{% url 'Reportes:reportes_seguimiento_view' %}"
+                        {% if request.path|slice:":21" == '/seguimiento' %}class="sidebar-list active"
+                        {% else %}class="sidebar-list" {% endif %}><i class="material-icons">archive</i> <span
+                            class="sidebar-hide hidden">Reportes de seguimiento</span></a>
+                    <a href="{% url 'Reportes:reportes_view' %}"
+                        {% if request.path|slice:":9" == '/reportes' %}class="sidebar-list active"
+                        {% else %}class="sidebar-list" {% endif %}><i class="material-icons">timeline</i> <span
+                            class="sidebar-hide hidden">Reportes</span></a>
+                    <a href="{% url 'Reportes:compare_jornada_view' %}"
+                        {% if request.path|slice:":9" == '/comparar' %}class="sidebar-list active"
+                        {% else %}class="sidebar-list" {% endif %}><i class="material-icons">multiline_chart</i> <span
+                            class="sidebar-hide hidden">Comparar Jornadas</span></a>
+
+
+                         
+                {% endif %}
+
+                {% if perms.Doctores.view_evaluacion %}
+                    <a href="{% url 'Doctores:reportes_view' %}"
+                       {% if request.path|slice:":15" == '/capacitaciones' %}class="sidebar-list active"
+                       {% else %}class="sidebar-list" {% endif %}><i class="fas fa-chart-pie"></i> <span
+                            class="sidebar-hide hidden">Reportes de capacitaciones</span></a>
+                {% endif %}
+
+                {% if perms.Usuarios.view_user and False %}
+                    <a href="#" class="sidebar-list"><i class="material-icons">group</i> <span
+                            class="sidebar-hide hidden">Usuarios</span></a>
+                {% endif %}
+
+            </div>
+        </div>
+    {% endblock sidebar %}
+</div>
+
+<div id="content_div">
+    <div id="main">
+        {% if request.path != "/" %}
+            <div class="container-fluid">
+                <button type="button" class="btn btn-outline-info btn-circle" onclick="window.history.back()"><i
+                        class="fas fa-arrow-left"></i></button>
+            </div>
+        {% endif %}
+        <div class="container-fluid">
+            {% if messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    <div class="row">
+        <footer class="col">
+            {% block footer %}
+            {% endblock footer %}
+        </footer>
+    </div>
+</div>
+
+{% block modal %}
+{% endblock modal %}
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+<!-- jQuery Custom Scroller CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{% static 'js/side_nav_bars.js' %}"></script>
+<script src="{% static 'Beneficiarios/beneficiarios_detail.js' %}"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"').tooltip();
+    });
+</script>
+{% block scripts %}
+{% endblock scripts %}
+{% load sweetify %}
+{% sweetify %}
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!–– NEF-26 ––>
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block includes %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'Proyectos/styles.css' %}">
+{% endblock includes %}
+
+{% block scripts %}
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script>
+$(document).ready(function() {
+    var URL = '{% url 'Proyectos:jornadas_json' %}';
+    var dt_table = $('#jornadas_table').dataTable({
+        "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
+        },
+        order: [[ 1, "desc" ]],
+        responsive: true,
+        columnDefs: [
+            {
+                name: 'nombre',
+                orderable: true,
+                searchable: true,
+                targets: [0]
+            },
+            {
+                name: 'fecha',
+                orderable: true,
+                searchable: true,
+                targets: [1]
+            },
+            {
+                name: 'estado',
+                orderable: true,
+                searchable: true,
+                targets: [2]
+            },
+            {
+                name: 'municipio',
+                orderable: true,
+                searchable: true,
+                targets: [3]
+            },
+            {
+                name: 'localidad',
+                targets: [4],
+                orderable: true,
+                searchable: true,
+            },
+            {
+                name: 'beneficiarios',
+                targets:[5],
+                orderable: true,
+                searchable: false,
+            }
+        ],
+        searching: true,
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: URL
+    });
+});
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<br>
+<h2>Jornadas <div class="clearfix d-inline-block">
+  <a href="{% url 'Proyectos:jornadas_create' %}"><i class="fas fa-plus-square icon-add"></i></a>
+</div></h2>
+<br><br>
+<table id="jornadas_table" class="datatable table table-hover table-striped">
+    <thead>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Municipio</th>
+        <th>Localidad</th>
+        <th>Beneficiarios</th>
+    </thead>
+    <tbody></tbody>
+</table>
+{% endblock content %}

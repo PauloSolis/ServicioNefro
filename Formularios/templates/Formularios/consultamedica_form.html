@@ -1,0 +1,214 @@
+<!--
+  NEF-46
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div>
+  <br>
+  <div class="container">
+    <div class="card">
+      <h5 class="card-header text-center">Consulta Médica </h5>
+      <div class="card-body">
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="container-fluid">
+            <input value="{{ beneficiario.id }}" type="hidden" name="beneficiario">
+
+            <div class="row pb-3">
+              <div class="col-7"></div>
+              <div class="col-sm-2 text-right labelsFormulario ">
+                  Fecha:
+              </div>
+              <div class="col-sm-3">
+                {{ form.fecha_creacion }}
+              </div>
+            </div>
+
+            <div class="row pt-1 pb-3">
+              <div class="col">
+                <label for="" class="labelsFormulario">{{ form.especificaciones.label }}</label>
+                <div class="">
+                  {{ form.especificaciones }}
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="form-row align-items">
+              <div class="col-lg-2 col-sm-3">
+                <label class="text-right labelsFormulario">{{ form.peso.label }}</label>
+                <div class="input-group">
+                  <input type="number" name="peso" class="form-control" min="1" max="999.99" step="0.01" required="" id="id_peso" value="{{ tamizaje.peso }}">
+
+                  <div class="input-group-append">
+                    <span class="input-group-text">kg</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-2 col-sm-3">
+                <label class="text-right labelsFormulario">{{ form.talla.label }}</label>
+                <div class="input-group">
+                  <input type="number" name="talla" class="form-control" min="1" max="999.99" step="0.01" required="" id="id_talla" value="{{ tamizaje.talla }}">
+                  <div class="input-group-append">
+                    <div class="input-group-text">m</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-2 col-sm-3 ">
+                <label class="text-right labelsFormulario">{{ form.imc.label }}</label>
+                <div class="input-group">
+                  <span class="form-control" id="id_imc_view">{{ tamizaje.imc }}</span>
+                   <input type="hidden" name="imc" class="form-control" min="0" max="999.99" step="0.01" required="" id="id_imc" value="{{ tamizaje.imc }}" >
+
+
+                  <div class="input-group-append">
+                    <span class="input-group-text">kg/m<sup>2</sup></span>
+                  </div>
+                </div>
+              </div>
+              <small class="col-lg-3 col-sm-3 pt-3">
+                <br>
+                {% if tamizaje %}
+                <div class="text-left ">Fecha de último registro</div>
+                  <div class="">
+                  {{ tamizaje.fecha }}
+                  </div>
+                {% else %}
+                <div class="text-left ">No hay registro de tamizaje previo</div>
+                {% endif %}
+              </small>
+
+            </div>
+
+            <hr>
+
+            <div class="form-row align-items">
+              <div class="col-lg-2 col-sm-3">
+                <label class="labelsFormulario">{{ form.frecuencia_cardiaca.label }}</label>
+                <div class="input-group">
+                  {{ form.frecuencia_cardiaca }}
+                  <div class="input-group-append">
+                    <span class="input-group-text">lpm</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-2 col-sm-3">
+                <label class=" labelsFormulario">{{ form.frecuencia_respiratoria.label }}</label>
+                <div class="input-group">
+                  {{ form.frecuencia_respiratoria }}
+                  <div class="input-group-append">
+                    <div class="input-group-text">rpm</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-2 col-sm-3 ">
+                <label class=" labelsFormulario pb-4">{{ form.temperatura.label }}</label>
+                <div class="input-group">
+                  {{ form.temperatura }}
+                  <div class="input-group-append">
+                    <span class="input-group-text">ºC</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-3 col-sm-4 ">
+                <label class=" labelsFormulario pb-4">Presión arterial:</label>
+                <div class="input-group">
+                    {{ form.presion_sistolica }}
+                    <div class="input-group-prepend">
+                        <div class="input-group-text form-control"><b>/</b></div>
+                    </div>
+                    {{ form.presion_diastolica }}
+                    <div class="input-group-append">
+                      <span class="input-group-text">mm Hg</span>
+                    </div>
+                </div>
+
+              </div>
+
+
+
+            </div>
+
+
+            <div class="row pb-3 pt-5">
+              <div class="col">
+                <label for="" class="labelsFormulario">{{ form.analisis_enfermedad.label }}</label>
+                <div class="">
+                  {{ form.analisis_enfermedad }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row pb-3">
+              <div class="col">
+                <label for="" class="labelsFormulario">{{ form.plan.label }}</label>
+                <div class="">
+                  {{ form.plan }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row pb-3">
+              <div class="col">
+                <label for="" class="labelsFormulario">{{ form.tratamiento.label }}</label>
+                <div class="">
+                  {{ form.tratamiento }}
+                </div>
+              </div>
+            </div>
+
+            <div class="row pb-3">
+              <div class="col">
+                <label for="" class="labelsFormulario">{{ form.observaciones.label }}</label>
+                <div class="">
+                  {{ form.observaciones }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <br><br>
+          <div class="clearfix">
+            <input class="btn float-right btn-save" type="submit" value="Guardar" onclick="validation()">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('#id_talla').change(function(){
+      var talla = $(this).val();
+      var peso = $('#id_peso').val();
+      $('#id_imc').val((peso/(talla*talla)).toFixed(2));
+      $('#id_imc_view').html((peso/(talla*talla)).toFixed(2));
+    });
+    $('#id_peso').change(function(){
+      var talla = $('#id_talla').val();
+      var peso = $(this).val();
+      $('#id_imc').val((peso/(talla*talla)).toFixed(2));
+      $('#id_imc_view').html((peso/(talla*talla)).toFixed(2));
+    });
+  });
+</script>
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

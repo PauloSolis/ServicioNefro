@@ -1,0 +1,153 @@
+<!–– NEF-34
+     NEF-39
+––>
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block includes %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+<link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block scripts %}
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script>
+var dt_table = undefined;
+var setUpDataTable = function(){
+    var URL = '{% url 'Beneficiarios:beneficiarios_json' %}';
+
+    if(dt_table != undefined){
+        dt_table.destroy();
+    }
+    if($('#categoria').val() != 'none'){
+        var data = { categoria: $('#categoria').val() };
+    }else{
+        var data = {};
+    }
+
+    dt_table = $('#beneficiarios_table').DataTable({
+        "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
+        },
+        order: [[ 0, "asc" ]],
+        responsive: true,
+        columnDefs: [
+            {
+                name: 'id',
+                orderable: true,
+                searchable: true,
+                targets: [0]
+            },
+            {
+                name: 'nombre',
+                orderable: true,
+                searchable: true,
+                targets: [1]
+            },
+            {
+                name: 'apellido_paterno',
+                orderable: true,
+                searchable: true,
+                targets: [2]
+            },
+            {
+                name: 'apellido_materno',
+                orderable: true,
+                searchable: true,
+                targets: [3]
+            },
+            {
+                name: 'sexo',
+                targets: [4],
+                orderable: false,
+                searchable: false,
+            },
+            {
+                name: 'de_seguimiento',
+                targets: [5],
+                orderable: true,
+                searchable: false,
+            },
+            {
+                name: 'clasificacion',
+                targets:[6],
+                orderable: false,
+                searchable: false,
+            },
+            {
+                name: 'edad',
+                targets: [7],
+                orderable: false,
+                searchable: false,
+            },
+            {
+                name: 'activo',
+                targets: [8],
+                orderable: true,
+                searchable: false,
+            }
+        ],
+        searching: true,
+        processing: true,
+        serverSide: true,
+        stateSave: true,
+        ajax: {
+            url: URL,
+            data: data
+        }
+    });
+};
+
+
+$(document).ready(function() {setUpDataTable()});
+</script>
+
+<script>
+$(document).ready(function(){
+    $('#categoria').on('change', function(){
+        setUpDataTable()
+    });
+});
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<br>
+<h2>Beneficiarios</h2>
+<br>
+<div class="row mb-2">
+    <div class="col-12 col-md-3 offset-md-4 col-lg-2 offset-lg-8 text-right align-center">
+        <label for="categoria">Filtrar por clasificación:</label>
+    </div>
+    <div class="col-12 col-md-5 col-lg-2">
+        <select id="categoria" class="custom-select form-control">
+        <option value="none" selected>Todos</option>
+        <option value="Sin datos">Sin datos</option>
+        <option value="G1">G1</option>
+        <option value="G2">G2</option>
+        <option value="G3">G3</option>
+        <option value="G4">G4</option>
+        <option value="G5">G5</option>
+        <option value="discrepancia">Discrepancia</option>
+        </select>
+    </div>
+</div>
+<table id="beneficiarios_table" class="datatable table table-hover table-striped">
+    <thead>
+        <th>Folio</th>
+        <th>Nombre</th>
+        <th>Apellido paterno</th>
+        <th>Apellido materno</th>
+        <th>Sexo</th>
+        <th>De Seguimiento</th>
+        <th>Clasificación</th>
+        <th>Edad</th>
+        <th>Activo</th>
+    </thead>
+    <tbody></tbody>
+</table>
+{% endblock content %}

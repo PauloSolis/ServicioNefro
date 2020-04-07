@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load getObjAttr %}
+{% load getIndexOf %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+
+{% endblock includes %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+{% endblock scripts %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <form method="post" action="/comparar">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="col-7">
+                <h3>Compara jornadas</h3>
+                <select class="form-control" id="jornadas" name="jornadas" multiple>
+                    <option value="0" disabled selected>Selecciona las jornadas que quieras comparar</option>
+                    {% for j in jornadas %}
+                    <option value="{{ j.id }}">{{ j.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-2 my-auto">
+                <div class="">
+                    <small class="text-muted">
+                        Para seleccionar varias jornadas presiona la tecla ctrl (en Windows) y da clic en las jornadas que quieras mientras tienes la tecla presionada.
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-auto">
+                <button class="btn btn-info text-center" type="submit">Comparar</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+</div>
+{% if is_post %}
+    <h3>Información Sociodemográfica</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.Sociodemografico.0.items %}
+                {% if k != "Nombre" and k != "counter" %}
+                <tr>
+                    {% for j in jornadasInfo.Sociodemografico %}
+                        {% if j.counter == 0 %}
+                            <th>{{ k }}</th>
+                        {% endif %}
+                        <td>{{ j|get_obj_attr:k }}</td>
+                    {% endfor %}
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Diabetes e Hipertensión</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.DiabetesHipertension.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.DiabetesHipertension %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Factor de Riesgo</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.FactorRiesgo.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.FactorRiesgo %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Estadificación</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.Estadificacion.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.Estadificacion %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Controlado - Descontrolado</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.ControladoDescontrolado.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.ControladoDescontrolado %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Malnutrición Inflamación</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.MalnutricionInflamacion.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.MalnutricionInflamacion %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Escala de Adherencia al tratamiento</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.AdherenciaTratamiento.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.AdherenciaTratamiento %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Escala de Hamilton</h3>
+    <table class="table table-sm table-hover table-responsive-lg col">
+        <thead>
+            <tr class="thead-light">
+                <th>Parámetros</th>
+                {% for j in jornadasInfo.Sociodemografico %}
+                    <th>{{ j.Nombre }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for k, v in jornadasInfo.EscalaHamilton.0.items %}
+                {% if k != "counter" %}
+                    <tr>
+                        {% for j in jornadasInfo.EscalaHamilton %}
+                            {% if j.counter == 0 %}
+                                <th>{{ k }}</th>
+                            {% endif %}
+                            <td>{{ j|get_obj_attr:k }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<!--{{ jornadasInfo }}-->
+    
+{% endblock content %}

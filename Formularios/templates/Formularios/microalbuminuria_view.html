@@ -1,0 +1,234 @@
+<!--
+  NEF-77, NEF-78
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+  <div class="card">
+    <h5 class="card-header text-center">Microalbuminuria</h5>
+    <div class="card-body">
+      <div class="container px-5">
+        <div class="row pb-2">
+          <div class="col-2 labelsFormulario">
+            Doctor:
+          </div>
+          <div class="col-4 ">
+            {{ microalbuminuria.doctor }}
+          </div>
+          <div class="col-3 labelsFormulario">
+            Fecha de estudio:
+          </div>
+          <div class="col-3 ">
+            {{ microalbuminuria.fecha }}
+          </div>
+        </div>
+        <div class="row pb-5">
+          <div class="col-2 labelsFormulario">
+            Método:
+          </div>
+          <div class="col-4">
+            {{ microalbuminuria.metodo }}
+          </div>
+          <div class="col-6">
+          </div>
+        </div>
+        <!--COMIENZAN LOS RESULTADOS-->
+
+        <div class="container-fluid">
+          <div class="container center">
+            <div class="card container-fluid">
+              <div class="row pt-3">
+                <div class="col-sm-2 viewparameters">
+                  Micro-albúmina:
+                </div>
+
+                {% if microalbuminuria.micro_albumina > microalbuminuria.micro_albumina_max or microalbuminuria.micro_albumina < microalbuminuria.micro_albumina_min %}
+                <div class="col-sm-3  text-center viewresultwrong pl-5 small">
+                  {{ microalbuminuria.micro_albumina }} mg/L
+                </div>
+                {% else %}
+                <div class="col-sm-3  text-center viewresult pl-5 small">
+                  {{ microalbuminuria.micro_albumina }} mg/L
+                </div>
+                {% endif %}
+                <div class="col-sm-1"> </div>
+                <div class="col-sm-2">
+                  <text>{{ microalbuminuria.micro_albumina_min }}</text>
+                  <text class="small">mg/L</text>
+                </div>
+                <div class="col-sm-2">
+                  <div id="max_gl" class="clearfix text-left">
+                    <text>{{ microalbuminuria.micro_albumina_max }}</text>
+                    <text class=" small">mg/dL</text>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  {% if microalbuminuria.micro_albumina_comentario %}
+                  <span class="fa fa-comment mficons pointer" data-toggle="collapse" data-target="#collapseMicro" aria-expanded="false" aria-controls="collapseMicro"></span>
+                  {% else %}
+                  <span class="fa fa-comment mficonsdisabled" disabled></span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row pb-2 pl-3">
+                <div class="col-sm-3"> </div>
+                <div class="col-sm-3 minmax">
+                  Resultado
+                </div>
+                <div class="col-sm-2 minmax">
+                  MIN
+                </div>
+                <div class="col-sm-2 minmax">
+                  MAX
+                </div>
+              </div>
+              <div class="row pb-2"></div>
+              {% if microalbuminuria.micro_albumina_comentario %}
+              <div class="row collapse" id="collapseMicro">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-7"><textarea class="form-control cursorna" rows="2" disabled>{{microalbuminuria.micro_albumina_comentario }}</textarea></div>
+                <div class="col-sm-2 "></div>
+              </div>
+              {% endif %}
+              <div class="row pb-3"></div>
+            </div><br>
+
+            <div class="card container-fluid">
+              <div class="row pt-3">
+                <div class="col-sm-2 viewparameters">
+                  Creatinina:
+                </div>
+
+                {% if microalbuminuria.creatinina > microalbuminuria.creatinina_max or microalbuminuria.creatinina < microalbuminuria.creatinina_min %}
+                <div class="col-sm-3  text-center viewresultwrong pb-2 pl-5 small">
+                  {{ microalbuminuria.creatinina }} mg/dL
+                </div>
+                {% else %}
+                <div class="col-sm-3  text-center viewresult pb-2 pl-5 small">
+                  {{ microalbuminuria.creatinina }} mg/dL
+                </div>
+                {% endif %}
+                <div class="col-sm-1"> </div>
+                <div class="col-sm-2">
+                  <text>{{ microalbuminuria.creatinina_min }}</text>
+                  <text class="small">mg/dL</text>
+                </div>
+                <div class="col-sm-2">
+                  <div id="max_gl" class="clearfix text-left">
+                    <text>{{ microalbuminuria.creatinina_max }}</text>
+                    <text class=" small">mg/dL</text>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  {% if microalbuminuria.creatinina_comentario %}
+                  <span class="fa fa-comment mficons pointer" data-toggle="collapse" data-target="#collapseCreatinina" aria-expanded="false" aria-controls="collapseCreatinina"></span>
+                  {% else %}
+                  <span class="fa fa-comment mficonsdisabled" disabled></span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="row pb-2 pl-3">
+                <div class="col-sm-3"> </div>
+                <div class="col-sm-3 minmax">
+                  Resultado
+                </div>
+                <div class="col-sm-2 minmax">
+                  MIN
+                </div>
+                <div class="col-sm-2 minmax">
+                  MAX
+                </div>
+              </div>
+              <div class="row pb-2"></div>
+              {% if microalbuminuria.creatinina_comentario %}
+              <div class="row collapse" id="collapseCreatinina">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-7"><textarea class="form-control cursorna" rows="2" disabled>{{ microalbuminuria.creatinina_comentario }}</textarea></div>
+                <div class="col-sm-2 "></div>
+              </div>
+              {% endif %}
+              <div class="row pb-3"></div>
+            </div><br>
+            <div class="text-center viewparametersbig pb-4">Relación</div>
+            <div class="d-flex pl-5">
+              <div class=" flex-fill">
+                <div class="row p-2 minmax">ESTADO</div>
+                {% if microalbuminuria.relacion > microalbuminuria.relacion_normal_max%}
+                <div class="row p-2 viewparametersstatuswrong">Normal</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">Normal</div>
+                {% endif %}
+
+                {% if microalbuminuria.relacion > microalbuminuria.relacion_anormal_max or microalbuminuria.relacion < microalbuminuria.relacion_anormal_min %}
+                <div class="row p-2 viewparametersstatuswrong">Anormal</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">Anormal</div>
+                {% endif %}
+
+                {% if microalbuminuria.relacion < microalbuminuria.relacion_anormal_alta_min %}
+                <div class="row p-2 viewparametersstatuswrong">Anormal alto</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">Anormal alto</div>
+                {% endif %}
+              </div>
+
+              <div class=" align-self-center flex-fill ">
+                <div class="row minmax lp">RESULTADO</div>
+                  <div class="row viewresult"><p class="viewresultbig">{{ microalbuminuria.relacion }}</p><p class="paddingtop"> mg/g</p></div>
+                </div>
+                <div class=" flex-fill">
+                  <div class="row p-2 minmax">MIN</div>
+                  <div class="row p-2 minmaxvalues">{{ microalbuminuria.relacion_normal_min }} mg/g</div>
+                  <div class="row p-2 minmaxvalues">{{microalbuminuria.relacion_anormal_min }} mg/g</div>
+                  <div class="row p-2 minmaxvalues">{{ microalbuminuria.relacion_anormal_alta_min }} mg/g</div>
+                </div>
+                <div class=" flex-fill">
+                  <div class="row p-2 minmax">MAX</div>
+                  <div class="row p-2 minmaxvalues">{{ microalbuminuria.relacion_normal_max }} mg/g</div>
+                  <div class="row p-2 minmaxvalues">{{ microalbuminuria.relacion_anormal_max }} mg/g</div>
+                  <div class="row p-2 minmaxvalues">{{ microalbuminuria.relacion_anormal_alta_max }} mg/g</div>
+                </div>
+              </div><br><br>
+              <!--Botones-->
+              {% if perms.Formularios.change_microalbuminuria or perms.Formularios.delete_microalbuminuria %}
+              <div class="row justify-content-center pb-3">
+                <div class="col-12">
+                  <div class="clearfix">
+                    <div class="float-right wrap">
+                      <div class=" pr-2">
+                        {% if perms.Formularios.delete_microalbuminuria %}
+                        <form method="POST" action="{% url 'Formularios:delete_microalbuminuria' microalbuminuria.id %}" id="delete_form">
+                          {% csrf_token %}
+                          <button type="button" class="button btn btn-form">Borrar</button>
+                        </form>
+                        {% endif %}
+                      </div>
+                      {% if perms.Formularios.change_microalbuminuria %}
+                      <a href="{% url 'admin:Formularios_microalbuminuria_change' microalbuminuria.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+
+{% endblock scripts %}

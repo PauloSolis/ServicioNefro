@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+{% load static %}
+<!-- # NEF-21 -->
+
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+{% endblock includes %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <h1>Evaluaciones</h1>
+        <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row pb-3">
+          <div class="col">
+            <label for="">{{ form.nombre.label }}</label>
+            {{ form.nombre }}
+          </div>
+        </div>
+        <div class="row pb-3">
+          <div class="col">
+            <label for="">{{ form.fecha.label }}</label>
+            {{ form.fecha }}
+          </div>
+        </div>
+        <hr>
+        <input type="submit" value="Guardar"  class="btn float-right btn-save">
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.16.3"></script>
+<script>
+
+</script>
+
+{% endblock content %}

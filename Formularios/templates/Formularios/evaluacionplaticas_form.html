@@ -1,0 +1,346 @@
+<!--&lt;!&ndash;-->
+<!--  NEF-58-->
+<!--&ndash;&gt;-->
+<!--{% extends "Beneficiarios/beneficiario_detail.html" %}-->
+<!--{% load static %}-->
+<!--{% block includes %}-->
+<!--    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">-->
+<!--    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">-->
+<!--{% endblock includes %}-->
+
+<!--{% block beneficiario-content %}-->
+<!--<br>-->
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <h5 class="card-header text-center">Evaluación de platicas</h5>-->
+<!--        <div class="card-body">-->
+<!--            <form class="sweet-form" action="" method="POST">-->
+<!--                {% csrf_token %}-->
+<!--                <div class="container-fluid">-->
+<!--                    <div class="row pb-5">-->
+<!--                        <div class="col-6">-->
+<!--                        </div>-->
+<!--                        <div class="col-2 text-right labelsFormulario">-->
+<!--                            {{ form.fecha.label }}-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            {{ form.fecha }}-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="tab">-->
+<!--                        <div class="container">-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6">-->
+<!--                                </div>-->
+<!--                                {% for item in form.p1 %}-->
+<!--                                <div class="col-1 text-center d-flex" style="font-size: 15.6px;">-->
+<!--                                    <div class="align-self-center">{{ item.choice_label }}</div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P1  &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p1">-->
+<!--                                    {{ form.p1.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p1 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P2 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p2">-->
+<!--                                    {{ form.p2.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p2%}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P3 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p3">-->
+<!--                                    {{ form.p3.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p3 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P4 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p4">-->
+<!--                                    {{ form.p4.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p4 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P5 &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                                <div class="col-6" id="p5">-->
+<!--                                    {{ form.p5.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p5 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P6 &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                                <div class="col-6" id="p6">-->
+<!--                                    {{ form.p6.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p6 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P7 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p7">-->
+<!--                                    {{ form.p7.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p7 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P8 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p8">-->
+<!--                                    {{ form.p8.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p8 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P9 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p9">-->
+<!--                                    {{ form.p9.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p9 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P10 &ndash;&gt;-->
+<!--                            <div class="row pb-4">-->
+<!--                                <div class="col-6" id="p10">-->
+<!--                                    {{ form.p10.label }}-->
+<!--                                </div>-->
+<!--                                {% for item in form.p10 %}-->
+<!--                                <div class="col-1 text-right">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline validate-radio">-->
+<!--                                        <label class="container-radio">-->
+<!--                                            {{ item.tag }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="tab">-->
+<!--                        <div class="container">-->
+<!--                            <div class="row pb-3">{{ form.p11.label }}{{ form.p11 }}-->
+<!--                                <div class="invalido" id="invalido11" hidden>Respuesta requerida</div>-->
+<!--                            </div>-->
+<!--                            <div class="row pb-3">{{ form.p12.label }}{{ form.p12 }}-->
+<!--                                <div class="invalido" id="invalido12" hidden>Respuesta requerida</div>-->
+<!--                            </div>-->
+<!--                            <div class="row pb-5">{{ form.p13.label }}{{ form.p13 }}-->
+<!--                                <div class="invalido" id="invalido13" hidden>Respuesta requerida</div>-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="tab">-->
+<!--                        <div class="container">-->
+<!--                            &lt;!&ndash; P14  &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                              <div class="col-3 pb-1 viewlabels">-->
+<!--                                  {{ form.p14.label }}-->
+<!--                              </div>-->
+<!--                              {{ form.p14_comentario }}-->
+<!--                            </div>-->
+<!--                            <div class="row pb-5">-->
+<!--                                {% for item in form.p14 %}-->
+<!--                                <div class="col-2 text-left">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio" style="font-size: 15px">-->
+<!--                                            {{ item.tag }}&nbsp {{ item.choice_label }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; P15  &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                                <div class="col-3 pb-1 viewlabels">-->
+<!--                                    {{ form.p15.label }}-->
+<!--                                </div>-->
+<!--                                {{ form.p15_comentario }}-->
+<!--                            </div>-->
+<!--                            <div class="row pb-5">-->
+<!--                                {% for item in form.p15 %}-->
+<!--                                <div class="col-2 text-left">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio" style="font-size: 15.6px">-->
+<!--                                            {{ item.tag }}&nbsp {{ item.choice_label }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; P16  &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                                <div class="col-3 pb-1 viewlabels">-->
+<!--                                    {{ form.p16.label }}-->
+<!--                                </div>-->
+<!--                                {{ form.p16_comentario }}-->
+<!--                            </div>-->
+<!--                            <div class="row pb-5">-->
+<!--                                {% for item in form.p16 %}-->
+<!--                                <div class="col-2 text-left">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio" style="font-size: 15.6px">-->
+<!--                                            {{ item.tag }}&nbsp {{ item.choice_label }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; P17  &ndash;&gt;-->
+<!--                            <div class="row pb-2">-->
+<!--                                <div class="col-3 pb-1 viewlabels">-->
+<!--                                    {{ form.p17.label }}-->
+<!--                                </div>-->
+<!--                                {{ form.p17_comentario }}-->
+<!--                            </div>-->
+<!--                            <div class="row pb-5">-->
+<!--                                {% for item in form.p17 %}-->
+<!--                                <div class="col-2 text-left">-->
+<!--                                    <div class="custom-control custom-radio custom-control-inline">-->
+<!--                                        <label class="container-radio" style="font-size: 15.6px">-->
+<!--                                            {{ item.tag }}&nbsp {{ item.choice_label }}-->
+<!--                                            <span class="radio"></span>-->
+<!--                                        </label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+
+<!--                            <div class="row pb-5 viewlabels">{{ form.observaciones.label }}{{ form.observaciones }}</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="row">-->
+<!--                        <div class="col-3">-->
+<!--                            <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-save">Anterior</button>-->
+<!--                        </div>-->
+<!--                        <div class="col-6">-->
+<!--                        </div>-->
+<!--                        <div class=col-3>-->
+<!--                            <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn float-right btn-save">Siguiente</button>-->
+<!--                            <input type="submit" value="Guardar" type="submit" id="guardar" onclick="validation()" class="btn float-right btn-save" hidden="true">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Circles which indicates the steps of the form: &ndash;&gt;-->
+<!--                    <div style="text-align:center;margin-top:40px;">-->
+<!--                        <span class="step"></span>-->
+<!--                        <span class="step"></span>-->
+<!--                        <span class="step"></span>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--{% endblock beneficiario-content %}-->
+
+
+<!--{% block scripts %}-->
+<!--<script src="{% static 'js/formularios.js' %}" ></script>-->
+<!--<script src="{% static 'js/adherencia.js' %}" ></script>-->
+<!--{% endblock scripts %}-->

@@ -1,0 +1,296 @@
+<!--
+  NEF-51, NEF-52, NEF-53
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<br>
+<div class="container">
+  <div class="card">
+    <h5 class="card-header text-center">Escala de malnutrición-inflamación (M.I.S)</h5>
+    <div class="card-body">
+      {% csrf_token %}
+      <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+      <div class="container-fluid">
+        <div class="row pt-3 ml-2 ">
+          <div class="col-sm-2 labelsFormulario text-right"><i class="fa fa-id-card"></i>
+            Peso:
+          </div>
+          <div class="col-sm-4 text-left">
+            {{ malnutricioninflamacion.peso }} kg
+          </div>
+          <div class="col-sm-3 text-right labelsFormulario">
+            Fecha de estudio:
+          </div>
+          <div class="col-sm-3 text-left">
+            {{ malnutricioninflamacion.fecha }}
+          </div>
+        </div>
+        <div class="row pt-3 ml-2">
+          <div class="col-sm-2 labelsFormulario text-right"><i class="fa fa-user"></i>
+            Talla:
+          </div>
+          <div class="col-sm-2  text-left">
+            {{ malnutricioninflamacion.talla }} m
+          </div>
+        </div>
+        <div class="row pt-3 ml-2">
+          <div class="col-sm-2 labelsFormulario text-right"><i class="fa fa-medkit"></i>
+            IMC:
+          </div>
+          <div class="col-sm-2  text-left">
+            {{ malnutricioninflamacion.imc_valor }} kg/m2
+          </div>
+        </div>
+        <hr>
+        <!-- Aqui empiezan los resultados  -->
+        <div class="row pt-4">
+          <div class="col-12 ml-4 font-weight-bold labelsFormulario text-center">
+            HISTORIA CLÍNICA RELACIONADA CON EL PACIENTE
+          </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+          <div class="container center">
+            <div class="card container-fluid mini-card">
+              <!-- Pregunta 1  -->
+              <div class="row pt-3 pb-3">
+                <div class="col-6 ml-5 text-right">
+                  {{ form.porcentaje_perdida_peso.label }}
+                </div>
+                <div class="col-5 labelsnumeros">
+                  {{ malnutricioninflamacion.perdida_peso }} kg
+                  ( {% for item in form.porcentaje_perdida_peso %}
+                  {% if malnutricioninflamacion.porcentaje_perdida_peso == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %} )
+                </div>
+              </div>
+              <!-- Pregunta 2 -->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right  ">
+                  {{ form.ingesta_alimentaria.label }}
+                </div>
+                <div class="col-5 labelsnumeros">
+                  {% for item in form.ingesta_alimentaria %}
+                  {% if malnutricioninflamacion.ingesta_alimentaria == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta 3 -->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.gastrointestinales.label }}
+                </div>
+                <div class="col-5 text-left labelsnumeros">
+                  {% for item in form.gastrointestinales %}
+                  {% if malnutricioninflamacion.gastrointestinales == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta 4 -->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.incapacidad.label }}
+                </div>
+                <div class="col-5 labelsnumeros">
+                  {% for item in form.incapacidad %}
+                  {% if malnutricioninflamacion.incapacidad == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta 5 -->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.comorbilidad.label }}
+                </div>
+                <div class="col-5 text-left labelsnumeros">
+                  {% for item in form.comorbilidad %}
+                  {% if malnutricioninflamacion.comorbilidad == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="ml-4 col-12 font-weight-bold labelsFormulario text-center">
+            EXAMEN FÍSICO
+          </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+          <div class="container center">
+            <div class="card d-block container-fluid mini-card">
+              <!-- Pregunta  1-->
+              <div class="row pt-3">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.grasa_subcutanea.label }}
+                </div>
+                <div class="col-5 mb-3 text-left labelsnumeros">
+                  {% for item in form.grasa_subcutanea %}
+                  {% if malnutricioninflamacion.grasa_subcutanea == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta  2-->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.perdida_muscular.label }}
+                </div>
+                <div class="col-5 mb-3 text-left labelsnumeros">
+                  {% for item in form.perdida_muscular %}
+                  {% if malnutricioninflamacion.perdida_muscular == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta  3-->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.edema.label }}
+                </div>
+                <div class="col-5 mb-3 text-left labelsnumeros">
+                  {% for item in form.edema %}
+                  {% if malnutricioninflamacion.edema == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta  4-->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.albumina.label }}:
+                </div>
+                <div class="col-5 mb-3 text-left labelsnumeros">
+                  {% for item in form.albumina %}
+                  {% if malnutricioninflamacion.albumina == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <!-- Pregunta  5-->
+              <div class="row">
+                <div class="col-6 ml-5 pb-3 text-right">
+                  {{ form.fijacion_hierro.label }}
+                </div>
+                <div class="col-5 mb-3 text-left labelsnumeros">
+                  {% for item in form.fijacion_hierro %}
+                  {% if malnutricioninflamacion.fijacion_hierro == item.data.value %}
+                  {{ item.choice_label }}
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Comentario-->
+          {% if malnutricioninflamacion.comentario %}
+          <div class="row pt-5">
+            <div class="col-2"></div>
+            <div class="col-8">
+              <text class=" labelsFormulario text-right">Comentario: </text>
+              <textarea class="form-control cursorna" rows="2" disabled> {{ malnutricioninflamacion.comentario }} </textarea>
+            </div>
+            <div class="col-1"></div>
+          </div>
+          {% endif %}<br><br>
+          <!--Resultados-->
+          <div class="row ml-1">
+            <div class="col-2"></div>
+            <text class=" labelsFormulario text-right">Resultado:</text>
+          </div>
+          <div class="row pt-4 ml-5">
+            <div class="col-1"></div>
+            <div class="col-2 col-sm-3 text-right">
+              <span class="rounded-circle circles"> {{malnutricioninflamacion.resultado}}</span>
+            </div>
+            <div class="col-7">
+              <text class="resultado-estudio">{{malnutricioninflamacion.interpretacion}}</text>
+            </div>
+          </div>
+          <!--Tabla de resultados-->
+          <div class="row pt-5 pb-2">
+            <div class="col-3 ml-4"></div>
+            <table class="col-4 table pt-4 ml-5">
+              <tr>
+                <th colspan="3" class="text-center">Interpretación</th>
+              </tr>
+              <tr>
+                <td>0</td>
+                <td>A</td>
+                <td>Estado Nutricional</td>
+              </tr>
+              <tr>
+                <td>1-9</td>
+                <td>B</td>
+                <td>Desnutrición Leve</td>
+              </tr>
+              <tr>
+                <td>10-19</td>
+                <td>C</td>
+                <td>Desnutrición Moderada</td>
+              </tr>
+              <tr>
+                <td>20-29</td>
+                <td>D</td>
+                <td>Desnutrición Grave</td>
+              </tr>
+              <tr>
+                <td>30</td>
+                <td>E</td>
+                <td>Desnutrición Gravísima</td>
+              </tr>
+            </table>
+          </div>
+          <!--Botones-->
+          {% if perms.Formularios.change_malnutricioninflamacion or perms.Formularios.delete_malnutricioninflamacion %}
+          <div class="clearfix">
+            <div class="float-right wrap">
+              <div class=" pr-2">
+                {% if perms.Formularios.delete_malnutricioninflamacion  %}
+                <form method="POST" action="{% url 'Formularios:delete_malnutricioninflamacion' malnutricioninflamacion.id %}" id="delete_form">
+                  {% csrf_token %}
+                  <button type="submit" class="button btn btn-form">Borrar</button>
+                </form>
+                {% endif %}
+              </div>
+              {% if perms.Formularios.change_malnutricioninflamacion %}
+              <a href="{% url 'admin:Formularios_malnutricioninflamacion_change' malnutricioninflamacion.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+
+{% endblock scripts %}

@@ -1,0 +1,130 @@
+<!--
+  NEF-81, NEF-82
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+  <div class="card">
+    <h5 class="card-header text-center">Glucosa Capilar</h5>
+    <div class="card-body">
+      <div class="container px-5">
+        <div class="row pb-2">
+          <div class="col-sm-2 labelsFormulario">
+            Doctor:
+          </div>
+          <div class="col-sm-4">
+            {{ glucosacapilar.doctor }}
+          </div>
+          <div class="col-sm-3   labelsFormulario">
+            Fecha de estudio:
+          </div>
+          <div class="col-sm-3">
+            {{ glucosacapilar.fecha }}
+          </div>
+        </div>
+        <div class="row pb-5">
+          <div class="col-sm-2 labelsFormulario">
+            Método:
+          </div>
+          <div class="col-sm-4">
+            {{ glucosacapilar.metodo }}
+          </div>
+          <div class="col-sm-6">
+          </div>
+        </div>
+
+        <!--COMIENZAN LOS RESULTADOS-->
+
+        <div class="card container-fluid">
+          <div class="row pt-3 pl-3">
+            <div class="col-sm-2 viewparameters">
+              Glucosa:
+            </div>
+
+            {% if glucosacapilar.glucosa < glucosacapilar.min or glucosacapilar.glucosa > glucosacapilar.max %}
+            <div class="col-sm-3  text-center viewnegativeresult pb-1">
+              {{ glucosacapilar.glucosa }} mg/dL
+            </div>
+            {% else %}
+            <div class="col-sm-3  text-center viewresult pb-1">
+              {{ glucosacapilar.glucosa }} mg/dL
+            </div>
+            {% endif %}
+            <div class="col-sm-1"></div>
+            <div class="col-sm-2">
+              <text>{{ glucosacapilar.min }}</text>
+              <text class="smallest">mg/dL</text>
+            </div>
+            <div class="col-sm-2">
+              <text>{{ glucosacapilar.max }}</text>
+              <text class=" smallest">mg/dL</text>
+            </div>
+            <div class="col-sm-2">
+              {% if glucosacapilar.comentario %}
+              <span class="fa fa-comment mficons pointer" data-toggle="collapse" data-target="#collapseGlucosa" aria-expanded="false" aria-controls="collapseGlucosa"></span>
+              {% else %}
+              <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row pb-2 pl-3">
+            <div class="col-sm-3"> </div>
+            <div class="col-sm-3 minmax">
+              Resultado
+            </div>
+            <div class="col-sm-2 minmax">
+              MIN
+            </div>
+            <div class="col-sm-2 minmax">
+              MAX
+            </div>
+          </div>
+          {% if glucosacapilar.comentario %}
+          <div class="row collapse pl-3" id="collapseGlucosa">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-7"><textarea class="form-control" rows="2" disabled>{{glucosacapilar.comentario }}</textarea></div>
+            <div class="col-sm-2 "></div>
+          </div>
+          {% endif %}
+          <div class="row pb-2"></div>
+        </div> <br><br>
+
+        <!--Botones-->
+        {% if perms.Formularios.change_glucosacapilar or perms.Formularios.delete_glucosacapilar %}
+        <div class="row justify-content-center pb-3">
+          <div class="col-12">
+            <div class="clearfix">
+              <div class="float-right wrap">
+                <div class=" pr-2">
+                  {% if perms.Formularios.delete_glucosacapilar %}
+                  <form method="POST" action="{% url 'Formularios:delete_glucosacapilar' glucosacapilar.id %}" id="delete_form">
+                    {% csrf_token %}
+                    <button type="button" class="button btn btn-form">Borrar</button>
+                  </form>
+                  {% endif %}
+                </div>
+                {% if perms.Formularios.change_glucosacapilar %}
+                <a href="{% url 'admin:Formularios_glucosacapilar_change' glucosacapilar.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

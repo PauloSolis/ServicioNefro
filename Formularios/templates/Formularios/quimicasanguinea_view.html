@@ -1,0 +1,433 @@
+<!--
+  NEF-67, NEF-68, NEF-69
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+    <div class="container pt-5">
+        <div class="card">
+            <h5 class="card-header text-center">Química Sanguínea</h5>
+            <div class="card-body">
+                <div class="container px-5">
+                    <div class="row pb-2">
+                        <div class="col-sm-2 labelsFormulario">
+                            Doctor:
+                        </div>
+                        <div class="col-sm-4">
+                            {{ quimicaSanguinea.doctor }}
+                        </div>
+                        <div class="col-sm-3 labelsFormulario">
+                            Fecha de estudio:
+                        </div>
+                        <div class="col-sm-3">
+                            {{ quimicaSanguinea.fecha }}
+                        </div>
+                    </div>
+                    <div class="row pb-5">
+                        <div class="col-sm-2 labelsFormulario">
+                            Método:
+                        </div>
+                        <div class="col-sm-4">
+                            {{ quimicaSanguinea.metodo }}
+                        </div>
+                        <div class="col-sm-6">
+                        </div>
+                    </div>
+
+                    <!--COMIENZAN LOS RESULTADOS-->
+
+                    <div class="card container-fluid">
+                        <div class="row pt-3 pl-3">
+                            <div class="col-sm-2 labelsFormulario">
+                                Glucosa:
+                            </div>
+
+                            {% if quimicaSanguinea.glucosa < quimicaSanguinea.min_glucosa or quimicaSanguinea.glucosa > quimicaSanguinea.max_glucosa %}
+                                <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                    {{ quimicaSanguinea.glucosa }} mg/dL
+                                </div>
+                            {% else %}
+                                <div class="col-sm-3  text-center viewresult pb-1">
+                                    {{ quimicaSanguinea.glucosa }} mg/dL
+                                </div>
+                            {% endif %}
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_glucosa }}</text>
+                                <text class="smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_glucosa }}</text>
+                                <text class=" smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                {% if quimicaSanguinea.comentario_glucosa %}
+                                    <span class="fa fa-comment mficons pointer" data-toggle="collapse"
+                                          data-target="#collapseGlucosa" aria-expanded="false"
+                                          aria-controls="collapseGlucosa"></span>
+                                {% else %}
+                                    <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pb-2 pl-3">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3 minmax">
+                                Resultado
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MIN
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MAX
+                            </div>
+                        </div>
+                        {% if quimicaSanguinea.comentario_glucosa %}
+                            <div class="row collapse pl-3" id="collapseGlucosa">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-7"><textarea class="form-control" rows="2"
+                                                                disabled>{{ quimicaSanguinea.comentario_glucosa }}</textarea>
+                                </div>
+                                <div class="col-sm-2 "></div>
+                            </div>
+                        {% endif %}
+                        <div class="row pb-2"></div>
+                    </div>
+
+                    <br>
+                    <div class=" card container-fluid">
+                        <div class="row pt-3 pl-3">
+                            <div class="col-sm-2 labelsFormulario">
+                                Urea:
+                            </div>
+                            {% if quimicaSanguinea.urea < quimicaSanguinea.min_urea or quimicaSanguinea.urea > quimicaSanguinea.max_urea %}
+                                <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                    {{ quimicaSanguinea.urea }} mg/dL
+                                </div>
+                            {% else %}
+                                <div class="col-sm-3  text-center viewresult pb-1">
+                                    {{ quimicaSanguinea.urea }} mg/dL
+                                </div>
+                            {% endif %}
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_urea }}</text>
+                                <text class="smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_urea }}</text>
+                                <text class=" smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                {% if quimicaSanguinea.comentario_urea %}
+                                    <span class="fa fa-comment mficons pointer" data-toggle="collapse"
+                                          data-target="#collapseUrea" aria-expanded="false"
+                                          aria-controls="collapseUrea"></span>
+                                {% else %}
+                                    <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pb-2 pl-3">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3 minmax">
+                                Resultado
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MIN
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MAX
+                            </div>
+                        </div>
+                        {% if quimicaSanguinea.comentario_urea %}
+                            <div class="row collapse pl-3" id="collapseUrea">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-7"><textarea class="form-control" rows="2"
+                                                                disabled>{{ quimicaSanguinea.comentario_urea }}</textarea>
+                                </div>
+                                <div class="col-sm-2 "></div>
+                            </div>
+                        {% endif %}
+                        <div class="row pb-2"></div>
+                    </div>
+
+                    <br>
+                    <div class=" card container-fluid">
+                        <div class="row pt-3 pl-3">
+                            <div class="col-sm-2 labelsFormulario">
+                                Bun:
+                            </div>
+
+                            {% if quimicaSanguinea.bun < quimicaSanguinea.min_bun or quimicaSanguinea.bun > quimicaSanguinea.max_bun %}
+                                <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                    {{ quimicaSanguinea.bun }} mg/dL
+                                </div>
+                            {% else %}
+                                <div class="col-sm-3  text-center viewresult pb-1">
+                                    {{ quimicaSanguinea.bun }} mg/dL
+                                </div>
+                            {% endif %}
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_bun }}</text>
+                                <text class="smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_bun }}</text>
+                                <text class=" smallest">mg/dL</text>
+                            </div>
+                            <div class="col-sm-2">
+                                {% if quimicaSanguinea.comentario_bun %}
+                                    <span class="fa fa-comment mficons pointer" data-toggle="collapse"
+                                          data-target="#collapseBun" aria-expanded="false"
+                                          aria-controls="collapseBun"></span>
+                                {% else %}
+                                    <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pb-2 pl-3">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3 minmax">
+                                Resultado
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MIN
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MAX
+                            </div>
+                        </div>
+                        {% if quimicaSanguinea.comentario_bun %}
+                            <div class="row collapse pl-3" id="collapseBun">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-7"><textarea class="form-control" rows="2"
+                                                                disabled>{{ quimicaSanguinea.comentario_bun }}</textarea>
+                                </div>
+                                <div class="col-sm-2 "></div>
+                            </div>
+                        {% endif %}
+                        <div class="row pb-2"></div>
+                    </div>
+
+                    <br>
+                    <div class=" card container-fluid">
+                        <div class="row pt-3 pl-3">
+                            <div class="col-sm-2 labelsFormulario">
+                                Creatinina:
+                            </div>
+
+                            {% if beneficiario.sexo %}
+                                {% if quimicaSanguinea.creatinina < quimicaSanguinea.min_creatinina_h or quimicaSanguinea.creatinina > quimicaSanguinea.max_creatinina_h %}
+                                    <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                        {{ quimicaSanguinea.creatinina }} mg/dL
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-3  text-center viewresult pb-1">
+                                        {{ quimicaSanguinea.creatinina }} mg/dL
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if quimicaSanguinea.creatinina < quimicaSanguinea.min_creatinina_m or quimicaSanguinea.creatinina > quimicaSanguinea.max_creatinina_m %}
+                                    <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                        {{ quimicaSanguinea.creatinina }} mg/dL
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-3  text-center viewresult pb-1">
+                                        {{ quimicaSanguinea.creatinina }} mg/dL
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_creatinina_h }}</text>
+                                <text class="smallest">mg/dL</text>
+                                <i class="fa fa-male {% if beneficiario.sexo %} mficons {% else %} mficonsdisabled {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_creatinina_h }}</text>
+                                <text class="smallest">mg/dL</text>
+                                <i class="fa fa-male {% if beneficiario.sexo %} mficons {% else %} mficonsdisabled {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-1">
+                                {% if quimicaSanguinea.comentario_creatinina %}
+                                    <span class="fa fa-comment mficons pointer" data-toggle="collapse"
+                                          data-target="#collapseCreatinina" aria-expanded="false"
+                                          aria-controls="collapseCreatinina"></span>
+                                {% else %}
+                                    <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pl-3">
+                            <div class="col-sm-6 "></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_creatinina_m }}</text>
+                                <text class=" smallest">mg/dL</text>
+                                <i class="fa fa-female {% if beneficiario.sexo %} mficonsdisabled {% else %} mficons {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_creatinina_m }}</text>
+                                <text class=" smallest">mg/dL</text>
+                                <i class="fa fa-female {% if beneficiario.sexo %} mficonsdisabled {% else %} mficons {% endif %}"></i>
+                            </div>
+                        </div>
+                        <div class="row pb-2 pl-3">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3 minmax">
+                                Resultado
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MIN
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MAX
+                            </div>
+                        </div>
+                        {% if quimicaSanguinea.comentario_creatinina %}
+                            <div class="row collapse pl-3" id="collapseCreatinina">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-7"><textarea class="form-control" rows="2"
+                                                                disabled>{{ quimicaSanguinea.comentario_creatinina }}</textarea>
+                                </div>
+                                <div class="col-sm-2 "></div>
+                            </div>
+                        {% endif %}
+
+                        <div class="row pb-2"></div>
+                    </div>
+
+                    <!-- Ácido Úrico -->
+                    <br>
+                    <div class=" card container-fluid">
+                        <div class="row pt-3 pl-3">
+                            <div class="col-sm-2 labelsFormulario">
+                                Ácido Úrico:
+                            </div>
+
+                            {% if beneficiario.sexo %}
+                                {% if quimicaSanguinea.acido_urico < quimicaSanguinea.min_acido_urico_h or quimicaSanguinea.acido_urico > quimicaSanguinea.max_acido_urico_h %}
+                                    <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                        {{ quimicaSanguinea.acido_urico }} mg/dL
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-3  text-center viewresult pb-1">
+                                        {{ quimicaSanguinea.acido_urico }} mg/dL
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if quimicaSanguinea.acido_urico < quimicaSanguinea.min_acido_urico_m or quimicaSanguinea.acido_urico > quimicaSanguinea.max_acido_urico_m %}
+                                    <div class="col-sm-3  text-center viewnegativeresult pb-1">
+                                        {{ quimicaSanguinea.acido_urico }} mg/dL
+                                    </div>
+                                {% else %}
+                                    <div class="col-sm-3  text-center viewresult pb-1">
+                                        {{ quimicaSanguinea.acido_urico }} mg/dL
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_acido_urico_h }}</text>
+                                <text class="smallest">mg/dL</text>
+                                <i class="fa fa-male {% if beneficiario.sexo %} mficons {% else %} mficonsdisabled {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_acido_urico_h }}</text>
+                                <text class="smallest">mg/dL</text>
+                                <i class="fa fa-male {% if beneficiario.sexo %} mficons {% else %} mficonsdisabled {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-1">
+                                {% if quimicaSanguinea.comentario_acido_urico %}
+                                    <span class="fa fa-comment mficons pointer" data-toggle="collapse"
+                                          data-target="#collapseAcidoUrico" aria-expanded="false"
+                                          aria-controls="collapseAcidoUrico"></span>
+                                {% else %}
+                                    <span class="fa fa-comment mficonsdisabled cursorna" disabled></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row pl-3">
+                            <div class="col-sm-6 "></div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.min_acido_urico_m }}</text>
+                                <text class=" smallest">mg/dL</text>
+                                <i class="fa fa-female {% if beneficiario.sexo %} mficonsdisabled {% else %} mficons {% endif %}"></i>
+                            </div>
+                            <div class="col-sm-2">
+                                <text>{{ quimicaSanguinea.max_acido_urico_m }}</text>
+                                <text class=" smallest">mg/dL</text>
+                                <i class="fa fa-female {% if beneficiario.sexo %} mficonsdisabled {% else %} mficons {% endif %}"></i>
+                            </div>
+                        </div>
+                        <div class="row pb-2 pl-3">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3 minmax">
+                                Resultado
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MIN
+                            </div>
+                            <div class="col-sm-2 minmax">
+                                MAX
+                            </div>
+                        </div>
+                        {% if quimicaSanguinea.comentario_acido_urico %}
+                            <div class="row collapse pl-3" id="collapseAcidoUrico">
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-7"><textarea class="form-control" rows="2"
+                                                                disabled>{{ quimicaSanguinea.comentario_acido_urico }}</textarea>
+                                </div>
+                                <div class="col-sm-2 "></div>
+                            </div>
+                        {% endif %}
+
+                        <div class="row pb-2"></div>
+                    </div>
+                    <br><br>
+                    <!--Botones-->
+                    {% if perms.Formularios.change_quimicasanguinea or perms.Formularios.delete_quimicasanguinea %}
+                        <div class="row justify-content-center pb-3">
+                            <div class="col-12">
+                                <div class="clearfix">
+                                    <div class="float-right wrap">
+                                        <div class=" pr-2">
+                                            {% if perms.Formularios.delete_quimicasanguinea %}
+                                                <form method="POST"
+                                                      action="{% url 'Formularios:delete_quimicasanguinea' quimicaSanguinea.id %}"
+                                                      id="delete_form">
+                                                    {% csrf_token %}
+                                                    <button type="button" class="button btn btn-form">Borrar</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                        {% if perms.Formularios.change_quimicasanguinea %}
+                                            <a href="{% url 'admin:Formularios_quimicasanguinea_change' quimicaSanguinea.id %}">
+                                                <button type="button" class="button btn btn-edit">Editar</button>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock beneficiario-content %}
+{% block scripts %}
+
+    <script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

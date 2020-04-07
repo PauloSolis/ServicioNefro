@@ -1,0 +1,432 @@
+.card {
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .30);
+    border-radius: 23px;
+}
+
+.mini-card {
+    width: 50rem;
+}
+
+.circles {
+    background-color: #2368a2;
+    color: #f5f8fA;
+    font-weight: bold;
+    font-size: 35px;
+    padding: 10px;
+}
+
+.resultado-estudio {
+    font-size: 25px;
+}
+
+.card-header {
+    background-color: #f1f3f5;
+    color: #2368a2;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 20px;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .10) !important;
+    border: none;
+    z-index: 9;
+    font-family: Verdana !important;
+    font-weight: bold;
+}
+
+.card-body {
+    background-color: #f8f9fa;
+    border-radius: 0 0 20px 20px !important;
+    color: #697077;
+}
+
+.form-control {
+    border: 0px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .20);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.label-center {
+    text-align: center;
+}
+
+.guardar {
+    border: 0px !important;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, .25);
+    transition: 0.3s;
+    border-radius: 5px;
+    background-color: #aad4f5 !important;
+    color: #2368a2;
+    font-family: Verdana !important;
+}
+
+.lp {
+    padding-left: 20%;
+}
+
+.wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-download:hover {
+    background-color: #78d889;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    color: #1b3a23;
+    transform: translateY(-4px);
+}
+
+.btn-save:hover {
+    background-color: #63A2D8;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    color: #12283a;
+    transform: translateY(-4px);
+}
+
+.btn-edit:hover {
+    background-color: #F4CA64;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    color: #5C4813;
+    transform: translateY(-4px);
+}
+
+.btn-delete:hover {
+    background-color: #F4AAAA;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    color: #611717;
+    transform: translateY(-4px);
+}
+
+.btn-form:hover {
+    background-color: #F4AAAA;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+    color: #611717;
+    transform: translateY(-4px);
+}
+
+.btn-download {
+    width: 140px;
+    height: 45px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color: #99d8a0;
+    color: #1b3a23;
+}
+
+.btn-save {
+    width: 140px;
+    height: 45px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color: #aad4f5;
+    color: #2368a2;
+}
+
+.btn-edit {
+    width: 140px;
+    height: 45px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color: #FAE29F;
+    color: #5C4813;
+}
+
+.btn-delete {
+    width: 140px;
+    height: 45px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    border: none;
+    border-radius: 45px;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color: #F8F9FA;
+    color: #ADB5BD;
+}
+
+.btn-form {
+    width: 140px;
+    height: 45px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    font-weight: 500;
+    border: none;
+    border-radius: 45px;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color: #F8F9FA;
+    color: #ADB5BD;
+}
+
+
+.mficons {
+    font-size: 20px;
+    color: #63A2D8
+}
+
+.mficonsdisabled {
+    font-size: 20px;
+    color: #CFD4DA
+}
+
+.viewlabels {
+    color: #2368a2
+}
+
+.minmax {
+    font-size: 12px;
+    color: #63A2D8
+}
+
+.viewparameters {
+    color: #3183C8;
+    font-weight: bold;
+}
+
+.viewresult {
+    font-size: 22px;
+    color: #2368a2;
+    font-weight: bold;
+}
+
+.viewresultbig {
+    font-size: 80px;
+    color: #3183C8;
+    font-weight: bold;
+}
+
+.viewnegativeresult {
+    font-size: 22px;
+    color: #E36363;
+    font-weight: bold;
+}
+
+.smallest {
+    font-size: 13px;
+}
+
+.viewresultwrong {
+    color: #E36363;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.viewresultbig {
+    color: #63A2D8;
+    font-size: 80px;
+}
+
+.viewparameterswrong {
+    color: #E36363;
+    font-weight: bold;
+}
+
+.viewparametersbig {
+    color: #3183C8;
+    font-weight: bold;
+    font-size: 20px;
+}
+.viewparametersstatus{
+    color: #3183C8;
+    font-weight: bolder;
+}
+.viewparametersstatuswrong{
+    color: #ADB5BD;
+    font-weight: light;
+
+}
+.paddingtop{
+    padding-top: 20%;
+}
+
+.cursordef {
+    pointer-events: none;
+}
+
+.cursordeferror {
+    filter: grayscale(100%);
+}
+
+.cursorna {
+    cursor: not-allowed !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+/*-------------------------Custom radio buttons-------------------------*/
+
+
+/* The container */
+
+.container-radio {
+    display: block;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Hide the browser's default radio button */
+
+.container-radio input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+/* Create a custom radio button */
+
+.radio {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #bcbcbc;
+    border-radius: 50%;
+}
+
+
+/* On mouse-over, add a grey background color */
+
+.container-radio:hover input~.radio {
+    background-color: #979797;
+}
+
+
+/* When the radio button is checked, add a blue background */
+
+.container-radio input:checked~.radio {
+    background-color: #2368a2;
+}
+
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+
+.radio:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+/* Show the indicator (dot/circle) when checked */
+
+.container-radio input:checked~.radio:after {
+    display: block;
+}
+
+
+/* Style the indicator (dot/circle) */
+
+.container-radio .radio:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+/*-------------------------Tabs-------------------------*/
+
+.tab {
+    display: none;
+}
+
+
+/* Make circles that indicate the steps of the form: */
+
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.step.active-step {
+    opacity: 1;
+}
+
+
+/* Mark the steps that are finished and valid: */
+
+.step.finish {
+    background-color: #4CAF50;
+}
+
+.invalido {
+    padding-bottom: 15px;
+    font-size: 12px;
+    color: #e12211;
+}
+
+ul {
+    list-style: none;
+}
+
+.labelsFormulario {
+    color: #2368a2;
+    padding-top: 0.2%;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+.labelsnumeros {
+    padding-top: 0.2%;
+    font-size: 15px !important;
+    font-weight: bold;
+}
+
+.porcentajes {
+    color: #2368a2;
+    padding-top: 0.2%;
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+.answerP i {
+    font-size: 8px;
+}

@@ -1,0 +1,256 @@
+<!--
+  NEF-63, NEF-64
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+    <div class="card">
+        <h5 class="card-header text-center">Tamizaje Nutricional</h5>
+        <div class="card-body">
+            <div class="container px-5">
+                <div class="row pb-5">
+                    <div class="col-sm-3   labelsFormulario">
+                        Fecha de estudio:
+                    </div>
+                    <div class="col-sm-3">
+                        {{ tamizajenutricional.fecha }}
+                    </div>
+                </div>
+
+                <!--COMIENZAN LOS RESULTADOS-->
+                <div class="row">
+                    <div class="col">
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Presión arterial:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.presion_sistolica }} /  {{ tamizajenutricional.presion_diastolica }} mm Hg
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Peso:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.peso }} Kg
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Talla:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.talla }} m
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    IMC:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {% if tamizajenutricional.imc <= 18.4 %}
+                                    <p style="color: #8B94A5">
+                                        {% elif tamizajenutricional.imc > 18.4 and tamizajenutricional.imc < 25 %}
+                                    <p style="color: #20DA5E">
+                                        {% elif tamizajenutricional.imc >= 25 and tamizajenutricional.imc < 30 %}
+                                    <p style="color: #F4D03F">
+                                        {% else %}
+                                    <p style="color: #E74C3C">
+                                        {% endif %}
+                                        {{ tamizajenutricional.imc }} kg/m<sup>2</sup></p>
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Circunferencia de brazo:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.circunferencia_brazo }} cm
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Pliegue bicipital:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.pliegue_bicipital }} cm
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-6 viewparameters">
+                                    Pliegue tricipital:
+                                </div>
+
+                                <div class="col-sm-6  text-center viewresult pb-1">
+                                    {{ tamizajenutricional.pliegue_tricipital }} cm
+                                </div>
+
+                            </div>
+                            <div class="row pb-2 pl-3">
+                                <div class="col-sm-8"> </div>
+                                <div class="col-sm-4 minmax">
+                                    Resultado
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if tamizajenutricional.comentario %}
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <div class="card container-fluid">
+                            <div class="row pt-3 pl-3">
+                                <div class="col-sm-4 viewparameters">
+                                    Comentario:
+                                </div>
+                                <div class="col-sm-8 viewresult pb-3">
+                                    {{ tamizajenutricional.comentario }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <!--Tabla de resultados-->
+                <div class="row pt-5 pb-2">
+                    <div class="col-3 ml-4"></div>
+                    <table class="col-4 table pt-4 ml-5">
+                        <tr>
+                            <th colspan="3" class="text-center">Tabla de IMC</th>
+                        </tr>
+                        <tr class="table-secondary">
+                            <td>Igual o menor a 18.4</td>
+                            <td>Bajo de peso</td>
+                        </tr>
+                        <tr class="table-success">
+                            <td>18.5 a 24.9</td>
+                            <td>Normal</td>
+                        </tr>
+                        <tr class="table-warning">
+                            <td>25 a 29.9</td>
+                            <td>Sobrepeso</td>
+                        </tr>
+                        <tr class="table-danger">
+                            <td>Mayor o igual a 30</td>
+                            <td>Obesidad </td>
+                        </tr>
+                    </table>
+                </div>
+                <br><br>
+                <!--Botones-->
+                {% if perms.Formularios.change_tamizajenutricional or perms.Formularios.delete_tamizajenutricional %}
+                <div class="row justify-content-center pb-3">
+                  <div class="col-12">
+                    <div class="clearfix">
+                      <div class="float-right wrap">
+                        <div class=" pr-2">
+                          {% if perms.Formularios.delete_tamizajenutricional %}
+                          <form method="POST" action="{% url 'Formularios:delete_tamizajenutricional' tamizajenutricional.id %}" id="delete_form">
+                            {% csrf_token %}
+                            <button type="button" class="button btn btn-form" data-form="tamizajenutricional">Borrar</button>
+                          </form>
+                          {% endif %}
+                        </div>
+                        {% if perms.Formularios.change_tamizajenutricional %}
+                        <a href="{% url 'admin:Formularios_tamizajenutricional_change' tamizajenutricional.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

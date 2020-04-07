@@ -1,0 +1,298 @@
+<!--
+  NEF-55, NEF-56
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+    <br>
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header text-center">Escala de depresión de Hamilton</h5>
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="clearfix px-5">
+                        <div class="float-right">
+                            <div class="form-inline pl-5 ">
+                                <div class="labelsFormulario pr-3">
+                                    Fecha:
+                                </div>
+                                {{ escalahamilton.fecha }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p1 }}</label>
+                            {% for k, v in escalahamilton.choices_1.items %}
+                                {% if k == escalahamilton.p1 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p2 }}</label>
+                            {% for k, v in escalahamilton.choices_2.items %}
+                                {% if k == escalahamilton.p2 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p3 }}</label>
+                            {% for k, v in escalahamilton.choices_3.items %}
+                                {% if k == escalahamilton.p3 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p4 }}</label>
+                            {% for k, v in escalahamilton.choices_4.items %}
+                                {% if k == escalahamilton.p4 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p5 }}</label>
+                            {% for k, v in escalahamilton.choices_5.items %}
+                                {% if k == escalahamilton.p5 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p6 }}</label>
+                            {% for k, v in escalahamilton.choices_6.items %}
+                                {% if k == escalahamilton.p6 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p7 }}</label>
+                            {% for k, v in escalahamilton.choices_7.items %}
+                                {% if k == escalahamilton.p7 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p8 }}</label>
+                            {% for k, v in escalahamilton.choices_8.items %}
+                                {% if k == escalahamilton.p8 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p9 }}</label>
+                            {% for k, v in escalahamilton.choices_9.items %}
+                                {% if k == escalahamilton.p9 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p10 }}</label>
+                            {% for k, v in escalahamilton.choices_10.items %}
+                                {% if k == escalahamilton.p10 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p11 }}</label>
+                            {% for k, v in escalahamilton.choices_11.items %}
+                                {% if k == escalahamilton.p11 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p12 }}</label>
+                            {% for k, v in escalahamilton.choices_12.items %}
+                                {% if k == escalahamilton.p12 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p13 }}</label>
+                            {% for k, v in escalahamilton.choices_13.items %}
+                                {% if k == escalahamilton.p13 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p14 }}</label>
+                            {% for k, v in escalahamilton.choices_14.items %}
+                                {% if k == escalahamilton.p14 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p15 }}</label>
+                            {% for k, v in escalahamilton.choices_15.items %}
+                                {% if k == escalahamilton.p15 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p16 }}</label>
+                            {% for k, v in escalahamilton.choices_16.items %}
+                                {% if k == escalahamilton.p16 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div><br>
+                        <div>
+                            <label class="pr-4">{{ escalahamilton.labels.p17 }}</label>
+                            {% for k, v in escalahamilton.choices_17.items %}
+                                {% if k == escalahamilton.p17 %}
+                                    <u class="px-2"><b>
+                                        {{ v }}
+                                    </b></u>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!--Resultados-->
+                    <div class="container text-center px-5">
+                        <div class="row">
+                            <text class="col labelsFormulario">Resultado:</text>
+                        </div>
+                        {% if escalahamilton.id < 19 %}
+                        <div class="row pt-4">
+                            <div class="col">
+                                <span class="rounded-circle circles m-4 px-3">{{escalahamilton.puntos}}</span>
+                                <text class="resultado-estudio">{{escalahamilton.interpretacion}}</text>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="row pt-4">
+                            <div class="col">
+                                <span class="rounded-circle circles m-4 px-3">{{escalahamilton.puntos}}</span>
+                                <text class="resultado-estudio">{{escalahamilton.interpretacion}}</text>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <!--Tabla de resultados-->
+                        <div class="row justify-content-center pt-5 pb-2">
+                            <table class="col-4 table">
+                                <tr>
+                                    <th colspan="3">Interpretación</th>
+                                </tr>
+                                <tr>
+                                    <td> 0 - 7 </td>
+                                    <td>No deprimido</td>
+                                </tr>
+                                <tr>
+                                    <td> 8 - 13 </td>
+                                    <td>Depresión ligera/menor</td>
+                                </tr>
+                                <tr>
+                                    <td> 14 - 18 </td>
+                                    <td>Depresión moderada</td>
+                                </tr>
+                                <tr>
+                                    <td> 19 - 22 </td>
+                                    <td>Depresión severa</td>
+                                </tr>
+                                <tr>
+                                    <td> 23 o más </td>
+                                    <td>Depresión muy severa</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    {% if escalahamilton.observaciones %}
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Observaciones:</label>
+                                    <div class="row pb-2">
+                                        <div class="col">
+                                            <textarea class="form-control"  rows="2" disabled>{{ escalahamilton.observaciones }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!--Botones-->
+                    {% if perms.Formularios.change_escalahamilton or perms.Formularios.delete_escalahamilton %}
+                        <div class="row justify-content-center pb-3">
+                            <div class="col-12">
+                                <div class="clearfix">
+                                    <div class="float-right wrap">
+                                        <div class=" pr-2">
+                                            {% if perms.Formularios.delete_escalahamilton %}
+                                                <form method="POST" action="{% url 'Formularios:delete_escalahamilton' escalahamilton.id %}" id="delete_form">
+                                                    {% csrf_token %}
+                                                    <button type="button" class="button btn btn-form">Borrar</button>
+                                                </form>
+                                            {% endif %}
+                                        </div>
+                                        {% if perms.Formularios.change_escalahamilton %}
+                                            <a href="{% url 'admin:Formularios_escalahamilton_change' escalahamilton.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+    <script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}

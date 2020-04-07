@@ -1,0 +1,276 @@
+<!–– NEF-29 ––>
+
+  {% extends "Beneficiarios/beneficiario_detail.html" %}
+  {% load static %}
+
+  {% block includes %}
+  <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'Beneficiarios/forms.css' %}">
+  {% endblock includes %}
+
+  {% block scripts %}
+  <script src="{% static 'Beneficiarios/beneficiarios_detail.js' %}"></script>
+  {% endblock scripts %}
+
+  {% block beneficiario-content %}
+
+  <div class="container-fluid pt-4">
+    <div class="card">
+      <h5 class="card-header text-center">Registrar antecedentes de beneficiario</h5>
+      <div class="card-body">
+        <form class="" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+
+          <table class="table table-striped table-hover" id="antecedentes_table">
+            <thead>
+              <th>Antecedente</th>
+              <th class="text-center">Abuelos</th>
+              <th class="text-center">Padre</th>
+              <th class="text-center">Madre</th>
+              <th class="text-center">Hermanos</th>
+            </thead>
+            <tr>
+              <td> Enfermedad cardiovascular </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cardio_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cardio_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cardio_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cardio_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> HTA </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.hta_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.hta_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.hta_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.hta_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> Diabetes </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.diabetes_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.diabetes_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.diabetes_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.diabetes_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> Dislipidemias </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.dislipidemias_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.dislipidemias_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.dislipidemias_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.dislipidemias_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> Obesidad </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.obesidad_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.obesidad_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.obesidad_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.obesidad_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> Enfermedad cerebrovascular </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cerebro_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cerebro_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cerebro_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_cerebro_hermanos }}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td> Enfermedad renal </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_renal_abuelo }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_renal_padre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_renal_madre }}
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="form-check">
+                  {{ form.enfermedad_renal_hermanos }}
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <br><br>
+          <table class="table" id="antecedentes_personal_table">
+            <thead>
+              <th colspan="4">Antecedentes Personales</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Drogadicción</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.drogadiccion }}
+                  </div>
+                </td>
+                <td>Intervención Quirúrgica</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.intervencion_quirurgica }}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Internamiento Hospitalario</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.intervencion_hospitalaria }}
+                  </div>
+                </td>
+                <td>Enfermedad Cardiovascular</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.enfermedad_cardiovascular }}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Tabaquismo</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.tabaquismo }}
+                  </div>
+                </td>
+                <td>Infección de vías urinarias</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.infeccion_urinaria }}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Sedentarismo</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.sedentarismo }}
+                  </div>
+                </td>
+                <td>Alcoholismo</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.alcoholismo }}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Actividad física</td>
+                <td class="text-center">
+                  <div class="form-check">
+                    {{ form.actividiad_fisica }}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <input class="btn btn-primary" type="submit" name="" value="Guardar Antecedentes">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% endblock beneficiario-content %}

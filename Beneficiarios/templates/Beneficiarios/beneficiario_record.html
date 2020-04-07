@@ -1,0 +1,1258 @@
+<!-- NEF-36 -->
+
+{% extends 'Beneficiarios/beneficiario_detail.html' %}
+{% load static %}
+{% load boolean_icon %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
+
+{% endblock includes %}
+
+{% block scripts %}
+    <script src="{% static 'Beneficiarios/beneficiarios_detail.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    {% if clasification %}
+        <script type="text/javascript">
+            //Reporte estadificación
+            $.get("{% url 'Beneficiarios:rEst' beneficiario.id %}", function(data) {
+                var ctx = $("#r_est").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+    {% endif %}
+    {% if tamizaje_nutricional %}
+        <script type="text/javascript">
+            //Reporte estadificación
+            $.get("{% url 'Beneficiarios:rTam' beneficiario.id %}", function(data) {
+                var ctx = $("#r_tam").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+    {% endif %}
+    {% if quimica_sanguinea %}
+        <script type="text/javascript">
+            //Reporte estadificación
+            $.get("{% url 'Beneficiarios:rQui' beneficiario.id %}", function(data) {
+                var ctx = $("#r_qui").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+    {% endif %}
+    {% if microalbuminuria %}
+        <script type="text/javascript">
+            //Reporte estadificación
+            $.get("{% url 'Beneficiarios:rMic' beneficiario.id %}", function(data) {
+                var ctx = $("#r_mic").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+    {% endif %}
+    {% if hemoglobina_glucosilada %}
+        <script type="text/javascript">
+            //Reporte estadificación
+            $.get("{% url 'Beneficiarios:rHem' beneficiario.id %}", function(data) {
+                var ctx = $("#r_hem").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+    {% endif %}
+    {% if glucosa_capilar %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rGlu' beneficiario.id %}", function(data) {
+            var ctx = $("#r_glu").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+    {% if consulta_medica %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rCon' beneficiario.id %}", function(data) {
+            var ctx = $("#r_con").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+    {% if adherencia_Tratamiento %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rAdh' beneficiario.id %}", function(data) {
+            var ctx = $("#r_adh").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+    {% if escala_hamilton %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rHam' beneficiario.id %}", function(data) {
+            var ctx = $("#r_ham").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+    {% if malnutricion_inflamacion %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rMal' beneficiario.id %}", function(data) {
+            var ctx = $("#r_mal").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+    {% if registro_mensual %}
+    <script type="text/javascript">
+        //Reporte estadificación
+        $.get("{% url 'Beneficiarios:rReg' beneficiario.id %}", function(data) {
+            var ctx = $("#r_reg").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'line', data: data
+            });
+        });
+    </script>
+    {% endif %}
+
+    
+
+{% endblock scripts %}
+
+
+{% block ir_a %}
+    <a href="{% url 'Beneficiarios:beneficiario' beneficiario.id %}" class="btn btn-outline-primary btn-sm">
+        Ir a perfil
+    </a>
+{% endblock ir_a %}
+
+{% block beneficiario-content %}
+
+    {% if clasification %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Estadificaciones</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th>Fecha</th>
+                            <th></th>
+                            <th>CKD-EPI</th>
+                            <th>MDRD</th>
+                            <th>Albumina</th>
+                            <th>Q.S</th>
+                            <th>M.A</th>
+                            <th>Usuario</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for e in clasification %}
+                            <tr>
+                                <td>{{ e.fecha }}</td>
+                                <td>
+                                    <div class="circle {{ e.color }}-bg"></div>
+                                </td>
+                                <td class="estadi {{ e.color_gfr }}">{{ e.categoria_gfr }}</td>
+                                <td class="estadi {{ e.color_gfr_estimada }}">{{ e.categoria_gfr_estimada }}</td>
+                                <td class="estadi {{ e.color }}">{{ e.categoria_alb }}</td>
+                                {% if perms.Formularios.view_quimicasanguinea %}
+                                    <td><a href="{% url 'Formularios:vqs' e.id_qs.id %}">{{ e.id_qs }}</a></td>
+                                {% else %}
+                                    <td><p>{{ e.id_qs }}</p></td>
+                                {% endif %}
+
+                                {% if perms.Formularios.view_microalbuminuria %}
+                                    <td>
+                                        <a href="{% url 'Formularios:view_microalbuminuria' e.id_ma.id %}">{{ e.id_ma }}</a>
+                                    </td>
+                                {% else %}
+                                    <td><p>{{ e.id_ma }}</p></td>
+                                {% endif %}
+                                <td>
+                                    {% if e.usuario is None %}
+                                        Estadificación automática
+                                    {% else %}
+                                        {{ e.usuario }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_est" aria-expanded="false" aria-controls="collapse_est">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_est">
+                            <h4>Reporte estadificación</h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <canvas id="r_est"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if tamizaje_nutricional %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Tamizajes</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th>Fecha</th>
+                            <th>Presión</th>
+                            <th>Peso</th>
+                            <th>Talla</th>
+                            <th>IMC</th>
+                            <th>Circunferencia brazo</th>
+                            <th>Pliegue bicipital</th>
+                            <th>Pliegue tricipital</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in tamizaje_nutricional %}
+                            <tr>
+                                <td>{{ t.fecha }}</td>
+                                <td>{{ t.presion_sistolica }}/{{ t.presion_diastolica }}</td>
+                                <td>{{ t.peso }}</td>
+                                <td>{{ t.talla }}</td>
+                                <td>{{ t.imc }}</td>
+                                <td>{{ t.circunferencia_brazo }}</td>
+                                <td>{{ t.pliegue_bicipital }}</td>
+                                <td>{{ t.pliegue_tricipital }}</td>
+                                <td>
+                                    {% if perms.Formularios.view_tamizajenutricional %}
+                                        <a href="{% url 'Formularios:view_tamizajenutricional' t.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                           title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_tam" aria-expanded="false" aria-controls="collapse_tam">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_tam">
+                            <h4>Reporte de tamizaje nutricional</h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <canvas id="r_tam"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if factor_de_riesgo %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Factor de Riesgo</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <div class="container text-center">
+                        <div class="row">
+                            <text class="col labelsFormulario">Resultado:</text>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col">
+                                <span class="rounded-circle circles mx-3 px-3">{{ factor_de_riesgo.resultado }}</span>
+                                <text class="resultado-estudio">
+                                    {{ factor_de_riesgo.interpretacion }}
+                                </text>
+                                {% if perms.Formularios.view_factorderiesgo %}
+                                    <a href="{% url 'Formularios:view_factorderiesgo' factor_de_riesgo.id %}"><i
+                                            class="far fa-file-alt fa-2x mx-3"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if factor_de_riesgo.comentario %}
+                            <div class="row justify-content-center pt-4">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label class="labelsFormulario">Comentario:</label>
+                                        <div class="row pb-2">
+                                            <div class="col">
+                                                <textarea class="form-control" rows="2"
+                                                          disabled>{{ factor_de_riesgo.comentario }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if quimica_sanguinea or microalbuminuria or hemoglobina_glucosilada or glucosa_capilar %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Exámenes de laboratorio</h4>
+                {% if quimica_sanguinea %}
+                    <div class="row justify-content-center" style="overflow-x: auto;">
+                        <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                            <thead>
+                            <tr class="thead-light">
+                                <th colspan="10">Químicas sanguineas</th>
+                            </tr>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Doctor</th>
+                                <th>Método</th>
+                                <th>Glucosa</th>
+                                <th>Urea</th>
+                                <th>Bun</th>
+                                <th>Creatinina</th>
+                                <th>Ácido Úrico</th>
+                                <th>Detalle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for q in quimica_sanguinea %}
+                                <tr>
+                                    <td>{{ q.fecha }}</td>
+                                    <td>{{ q.id }}</td>
+                                    <td>{{ q.doctor }}</td>
+                                    <td>{{ q.metodo }}</td>
+                                    <td>{{ q.glucosa }}</td>
+                                    <td>{{ q.urea }}</td>
+                                    <td>{{ q.bun }}</td>
+                                    <td>{{ q.creatinina }}</td>
+                                    <td>{{ q.acido_urico }}</td>
+                                    <td>
+                                        {% if perms.Formularios.view_quimicasanguinea %}
+                                            <a href="{% url 'Formularios:vqs' q.id %}"><i
+                                                    class="far fa-file-alt"></i></a>
+                                        {% else %}
+                                            <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                               title="No tienes permiso"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+
+                {% if microalbuminuria %}
+                    <div class="row justify-content-center" style="overflow-x: auto;">
+                        <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                            <thead>
+                            <tr class="thead-light">
+                                <th colspan="8">Microalbuminurias</th>
+                            </tr>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Doctor</th>
+                                <th>Método</th>
+                                <th>Micro albumina</th>
+                                <th>Creatinina</th>
+                                <th>Relacion</th>
+                                <th>Detalle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for m in microalbuminuria %}
+                                <tr>
+                                    <td>{{ m.fecha }}</td>
+                                    <td>{{ m.id }}</td>
+                                    <td>{{ m.doctor }}</td>
+                                    <td>{{ m.metodo }}</td>
+                                    <td>{{ m.micro_albumina }}</td>
+                                    <td>{{ m.creatinina }}</td>
+                                    <td>{{ m.relacion }}</td>
+                                    <td>
+                                        {% if perms.Formularios.view_microalbuminuria %}
+                                            <a href="{% url 'Formularios:view_microalbuminuria' m.id %}"><i
+                                                    class="far fa-file-alt"></i></a>
+                                        {% else %}
+                                            <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                               title="No tienes permiso"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                {% if hemoglobina_glucosilada %}
+                    <div class="row justify-content-center" style="overflow-x: auto;">
+                        <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                            <thead>
+                            <tr class="thead-light">
+                                <th colspan="6">Hemoglobina Glucosilada</th>
+                            </tr>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Doctor</th>
+                                <th>Método</th>
+                                <th>Hemoglobina glucosilada</th>
+                                <th>Detalle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for h in hemoglobina_glucosilada %}
+                                <tr>
+                                    <td>{{ h.fecha }}</td>
+                                    <td>{{ h.id }}</td>
+                                    <td>{{ h.doctor }}</td>
+                                    <td>{{ h.metodo }}</td>
+                                    <td>{{ h.hemoglobina_glucosilada }}</td>
+                                    <td>
+                                        {% if perms.Formularios.view_hemoglobinaglucosilada %}
+                                            <a href="{% url 'Formularios:view_hemoglobinaglucosilada' h.id %}"><i
+                                                    class="far fa-file-alt"></i></a>
+                                        {% else %}
+                                            <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                               title="No tienes permiso"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                {% if glucosa_capilar %}
+                    <div class="row justify-content-center" style="overflow-x: auto;">
+                        <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                            <thead>
+                            <tr class="thead-light">
+                                <th colspan="6">Glucosa Capilar</th>
+                            </tr>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>ID</th>
+                                <th>Doctor</th>
+                                <th>Método</th>
+                                <th>Glucosa</th>
+                                <th>Detalle</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for g in glucosa_capilar %}
+                                <tr>
+                                    <td>{{ g.fecha }}</td>
+                                    <td>{{ g.id }}</td>
+                                    <td>{{ g.doctor }}</td>
+                                    <td>{{ g.metodo }}</td>
+                                    <td>{{ g.glucosa }}</td>
+                                    <td>
+                                        {% if perms.Formularios.view_glucosacapilar %}
+                                            <a href="{% url 'Formularios:view_glucosacapilar' g.id %}"><i
+                                                    class="far fa-file-alt"></i></a>
+                                        {% else %}
+                                            <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                               title="No tienes permiso"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+
+                <div class="col">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_exams" aria-expanded="false" aria-controls="collapse_exams">
+                        Ver reportes
+                    </button>
+                    <div class="collapse  mt-4 text-center" id="collapse_exams">
+                        {% if quimica_sanguinea %}
+                        <div class="row justify-content-center" style="overflow-x: auto;">
+                            <h5>Química sanguínea</h5>
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <canvas id="r_qui"></canvas>
+                            </div>
+                        </div>
+                        {% endif %}
+        
+                        {% if microalbuminuria %}
+                        <div class="row justify-content-center" style="overflow-x: auto;">
+                            <h5>Microalbuminuria</h5>
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <canvas id="r_mic"></canvas>
+                            </div>
+                        </div>
+                        {% endif %}
+        
+                        {% if hemoglobina_glucosilada %}
+                        <div class="row justify-content-center" style="overflow-x: auto;">
+                            <h5>Hemoglobina glucosilada</h5>
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <canvas id="r_hem"></canvas>
+                            </div>
+                        </div>
+                        {% endif %}
+        
+                        {% if glucosa_capilar %}
+                        <div class="row justify-content-center" style="overflow-x: auto;">
+                            <h5>Glucosa capilar</h5>
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <canvas id="r_glu"></canvas>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if consulta_medica %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Consultas Médicas</h4>
+                <div class="row justify-content-center" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <tbody class="text-justify">
+                        {% for c in consulta_medica %}
+                            <tr class="thead-light text-center">
+                                <th colspan="1">Fecha</th>
+                                <th colspan="8">Consulta</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="6" class="align-middle text-center"
+                                    style="width: 14%; height: 100%">{{ c.fecha_creacion }} <p style="font-size: 70%">
+                                    (ID. {{ c.id }})</p></th>
+                                {% if c.especificaciones %}
+                                    <td colspan="1">
+                                        <b>Especificaciones:</b>
+                                    </td>
+                                    <td colspan="5">
+                                        {{ c.especificaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Especificaciones:</b>
+                                    </td>
+                                    <td colspan="5">
+                                        Sin especificaciones del paciente.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            <tr class="text-center">
+                                <td>Peso: <b>{{ c.peso }}</b> Kg</td>
+                                <td>Talla: <b>{{ c.talla }}</b> m</td>
+                                <td>IMC: <b>{{ c.imc }}</b> Kg/m<sup>2</sup></td>
+                                <td>F.C: <b>{{ c.frecuencia_cardiaca }}</b> lpm</td>
+                                <td>F.R: <b>{{ c.frecuencia_respiratoria }}</b> rpm</td>
+                                <td>Temperatura: <b>{{ c.temperatura }}</b> °C</td>
+                                <td>P.A.S: <b>{{ c.presion_sistolica }}</b> mm Hg</td>
+                                <td>P.A.D: <b>{{ c.presion_diastolica }}</b> mm Hg</td>
+                            </tr>
+                            <tr>
+                                {% if c.analisis_enfermedad %}
+                                    <td colspan="1">
+                                        <b>Analisis de la enfermedad:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        {{ c.analisis_enfermedad }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Analisis de la enfermedad:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        Sin análisis.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if c.plan %}
+                                    <td colspan="1">
+                                        <b>Plan:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        {{ c.plan }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Plan:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        Sin plan.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if c.tratamiento %}
+                                    <td colspan="1">
+                                        <b>Tratamiento:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        {{ c.tratamiento }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Tratamiento:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        Sin tratamiento.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                {% if c.observaciones %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        {{ c.observaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="8">
+                                        Sin observaciones.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_con" aria-expanded="false" aria-controls="collapse_con">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_con">
+                            <h4>Reporte de consulta médica</h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-12 col-lg-6">
+                                    <canvas id="r_con"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if adherencia_Tratamiento %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Escala de Adherencia Tratamiento</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th>Fecha</th>
+                            <th>Resultado</th>
+                            <th>Interpretación</th>
+                            <th>Metas programadas</th>
+                            <th>Red familiar</th>
+                            <th>Estado emocional</th>
+                            <th>Área social</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in adherencia_Tratamiento %}
+                            <tr>
+                                <th rowspan="2" class="align-middle text-center"
+                                    style="width: 14%; height: 100%">{{ t.fecha }} <p style="font-size: 70%">
+                                    (ID. {{ t.id }})</p></th>
+                                <td>
+                                    <span>
+                                        {{ t.resultado }}
+                                    </span>
+                                </td>
+                                <td>{{ t.interpretacion }}</td>
+                                <td>
+                                    {% for k,v in t.choices_2.items %}
+                                        {% if k ==  t.p14 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in t.choices_3.items %}
+                                        {% if k ==  t.p15 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in t.choices_3.items %}
+                                        {% if k ==  t.p16 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in t.choices_3.items %}
+                                        {% if k ==  t.p17 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% if perms.Formularios.view_adherenciatratamiento %}
+                                        <a href="{% url 'Formularios:view_adherenciatratamiento' t.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                           title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                {% if t.observaciones %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="6" class="text-justify">
+                                        {{ t.observaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="6">
+                                        Sin observaciones.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_adh" aria-expanded="false" aria-controls="collapse_adh">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_adh">
+                            <h4>Reporte de adherencia al tratamiento </h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <canvas id="r_adh"></canvas>
+                                </div>
+                                <div class="col-5 row justify-content-center pt-5 pb-2">
+                                    <table class="col-4 table">
+                                        <tr>
+                                            <th colspan="3">Interpretación</th>
+                                        </tr>
+                                        <tr>
+                                            <td> 0 - 10 </td>
+                                            <td>Rechazo</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 11 - 19</td>
+                                            <td>Negación</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 21 - 30 </td>
+                                            <td>Modificación</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 31 - 40 </td>
+                                            <td>Aceptación</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 41 - 50 </td>
+                                            <td>Adherencia</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if escala_hamilton %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Escala de depresión Hamilton</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th>Fecha</th>
+                            <th>Resultado</th>
+                            <th>Interpretación</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in escala_hamilton %}
+                            <tr>
+                                <th rowspan="2" class="align-middle text-center"
+                                    style="width: 14%; height: 100%">{{ t.fecha }} <p style="font-size: 70%">
+                                    (ID. {{ t.id }})</p></th>
+                                <td>{{ t.puntos }}</td>
+                                <td>{{ t.interpretacion }}</td>
+                                <td>
+                                    {% if perms.Formularios.view_escalahamilton %}
+                                        <a href="{% url 'Formularios:view_escalahamilton' t.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                           title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                {% if t.observaciones %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="2" class="text-justify">
+                                        {{ t.observaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="2" class="text-justify">
+                                        Sin observaciones.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_ham" aria-expanded="false" aria-controls="collapse_ham">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_ham">
+                            <h4>Reporte de escala de depresión Hamilton </h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <canvas id="r_ham"></canvas>
+                                </div>
+                                <!--Tabla de resultados-->
+                                <div class="col-5 row justify-content-center pt-5 pb-2">
+                                    <table class="col-4 table">
+                                        <tr>
+                                            <th colspan="3">Interpretación</th>
+                                        </tr>
+                                        <tr>
+                                            <td> 0 - 7 </td>
+                                            <td>No deprimido</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 8 - 13 </td>
+                                            <td>Depresión ligera/menor</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 14 - 18 </td>
+                                            <td>Depresión moderada</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 19 - 22 </td>
+                                            <td>Depresión severa</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 23 o más </td>
+                                            <td>Depresión muy severa</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if malnutricion_inflamacion %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Escala de malnutrición-inflamación</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <tbody>
+                        {% for t in malnutricion_inflamacion %}
+                            <tr class="thead-light">
+                                <th>Fecha</th>
+                                <th colspan="2">Resultado</th>
+                                <th colspan="2">Interpretación</th>
+                                <th colspan="1">Detalle</th>
+                            </tr>
+                            <tr>
+                                <th rowspan="8" class="align-middle text-center" style="width: 14%; height: 100%">
+                                    {{ t.fecha }} <p style="font-size: 70%">(ID. {{ t.id }})</p>
+                                </th>
+                                <td colspan="2">{{ t.resultado }}</td>
+                                <td colspan="2">{{ t.interpretacion }}</td>
+                                <td colspan="1">
+                                    {% if perms.Formularios.view_malnutricioninflamacion %}
+                                        <a href="{% url 'Formularios:view_malnutricioninflamacion' t.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                           title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr class="thead-light">
+                                <th colspan="5">Historia clínica</th>
+                            </tr>
+                            <tr>
+                                <th>Pérdida de peso</th>
+                                <th>Cambio ingesta</th>
+                                <th>Síntomas gastrointestinales</th>
+                                <th>Incapacidad funcional</th>
+                                <th>Comorbilidad</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ( {% for item in form.porcentaje_perdida_peso %}
+                                    {% if t.porcentaje_perdida_peso == item.data.value %}
+                                        {{ item.choice_label }}
+                                    {% endif %}
+                                {% endfor %} )
+                                </td>
+                                <td>
+                                    {% for item in form.ingesta_alimentaria %}
+                                        {% if t.ingesta_alimentaria == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.gastrointestinales %}
+                                        {% if t.gastrointestinales == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.incapacidad %}
+                                        {% if t.incapacidad == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.comorbilidad %}
+                                        {% if t.comorbilidad == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr class="thead-light">
+                                <th colspan="5">Examen físico</th>
+                            </tr>
+                            <tr>
+                                <th>Reservas grasa subcutánea</th>
+                                <th>Pérdida muscular</th>
+                                <th>Edema/ascitis</th>
+                                <th>Albumina</th>
+                                <th>Fijación de hierro</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {% for item in form.grasa_subcutanea %}
+                                        {% if t.grasa_subcutanea == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.perdida_muscular %}
+                                        {% if t.perdida_muscular == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.edema %}
+                                        {% if t.edema == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.albumina %}
+                                        {% if t.albumina == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for item in form.fijacion_hierro %}
+                                        {% if t.fijacion_hierro == item.data.value %}
+                                            {{ item.choice_label }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                {% if t.observaciones %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="4" class="text-justify">
+                                        {{ t.observaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="4" class="text-justify">
+                                        Sin observaciones.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_mal" aria-expanded="false" aria-controls="collapse_mal">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_mal">
+                            <h4>Reporte de escala de malnutrición-inflamación </h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <canvas id="r_mal"></canvas>
+                                </div>
+                                <!--Tabla de resultados-->
+                                <div class="col-5 row pt-5 pb-2">
+                                    <div class="col-3 ml-4"></div>
+                                    <table class="col-4 table pt-4 ml-5">
+                                        <tr>
+                                            <th colspan="3" class="text-center">Interpretación</th>
+                                        </tr>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>A</td>
+                                            <td>Estado Nutricional</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1-9</td>
+                                            <td>B</td>
+                                            <td>Desnutrición Leve</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10-19</td>
+                                            <td>C</td>
+                                            <td>Desnutrición Moderada</td>
+                                        </tr>
+                                        <tr>
+                                            <td>20-29</td>
+                                            <td>D</td>
+                                            <td>Desnutrición Grave</td>
+                                        </tr>
+                                        <tr>
+                                            <td>30</td>
+                                            <td>E</td>
+                                            <td>Desnutrición Gravísima</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if notas %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Notas</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th style="min-width:200px">Fecha</th>
+                            <th>Nota</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for n in notas %}
+                            <tr>
+                                <td>{{ n.fecha_creacion }}</td>
+                                <td>{{ n.nota }}</td>
+                                <td>
+                                    {% if perms.Formularios.view_notas %}
+                                        <a href="{% url 'Formularios:view_notas' n.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                           title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if registro_mensual %}
+        <div class="card mt-4 text-center">
+            <div class="card-body">
+                <h4>Hoja de registro mensual</h4>
+                <div class="row justify-content-center py-2" style="overflow-x: auto;">
+                    <table class="table table-sm table-hover table-responsive-lg col mx-5">
+                        <thead>
+                        <tr class="thead-light">
+                            <th>Fecha</th>
+                            <th>Resultado</th>
+                            <th>Interpretación</th>
+                            <th>Metas médicas</th>
+                            <th>Metas nutricionales</th>
+                            <th>Metas de estilo de vida</th>
+                            <th>Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for t in registro_mensual %}
+                            <tr>
+                                <th rowspan="2" class="align-middle text-center"
+                                    style="width: 14%; height: 100%">{{ t.fecha }} <p style="font-size: 70%">
+                                    (ID. {{ t.id }})</p>
+                                </th>
+                                <td>
+                                    <span>
+                                        {{ t.resultado }}
+                                    </span>
+                                </td>
+                                <td>{{ t.interpretacion }}</td>
+                                <td>
+                                    {% for k,v in t.choices_1.items %}
+                                        {% if k ==  t.p1 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in t.choices_1.items %}
+                                        {% if k ==  t.p2 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% for k,v in t.choices_1.items %}
+                                        {% if k ==  t.p3 %}
+                                            {{ v }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {% if perms.Formularios.view_registromensual %}
+                                        <a href="{% url 'Formularios:view_registromensual' t.id %}"><i
+                                                class="far fa-file-alt"></i></a>
+                                    {% else %}
+                                        <i class="far fa-file" data-toggle="tooltip" data-placement="top"
+                                        title="No tienes permiso"></i>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                {% if t.observaciones %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="5" class="text-justify">
+                                        {{ t.observaciones }}
+                                    </td>
+                                {% else %}
+                                    <td colspan="1">
+                                        <b>Observaciones:</b>
+                                    </td>
+                                    <td colspan="5">
+                                        Sin observaciones.
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse_reg" aria-expanded="false" aria-controls="collapse_reg">
+                            Ver reporte
+                        </button>
+                        <div class="collapse  mt-4 text-center" id="collapse_reg">
+                            <h4>Reporte de registro mensual</h4>
+                            <div class="row justify-content-center py-2">
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <canvas id="r_reg"></canvas>
+                                </div>
+                                <!--Tabla de resultados-->
+                                <div class="col-5 row justify-content-center pt-5 pb-2">
+                                    <table class="col-4 table">
+                                        <tr>
+                                            <th colspan="3">Interpretación</th>
+                                        </tr>
+                                        <tr>
+                                            <td> 0 - 2 </td>
+                                            <td>Mala</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 2 - 4</td>
+                                            <td>Regular</td>
+                                        </tr>
+                                        <tr>
+                                            <td> 4 - 6 </td>
+                                            <td>Buena</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock beneficiario-content %}

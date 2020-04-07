@@ -1,0 +1,118 @@
+<!--
+  NEF-58
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+    <link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<br>
+<div class="container">
+    <div class="card">
+        <h5 class="card-header text-center">Hoja de registro mensual</h5>
+        <div class="card-body">
+            <form class="sweet-form" action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="beneficiario" value="{{ beneficiario.id }}">
+                <div class="container-fluid">
+                    <div class="row pb-5">
+                        <div class="col-6">
+                        </div>
+                        <div class="col-2 text-right labelsFormulario">
+                            {{ form.fecha.label }}
+                        </div>
+                        <div class="col-3">
+                            {{ form.fecha }}
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row pb-4">
+                            <div class="col-6">
+                            </div>
+                            {% for item in form.p1 %}
+                            <div class="col-1 text-center d-flex" style="font-size: 15.6px;">
+                                <div class="align-self-center">{{ item.choice_label }}</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P1  -->
+                        <div class="row pb-4">
+                            <div class="col-6" id="p1">
+                                {{ form.p1.label }}
+                            </div>
+                            {% for item in form.p1 %}
+                            <div class="col-1 text-right">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <label class="container-radio">
+                                        {{ item.tag }}
+                                        <span class="radio"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- P2 -->
+                        <div class="row pb-4">
+                            <div class="col-6" id="p2">
+                                {{ form.p2.label }}
+                            </div>
+                            {% for item in form.p2%}
+                            <div class="col-1 text-right">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <label class="container-radio">
+                                        {{ item.tag }}
+                                        <span class="radio"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- P3 -->
+                        <div class="row pb-4">
+                            <div class="col-6" id="p3">
+                                {{ form.p3.label }}
+                            </div>
+                            {% for item in form.p3 %}
+                            <div class="col-1 text-right">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <label class="container-radio">
+                                        {{ item.tag }}
+                                        <span class="radio"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row pb-5 viewlabels">{{ form.observaciones.label }}{{ form.observaciones }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-9">
+                        </div>
+                        <div class=col-3>
+                            <button type="submit" id="guardar" class="btn float-right btn-save">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock beneficiario-content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}" ></script>
+{% endblock scripts %}

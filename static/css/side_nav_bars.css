@@ -1,0 +1,136 @@
+body {
+    background-color: #fcfcfd;
+}
+
+.nefro_navbar {
+    background-color: #f8f9fa;
+    box-shadow: 0 0px 16px rgba(0, 0, 0, .3) !important;
+    position: fixed !important;
+    top: 0px;
+    width: 100%;
+    height: 65px;
+    z-index: 9999;
+}
+
+.nefro_logo {
+    height: 108% !important;
+}
+
+.josefino {
+    color: #8B94A5;
+}
+
+.sidenav {
+    height: 100%;
+    width: 40px;
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    background-color: #eaedef;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 70px;
+}
+
+.sidenav a {
+    padding: .2rem .2rem .2rem .5rem;
+    text-decoration: none;
+    color: #878f9f;
+    display: block;
+    transition: 0.3s;
+    font-family: Verdana;
+    font-weight: 500;
+    background-clip: padding-box;
+    width: 15rem;
+    font-size: 1.1rem;
+}
+
+.sidenav a:hover {
+    color: #3183c8;
+    text-decoration: none;
+}
+
+#sideopener {
+    padding-left: 11px;
+    transition: 0.5s;
+    color: #878f9f;
+}
+
+#sideopener:hover {
+    padding-left: 11px;
+    color: #3183c8;
+    text-decoration: none;
+}
+
+.sidenav .text {
+    padding-top: 3%;
+}
+
+.sidenav .text a {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 4%;
+    display: inline-block;
+    width: 80%;
+    border-radius: 0px 8px 8px 0px;
+}
+
+.sidenav .text a:hover {
+    background-color: #eff8ff !important;
+    box-shadow: inset .5rem 0 0 #3183c8;
+}
+
+.sidenav .text a:hover .material-icons {
+    color: #aad4f5;
+}
+
+.sidenav .text a:hover .sidebar-hide {
+    color: #3183c8;
+}
+
+.active {
+    color: #3183c8;
+    text-decoration: none;
+    background-color: #eff8ff !important;
+    box-shadow: inset .5rem 0 0 #3183c8;
+}
+
+.active .material-icons {
+    color: #aad4f5 !important;
+}
+
+.active .sidebar-hide {
+    color: #3183c8 !important;
+}
+
+.material-icons {
+    display: inline-flex;
+    vertical-align: bottom;
+}
+
+#main {
+    position: relative;
+    transition: margin-left .5s;
+    margin-left: 40px;
+    padding: 16px;
+    padding-top: 70px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.sidebar-list {
+    margin-left: 1px !important;
+}
+
+.hidden {
+    display: none !important;
+}

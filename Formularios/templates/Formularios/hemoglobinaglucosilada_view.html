@@ -1,0 +1,160 @@
+<!--
+  NEF-71, NEF-72
+-->
+{% extends "Beneficiarios/beneficiario_detail.html" %}
+{% load static %}
+{% block includes %}
+<link rel="stylesheet" href="{% static 'Formularios/styles.css' %}">
+<link rel="stylesheet" href="{% static 'Beneficiarios/styles.css' %}">
+{% endblock includes %}
+
+{% block antecedentes %}{% endblock antecedentes %}
+
+{% block beneficiario-content %}
+<div class="container pt-5">
+  <div class="card">
+    <h5 class="card-header text-center">Hemoglobina Glucosilada</h5>
+    <div class="card-body">
+      <div class="container px-5">
+        <br>
+        <div class="row pb-2">
+          <div class="col-2 labelsFormulario">
+            Doctor:
+          </div>
+          <div class="col-5 ">
+            {{ hemoglobinaglucosilada.doctor }}
+          </div>
+          <div class="col-2 labelsFormulario">
+            Fecha de estudio:
+          </div>
+          <div class="col-3 ">
+            {{ hemoglobinaglucosilada.fecha }}
+          </div>
+        </div>
+        <div class="row pb-5">
+          <div class="col-2 labelsFormulario">
+            Método:
+          </div>
+          <div class="col-4 ">
+            {{ hemoglobinaglucosilada.metodo }}
+          </div>
+          <div class="col-6">
+          </div>
+        </div>
+        <!--COMIENZAN LOS RESULTADOS-->
+        <!--
+        <div class="container-fluid">
+          <div class="row minmax">
+            <div class="col-3"></div>
+            <div class="col-2">Min</div>
+            <div class="col-3">Resultado</div>
+            <div class="col-2">Max</div>
+            <div class="col-1"></div>
+          </div><br>
+          <div class="row">
+            <div class="col-3 viewparameters">No Diabético</div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.min_no_diabetico }}</div>
+            <div class="col-3"></div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.max_no_diabetico }}</div>
+            <div class="col-1"></div>
+          </div><br>
+          <div class="row align-self-stretch">
+            <div class="col-3 viewparameters">Diabético Controlado</div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.min_diabetico_cont }}</div>
+            <div class="col-3 viewresult">{{ hemoglobinaglucosilada.hemoglobina_glucosilada }}</div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.max_diabetico_cont }}</div>
+            <div class="col-1"></div>
+          </div><br>
+          <div class="row">
+            <div class="col-3 viewparameters">Diabético descontrolado</div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.min_diabetico_no_cont }}</div>
+            <div class="col-3"></div>
+            <div class="col-2 minmaxvalues">{{ hemoglobinaglucosilada.max_diabetico_no_cont }}</div>
+            <div class="col-1"></div>
+          </div>
+        </div>-->
+        <div class="container-fluid">
+          <div class="container center">
+            <div class="d-flex">
+              <div class=" flex-fill">
+                <div class="row p-2 minmax">ESTADO</div>
+                {% if hemoglobinaglucosilada.hemoglobina_glucosilada > hemoglobinaglucosilada.max_no_diabetico %}
+                <div class="row p-2 viewparametersstatuswrong">No Diabetico</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">No Diabetico</div>
+                {% endif %}
+
+                {% if hemoglobinaglucosilada.hemoglobina_glucosilada < hemoglobinaglucosilada.min_diabetico_cont or hemoglobinaglucosilada.hemoglobina_glucosilada > hemoglobinaglucosilada.max_diabetico_cont %}
+                <div class="row p-2 viewparametersstatuswrong">Diabetico controlado</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">Diabetico controlado</div>
+                {% endif %}
+
+                {% if hemoglobinaglucosilada.hemoglobina_glucosilada < hemoglobinaglucosilada.min_diabetico_no_cont %}
+                <div class="row p-2 viewparametersstatuswrong">Diabetico descontrolado</div>
+                {% else %}
+                <div class="row p-2 viewparametersstatus">Diabetico descontrolado</div>
+                {% endif %}
+              </div>
+
+              <div class=" align-self-center flex-fill ">
+                <div class="row minmax lp">RESULTADO</div>
+                <div class="row viewresultbig">{{ hemoglobinaglucosilada.hemoglobina_glucosilada }} %</div>
+              </div>
+              <div class=" flex-fill">
+                <div class="row p-2 minmax">MIN</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.min_no_diabetico }} %</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.min_diabetico_cont }} %</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.min_diabetico_no_cont }} %</div>
+              </div>
+              <div class=" flex-fill">
+                <div class="row p-2 minmax">MAX</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.max_no_diabetico }} %</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.max_diabetico_cont }} %</div>
+                <div class="row p-2 minmaxvalues">{{ hemoglobinaglucosilada.max_diabetico_no_cont }} %</div>
+              </div>
+              <div class=" flex-fill align-self-center">
+                {% if hemoglobinaglucosilada.comentario %}
+                <span class="fa fa-comment mficons pointer" data-toggle="collapse" data-target="#colComentario" aria-expanded="false" aria-controls="colComentario"></span>
+                {% else %}
+                <span class="fa fa-comment mficonsdisabled" disabled></span>
+                {% endif %}
+              </div>
+            </div><br>
+            <div class="collapse" id="colComentario">
+              <div class="card card-body cursorna">{{ hemoglobinaglucosilada.comentario }}</div>
+            </div>
+            <br>
+            <!--Botones-->
+            {% if perms.Formularios.change_hemoglobinaglucosilada or perms.Formularios.delete_hemoglobinaglucosilada %}
+            <div class="row justify-content-center pb-3">
+              <div class="col-12">
+                <div class="clearfix">
+                  <div class="float-right wrap">
+                    <div class=" pr-2">
+                      {% if perms.Formularios.delete_hemoglobinaglucosilada %}
+                      <form method="POST" action="{% url 'Formularios:delete_hemoglobinaglucosilada' hemoglobinaglucosilada.id %}" id="delete_form">
+                        {% csrf_token %}
+                        <button type="button" class="button btn btn-form">Borrar</button>
+                      </form>
+                      {% endif %}
+                    </div>
+                    {% if perms.Formularios.change_hemoglobinaglucosilada %}
+                    <a href="{% url 'admin:Formularios_hemoglobinaglucosilada_change' hemoglobinaglucosilada.id %}"><button type="button" class="button btn btn-edit">Editar</button></a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock beneficiario-content %}
+
+{% block scripts %}
+<script src="{% static 'js/formularios.js' %}"></script>
+{% endblock scripts %}
